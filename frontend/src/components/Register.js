@@ -1,15 +1,15 @@
-import React from "react";
-import logo from "../images/logo.png";
-import { useNavigate } from "react-router-dom";
+import React from 'react'
+import logo from "../images/logo.png"
+import { useNavigate } from 'react-router-dom'
 
-export default function Login() {
-  const navigate = useNavigate()
-  const handelRegister = () => {
-    navigate("/register")
-  };
+export default function Register() {
+    const Navigate = useNavigate()
+    const handelLogin = () => {
+        Navigate("/login")
+    }
   return (
     <div className="h-lvh w-[100%] bg-gradient-to-r from-[#44bd76] to-[#61cbcf]">
-      <div className="absolute h-[35rem] w-[30rem] bg-white top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] rounded-xl">
+      <div className="absolute h-[40rem] w-[30rem] bg-white top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] rounded-xl">
         <div className="flex flex-col align-middle gap-3">
           <div className="flex flex-col items-center mt-6">
             <img className="h-[8rem]" src={logo} alt="" />
@@ -30,32 +30,35 @@ export default function Login() {
                 type="number"
                 placeholder="Campus ID"
               />
+              <span className='font-semibold text-lg mt-1'>Create Password</span>
               <input
                 className="h-12 w-1/2 outline-none px-6 py-2 bg-gray-100 rounded-md"
                 type="password"
                 placeholder="Password"
               />
+              <input
+                className="h-12 w-1/2 outline-none px-6 py-2 bg-gray-100 rounded-md"
+                type="password"
+                placeholder="Confirm Password"
+              />
               <button
                 className="h-12 w-1/2 bg-blue-600 text-white rounded-lg"
                 type="submit"
               >
-                Login
+                Register
               </button>
             </form>
           </div>
-          <div className="flex flex-col items-center gap-1">
-              <a className="text-blue-600 font-semibold" href="#">
-                Forgot your password?
-              </a>
+          <div className="flex flex-col items-center gap-1 mt-2">
               <button
                 className="h-12 w-1/2 bg-blue-600 text-white rounded-lg"
-                onClick={handelRegister}
+                onClick={handelLogin}
               >
-                Register
+                Login
               </button>
             </div>
         </div>
       </div>
     </div>
-  );
+  )
 }
