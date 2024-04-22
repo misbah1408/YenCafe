@@ -38,11 +38,11 @@ export default function NavBar() {
             type="text"
             placeholder="Search"
           />{" "}
-          <i class="fa-solid fa-magnifying-glass bg-gray-100 h-9 w-12 p-2 pl-4 text-blue-600 border-[2px] border-gray-400 rounded-r-xl"></i>
+          <i className="fa-solid fa-magnifying-glass bg-gray-100 h-9 w-12 p-2 pl-4 text-blue-600 border-[2px] border-gray-400 rounded-r-xl"></i>
         </div>
       </div>
       <div className="flex items-center gap-10">
-        <i class="fa-solid fa-cart-shopping text-xl text-gray-700"></i>
+        <i className="fa-solid fa-cart-shopping text-xl text-gray-700"></i>
         <button
           className="bg-blue-600 text-white px-5 py-1 rounded-lg "
           onClick={handleLogin}
