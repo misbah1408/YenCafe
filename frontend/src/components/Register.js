@@ -32,7 +32,7 @@ export default function Register() {
     const json = await response.json()
     // console.log(json)
     if(json.message === "success"){
-      Navigate("/")
+      Navigate("/login")
     }
     else{
       alert("Invalid Credentials")

@@ -29,6 +29,7 @@ export default function Login() {
     const json = await response.json()
     // console.log(json)
     if(json.message === "success"){
+      localStorage.setItem('authtoken', json.authtoken);
       Navigate("/")
     }
     else{
