@@ -7,12 +7,19 @@ const connectDB = async () => {
       useNewUrlParser: true,
     });
     console.log("MONGODB connection SUCCESS");
-    const fetchedData = await mongoose.connection.collection("foodItems");
+    const fetchedData = await mongoose.connection.db.collection("food_Items");
     const data = await fetchedData.find({}).toArray();
     if(!data){
       console.error("error");
     } else{
       global.food_items = data
+    }
+    const categotyData = await mongoose.connection.db.collection("foodCategory");
+    const catData = await categotyData.find({}).toArray();
+    if(!data){
+      console.error("error");
+    } else{
+      global.foodCategory = catData
     }
 
     // console.log(data);
