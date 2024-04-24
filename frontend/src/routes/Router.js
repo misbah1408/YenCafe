@@ -5,6 +5,7 @@ import Register from "../components/Register";
 import Menu from "../components/Menu";
 import Home from "../components/Home";
 import Cart from "../components/Cart";
+import ItemsDis from "../components/ItemsDis";
 
 const router = createBrowserRouter([
     {
@@ -22,6 +23,10 @@ const router = createBrowserRouter([
         {
           path: "/cart",
           element: <Cart/>
+        },
+        {
+          path: "/menu/:id",
+          element: <ItemsDis/>
         }
       ],
     },

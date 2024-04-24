@@ -21,7 +21,21 @@ const connectDB = async () => {
     } else{
       global.foodCategory = catData
     }
-
+    const mainDish = await mongoose.connection.db.collection("mainDishes");
+    const mdData = await mainDish.find({}).toArray();
+    if(!mdData){
+      console.error("error");
+    } else{
+      global.mainDish = mdData
+    }
+    
+    const breakFast = await mongoose.connection.db.collection("breakFast");
+    const bfData = await breakFast.find({}).toArray();
+    if(!bfData){
+      console.error("error");
+    } else{
+      global.mainDish = mdData
+    }
     // console.log(data);
   } catch (error) {
     // Handle connection or data fetching errors
