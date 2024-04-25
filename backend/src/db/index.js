@@ -34,8 +34,9 @@ const connectDB = async () => {
     if(!bfData){
       console.error("error");
     } else{
-      global.mainDish = mdData
+      global.breakFast = bfData
     }
+    
     // console.log(data);
   } catch (error) {
     // Handle connection or data fetching errors

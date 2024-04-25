@@ -7,7 +7,10 @@ export default function NavBar() {
   const handleLogin = () => {
     navigate("/login");
   };
-
+  const handleLogout = () => {
+    localStorage.removeItem("authToken");
+    navigate("/login");
+  };
   return (
     <div className="h-20 flex items-center justify-around shadow-sm shadow-gray-300">
       <a href="/">
@@ -23,7 +26,9 @@ export default function NavBar() {
             isActive ? " text-blue-600 font-semibold" : " "
           }
         >
-          <span className=" text-lg hover:bg-blue-100 px-3 py-2 rounded-xl">Home</span>
+          <span className=" text-lg hover:bg-blue-100 px-3 py-2 rounded-xl">
+            Home
+          </span>
         </NavLink>
         <NavLink
           to="/menu"
@@ -31,7 +36,9 @@ export default function NavBar() {
             isActive ? " text-blue-600 font-semibold" : " "
           }
         >
-          <span className="text-lg hover:bg-blue-100 px-3 py-2 rounded-xl">Menu</span>
+          <span className="text-lg hover:bg-blue-100 px-3 py-2 rounded-xl">
+            Menu
+          </span>
         </NavLink>
         <div className="flex items-center">
           <input
@@ -42,22 +49,36 @@ export default function NavBar() {
           <i className="fa-solid fa-magnifying-glass bg-gray-100 h-9 w-12 p-2 pl-4 text-blue-600 border-[2px] border-gray-200 rounded-r-xl"></i>
         </div>
       </div>
-      <div className="flex items-center gap-10">
-        <NavLink
-          to="/cart"
-          className={({ isActive }) =>
-            isActive ? " rounded-full font-semibold" : " "
-          }
-        >
-          <i className="fa-solid fa-cart-shopping text-xl text-gray-700 px-3 py-2 hover:bg-blue-100 rounded-full"></i>
-        </NavLink>
+      {localStorage.getItem("authToken") ? (
+        <div className="flex items-center gap-10">
+          <NavLink
+            to="/cart"
+            className={({ isActive }) =>
+              isActive ? " rounded-full font-semibold" : " "
+            }
+          >
+            <i className="fa-solid fa-cart-shopping text-xl text-gray-700 px-3 py-2 hover:bg-blue-100 rounded-full"></i>
+          </NavLink>
         <button
           className="bg-blue-600 text-white px-5 py-1 rounded-lg "
-          onClick={handleLogin}
+          onClick={handleLogout}
         >
-          Login
+          Logout      
+          {/* <i className="fa-solid fa-right-from-bracket text-white text"></i> */}
         </button>
       </div>
+      ) : (
+        <div className="flex items-center gap-10">
+          
+          <button
+            className="bg-blue-600 text-white px-5 py-1 rounded-lg "
+            onClick={handleLogin}
+          >
+            Login
+          </button>
+        </div>
+        
+      )}
     </div>
   );
 }

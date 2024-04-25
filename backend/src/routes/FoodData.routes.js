@@ -22,7 +22,7 @@ foodDataRoutes.get("/maindish", (req, res) => {
 
 foodDataRoutes.get("/breakfast", (req, res) => {
   try {
-    res.send([global.mainDish]);
+    res.send([global.breakFast]);
   } catch (err) {
     res.status(500).send(err);
     console.error(err);
