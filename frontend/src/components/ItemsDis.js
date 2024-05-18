@@ -6,8 +6,9 @@ export default function ItemsDis() {
   const [items, setItems] = useState([]);
   const [toggle, setToggle] = useState(true); // Define toggle state
   const [chevron, setChevron] = useState("down"); // Define chevron state
+  
   const param = useParams();
-  console.log(param.id);
+  // console.log(param.id);
 
   const getDishes = async () => {
     const response = await fetch(`http://localhost:5000/api/v1/${param.id}`);
@@ -17,29 +18,28 @@ export default function ItemsDis() {
     const itemsWithCount = data[0].map((item) => ({ ...item, count: 0 }));
     setItems(itemsWithCount);
   };
+  // const incrementCount = (index) => {
+  //   setItems((prevItems) =>
+  //     prevItems.map((item, i) =>
+  //       i === index ? { ...item, count: Math.min(5, item.count + 1) } : item
+  //     )
+  //   );
+  // };
 
-  const incrementCount = (index) => {
-    setItems((prevItems) =>
-      prevItems.map((item, i) =>
-        i === index ? { ...item, count: Math.min(5, item.count + 1) } : item
-      )
-    );
-  };
-
-  const decrementCount = (index) => {
-    setItems((prevItems) =>
-      prevItems.map((item, i) =>
-        i === index ? { ...item, count: Math.max(0, item.count - 1) } : item
-      )
-    );
-  };
+  // const decrementCount = (index) => {
+  //   setItems((prevItems) =>
+  //     prevItems.map((item, i) =>
+  //       i === index ? { ...item, count: Math.max(0, item.count - 1) } : item
+  //     )
+  //   );
+  // };
 
   const handleOnClick = () => {
     console.log("clicked");
     setToggle((prevToggle) => !prevToggle);
     setChevron((prevChevron) => (prevChevron === "down" ? "up" : "down"));
   };
-
+  
   useEffect(() => {
     getDishes();
   }, [param.id]);
@@ -56,14 +56,9 @@ export default function ItemsDis() {
         </div>
         <div>
           {toggle &&
-            items.map((food, index) => (
-              <div key={food._id}>
+            items.map((food) => (
+              <div key={food._id} className="flex flex-col gap-5">
                 <DisItems data={food} />
-                <div className="w-max text-black bg-blue-300">
-                  <button className="p-2" onClick={() => decrementCount(index)}>-</button>
-                  <span className="h-5 w-20 p-2">{food.count <= 0 ? "Add" : food.count}</span>
-                  <button className="p-2" onClick={() => incrementCount(index)}>+</button>
-                </div>
               </div>
             ))}
         </div>
