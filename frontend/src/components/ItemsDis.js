@@ -57,7 +57,7 @@ export default function ItemsDis() {
         <div>
           {toggle &&
             items.map((food) => (
-              <div key={food._id} className="flex flex-col gap-5">
+              <div key={food._id} className="flex flex-col pb-5 gap-5">
                 <DisItems data={food} />
               </div>
             ))}

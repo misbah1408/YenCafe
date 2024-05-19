@@ -18,7 +18,7 @@ const reducer = (state, action) => {
         },
       ];
     case "REMOVE":
-      return state.filter((item) => item.id !== action.payload.id);
+      return state.filter((item) => item.id !== action.id);
 
     default:
       console.log("Error in Reducer");

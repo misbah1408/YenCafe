@@ -1,21 +1,32 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import logo from "../images/logo.png";
+import { useCart } from "./ContextReducer";
 
 export default function NavBar() {
+  const [cartValue, setCartValue] = useState(0);
   const navigate = useNavigate();
+  const cart = useCart();
+  // console.log(cart)
+
+  useEffect(() => {
+    setCartValue(cart.length);
+  }, [cart]);
+
   const handleLogin = () => {
     navigate("/login");
   };
+
   const handleLogout = () => {
     localStorage.removeItem("authToken");
     navigate("/login");
   };
+
   return (
     <div className="h-20 flex items-center justify-around shadow-sm shadow-gray-300">
       <a href="/">
         <div className="flex items-center gap-3">
-          <img className="h-16" src={logo} alt="" />
+          <img className="h-16" src={logo} alt="YenCafe Logo" />
           <span className="text-xl font-bold text-gray-800">YenCafe</span>
         </div>
       </a>
@@ -23,7 +34,7 @@ export default function NavBar() {
         <NavLink
           to="/"
           className={({ isActive }) =>
-            isActive ? " text-blue-600 font-semibold" : " "
+            isActive ? " text-blue-600 font-semibold" : ""
           }
         >
           <span className=" text-lg hover:bg-blue-100 px-3 py-2 rounded-xl">
@@ -33,7 +44,7 @@ export default function NavBar() {
         <NavLink
           to="/menu"
           className={({ isActive }) =>
-            isActive ? " text-blue-600 font-semibold" : " "
+            isActive ? " text-blue-600 font-semibold" : ""
           }
         >
           <span className="text-lg hover:bg-blue-100 px-3 py-2 rounded-xl">
@@ -54,30 +65,34 @@ export default function NavBar() {
           <NavLink
             to="/cart"
             className={({ isActive }) =>
-              isActive ? " rounded-full font-semibold" : " "
+              isActive ? " rounded-full font-semibold" : ""
             }
           >
-            <i className="fa-solid fa-cart-shopping text-xl text-gray-700 px-3 py-2 hover:bg-blue-100 rounded-full"></i>
+            <div className="relative">
+              <i className="fa-solid fa-cart-shopping text-2xl text-gray-700 px-3 py-2 hover:bg-blue-100 rounded-full"></i>
+              {cartValue > 0 && (
+                <span className="absolute left-5 text-blue-600 text-sm font-bold -top-3 px-3 py-2 rounded-full">
+                  {cartValue}
+                </span>
+              )}
+            </div>
           </NavLink>
-        <button
-          className="bg-blue-600 text-white px-5 py-1 rounded-lg "
-          onClick={handleLogout}
-        >
-          Logout      
-          {/* <i className="fa-solid fa-right-from-bracket text-white text"></i> */}
-        </button>
-      </div>
+          <button
+            className="bg-blue-600 text-white px-5 py-1 rounded-lg"
+            onClick={handleLogout}
+          >
+            Logout
+          </button>
+        </div>
       ) : (
         <div className="flex items-center gap-10">
-          
           <button
-            className="bg-blue-600 text-white px-5 py-1 rounded-lg "
+            className="bg-blue-600 text-white px-5 py-1 rounded-lg"
             onClick={handleLogin}
           >
             Login
           </button>
         </div>
-        
       )}
     </div>
   );
