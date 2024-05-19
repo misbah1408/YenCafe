@@ -8,7 +8,7 @@ export default function CartItems({ data }) {
 
   const handleClick = async () => {
     await dispatch({ type: "REMOVE", id: data.id });
-    console.log("Updated cart:", cart);
+    // console.log("Updated cart:", cart);
   };
   return (
     <div className="w-[700px] flex gap-20">

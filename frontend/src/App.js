@@ -8,6 +8,7 @@ import Menu from "../src/components/Menu";
 import Home from "../src/components/Home";
 import Cart from "../src/components/Cart";
 import ItemsDis from "../src/components/ItemsDis";
+import MyOrder from "./components/MyOrder";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
           <Route path="/" element={<Body />}>
             <Route index element={<Home />} />
             <Route path="/menu" element={<Menu />} />
+            <Route path="/myorder" element={<MyOrder />} />
             <Route path="/cart" element={<Cart />} />
             <Route path="/menu/:id" element={<ItemsDis />} />
           </Route>

@@ -8,7 +8,7 @@ export default function NavBar() {
   const navigate = useNavigate();
   const cart = useCart();
   // console.log(cart)
-
+  // console.log(localStorage.getItem("authToken"))
   useEffect(() => {
     setCartValue(cart.length);
   }, [cart]);
@@ -49,6 +49,16 @@ export default function NavBar() {
         >
           <span className="text-lg hover:bg-blue-100 px-3 py-2 rounded-xl">
             Menu
+          </span>
+        </NavLink>
+        <NavLink
+          to="/myorder"
+          className={({ isActive }) =>
+            isActive ? " text-blue-600 font-semibold" : ""
+          }
+        >
+          <span className=" text-lg hover:bg-blue-100 px-3 py-2 rounded-xl">
+            My Order's
           </span>
         </NavLink>
         <div className="flex items-center">

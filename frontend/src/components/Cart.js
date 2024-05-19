@@ -1,12 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { useCart } from "./ContextReducer";
+import { useCart, useDispatchCart } from "./ContextReducer";
 import EmptyCartPng from "../images/EmptyCart.png";
 import { Link } from "react-router-dom";
 import CartItems from "./CartItems";
+import { token } from "../utils/Constants";
 
 export default function Cart() {
   const [cartItem, setCartItem] = useState();
   const [grandTotal, setGrandTotal] = useState();
+  const dispatch = useDispatchCart();
+
+
   const cart = useCart();
 
   console.log(cart);
@@ -21,6 +25,36 @@ export default function Cart() {
     setCartItem(cart);
     grandT();
   }, [cart.length]);
+  console.log(token)
+
+  const handleCheckout = async () => {
+    try {
+      const response = await fetch("http://localhost:5000/api/v1/checkout", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify(cart), // Use 'cart' instead of 'cartItem'
+      });
+      if (response.ok) {
+        console.log("Checkout successful");
+        dispatch({type: "CLEAR"})
+        
+        // Handle success (e.g., show a success message, redirect)
+      } else {
+        console.error("Checkout failed");
+        // Handle failure (e.g., show an error message)
+      }
+    } catch (error) {
+      console.error("Error during checkout:", error);
+      // Handle error (e.g., show an error message)
+    }
+  };
+  
+
+
+
   if (cart.length <= 0)
     return (
       <>
@@ -59,6 +93,12 @@ export default function Cart() {
             <span>RS. {grandTotal} ₹</span>
           </div>
         </div>
+        <button
+          onClick={handleCheckout}
+          className="bg-green-600 w-full text-white p-5 rounded-lg font-semibold mt-5"
+        >
+          Checkout
+        </button>
       </div>
     </div>
   );

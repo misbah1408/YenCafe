@@ -27,9 +27,9 @@ export default function Login() {
       }),
     });
     const json = await response.json()
-    // console.log(json)
+    // console.log(json.authToken)
     if(json.message === "success"){
-      localStorage.setItem('authToken', json.authtoken);
+      localStorage.setItem("authToken", json?.authToken);
       Navigate("/")
     }
     else{

@@ -19,7 +19,8 @@ const reducer = (state, action) => {
       ];
     case "REMOVE":
       return state.filter((item) => item.id !== action.id);
-
+    case "CLEAR":
+      return [];
     default:
       console.log("Error in Reducer");
   }
