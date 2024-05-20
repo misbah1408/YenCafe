@@ -8,3 +8,5 @@ export const options = {
     minute: "2-digit", // Minute with leading zeros
     hour12: true, // 12-hour time format
   };
+
+export const emptyCart = "https://keenthemes.ams3.digitaloceanspaces.com/market/images/doozy/doozy_free/20.png"

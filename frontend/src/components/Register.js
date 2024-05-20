@@ -83,7 +83,7 @@ export default function Register() {
                 onChange={handleOnChange}
               />
               <select name="location" onChange={handleOnChange}>
-                <option value="Balmatta 4th floor">Balmatta 4th floor</option>
+                <option value="Balmatta 4th floor" selected>Balmatta 4th floor</option>
                 <option value="Balmatta 6th floor">Balmatta 6th floor</option>
               </select>
               <button

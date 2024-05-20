@@ -58,7 +58,7 @@ export default function NavBar() {
           }
         >
           <span className=" text-lg hover:bg-blue-100 px-3 py-2 rounded-xl">
-            My Order's
+            Your Order
           </span>
         </NavLink>
         <div className="flex items-center">

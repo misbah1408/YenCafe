@@ -13,11 +13,11 @@ export default function Cart() {
 
   const cart = useCart();
 
-  console.log(cart);
+  // console.log(cart);
   const grandT = () => {
     let total = 0;
     cart.forEach((item) => {
-      total += item.price * item.quantity;
+      total += item.price;
     });
     setGrandTotal(total);
   };
@@ -89,8 +89,8 @@ export default function Cart() {
             Billing
           </h1>
           <div className="flex justify-between">
-            <span>Item total</span>
-            <span>RS. {grandTotal} ₹</span>
+            <span className="text-xl font-semibold ">Item total</span>
+            <span className="text-xl font-semibold text-gray-500">RS. {grandTotal} ₹</span>
           </div>
         </div>
         <button

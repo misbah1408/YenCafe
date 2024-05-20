@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { token } from "../utils/Constants";
+import { emptyCart, token } from "../utils/Constants";
 import OrderDetail from "./OrderDetail";
 
 const Orders = () => {
@@ -25,7 +25,7 @@ const Orders = () => {
 
       const data = await response.json();
       const reversedArr = data.reverse(); 
-      // console.log(data);
+      console.log(data);
       setOrders(reversedArr);
     } catch (error) {
       console.error("Error fetching orders:", error);
@@ -33,8 +33,16 @@ const Orders = () => {
   };
   useEffect(() => {
     fetchOrders();
-  }, []);
-
+  },[]);
+  if(orders.length===0){
+    return(
+      <div className="flex flex-col justify-center items-center p-5 bg-[#fdfdfd]">
+        <img className="w-[30%]" src={emptyCart} alt="" />
+        <span className="text-xl font-semibold mt-5">No Orders</span>
+        <span>You haven't placed any order yet.</span>
+      </div>
+    );
+  }
   return (
     <div className="flex justify-center">
       <div className="mt-5 w-[50%]">
