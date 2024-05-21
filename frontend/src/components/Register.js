@@ -26,7 +26,8 @@ export default function Register() {
         name:credentials.name,
         email:credentials.email,
         password:credentials.password,
-        location:credentials.location
+        location:credentials.location,
+        isAdmin:false
       }),
     });
     const json = await response.json()
@@ -41,6 +42,7 @@ export default function Register() {
 
   const handleOnChange =(e)=>{
     setCredentials({...credentials,[e.target.name]:e.target.value})
+      console.log(credentials.location)
   }
   return (
     <div className="h-lvh w-[100%] bg-gradient-to-r from-[#44bd76] to-[#61cbcf]">
@@ -82,8 +84,13 @@ export default function Register() {
                 value={credentials.password}
                 onChange={handleOnChange}
               />
-              <select name="location" onChange={handleOnChange}>
-                <option value="Balmatta 4th floor" selected>Balmatta 4th floor</option>
+              <select
+                name="location"
+                value={credentials.location}
+                onChange={handleOnChange}
+                className="h-12 w-1/2 outline-none px-6 py-2 bg-gray-100 rounded-md"
+              >
+                <option value="Balmatta 4th floor">Balmatta 4th floor</option>
                 <option value="Balmatta 6th floor">Balmatta 6th floor</option>
               </select>
               <button

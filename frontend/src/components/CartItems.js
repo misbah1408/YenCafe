@@ -1,5 +1,5 @@
 import React from "react";
-import { useDispatchCart } from "./ContextReducer";
+import { useDispatchCart } from "./store/ContextReducer";
 
 export default function CartItems({ data }) {
   const dispatch = useDispatchCart();

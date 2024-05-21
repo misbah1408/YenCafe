@@ -25,7 +25,7 @@ const Orders = () => {
 
       const data = await response.json();
       const reversedArr = data.reverse(); 
-      console.log(data);
+      // console.log(data);
       setOrders(reversedArr);
     } catch (error) {
       console.error("Error fetching orders:", error);

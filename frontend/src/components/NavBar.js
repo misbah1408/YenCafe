@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import logo from "../images/logo.png";
-import { useCart } from "./ContextReducer";
+import { useCart } from "./store/ContextReducer";
 
 export default function NavBar() {
   const [cartValue, setCartValue] = useState(0);
@@ -19,6 +19,8 @@ export default function NavBar() {
 
   const handleLogout = () => {
     localStorage.removeItem("authToken");
+    localStorage.removeItem('isAdmin');
+    localStorage.removeItem('token');
     navigate("/login");
   };
 

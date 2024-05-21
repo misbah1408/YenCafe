@@ -1,16 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { useCart, useDispatchCart } from "./ContextReducer";
 import EmptyCartPng from "../images/EmptyCart.png";
 import { Link } from "react-router-dom";
 import CartItems from "./CartItems";
 import { token } from "../utils/Constants";
+import { useCart, useDispatchCart } from "./store/ContextReducer";
 
 export default function Cart() {
   const [cartItem, setCartItem] = useState();
   const [grandTotal, setGrandTotal] = useState();
   const dispatch = useDispatchCart();
-
-
   const cart = useCart();
 
   // console.log(cart);

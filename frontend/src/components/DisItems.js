@@ -1,23 +1,25 @@
 import React, { useState } from "react";
 import Shimmer from "./Shimmer";
 import MainDishes from "./MainDishes";
-import { useDispatchCart, useCart } from "./ContextReducer";
+import { useDispatchCart } from "./store/ContextReducer";
 import BreakFast from "./BreakFast";
 
 export default function DisItems({ data }) {
-  //console.log(data);
   const [add, setAdd] = useState("Add");
   const [qua, setQua] = useState(1);
   const dispatch = useDispatchCart();
-  // const cartData = useCart();
+
   if (data.length <= 0)
     return (
       <div>
         <Shimmer />
       </div>
     );
+
   const { category, img, price, title, veg, in_stock } = data || "default";
+
   const handleClick = async () => {
+    if (!in_stock) return;
     setAdd((prevAdd) => (prevAdd === "Add" ? "Remove" : "Add"));
     if (add === "Add") {
       await dispatch({
@@ -29,14 +31,11 @@ export default function DisItems({ data }) {
         veg,
         quantity: qua,
       });
-      // console.log(cartData);
-      
     } else {
       await dispatch({ type: "REMOVE", id: data?._id });
-      // console.log(cartData);
     }
-    // console.log(cartData);
   };
+
   const finalPrice = qua * price;
 
   const QuantitySelector = ({ setQua, handleClick, add }) => (
@@ -59,17 +58,20 @@ export default function DisItems({ data }) {
       </div>
       <div className="w-max">
         <span
-          className="h-5 w-20 p-1 px-3 rounded-md text-center text-white bg-blue-600 cursor-pointer"
+          className={`h-5 w-20 p-1 px-3 rounded-md text-center text-white  ${
+            in_stock ? "bg-blue-600 cursor-pointer" : "bg-gray-500 cursor-not-allowed"
+          }`}
           onClick={handleClick}
+          style={{ pointerEvents: in_stock ? 'auto' : 'none' }} // Disable click when out of stock
         >
-          {add}
+          {in_stock ? add : "Out of Stock"}
         </span>
       </div>
     </div>
   );
-  
+
   const renderContent = () => {
-    if (category === "Main Course" && in_stock) {
+    if (category === "Main Course") {
       return (
         <>
           <MainDishes data={data} price={finalPrice} />
@@ -87,7 +89,6 @@ export default function DisItems({ data }) {
       return null;
     }
   };
-  
-  
+
   return <div>{renderContent()}</div>;
 }

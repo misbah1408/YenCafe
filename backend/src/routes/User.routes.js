@@ -5,12 +5,14 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
 const userRoutes = Router();
+
+// User registration route
 userRoutes.post(
   "/register",
   [
-    body("email", "Enter Your Mail").isEmail(),
-    body("name", "Invalid UserName").isLength({ min: 5, max: 10 }),
-    body("password", "invalid Password").isLength({ min: 5 }),
+    body("email", "Enter a valid email").isEmail(),
+    body("name", "Username must be between 5 and 10 characters").isLength({ min: 5, max: 10 }),
+    body("password", "Password must be at least 5 characters long").isLength({ min: 5 }),
   ],
   async (req, res) => {
     const errors = validationResult(req);
@@ -18,70 +20,67 @@ userRoutes.post(
       return res.status(400).json({ errors: errors.array() });
     }
 
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(req.body.password, salt);
+    const { name, email, password, location } = req.body;
+
     try {
+      const salt = await bcrypt.genSalt(10);
+      const hashedPassword = await bcrypt.hash(password, salt);
+
       await User.create({
-        name: req.body.name,
+        name,
         password: hashedPassword,
-        email: req.body.email,
-        location: req.body.location,
+        email,
+        location,
       });
-      res.status(200).json({
-        message: "success",
-      });
-    } catch {
-      res.status(400).json({
-        message: "error",
-      });
+
+      res.status(200).json({ message: "success" });
+    } catch (err) {
+      res.status(500).json({ message: "Server error", error: err.message });
     }
   }
 );
 
+// User login route
 userRoutes.post(
   "/login",
   [
-    body("email").isEmail(),
-    body("password", "Incorrect Password").isLength({ min: 5 }),
+    body("email", "Enter a valid email").isEmail(),
+    body("password", "Password must be at least 5 characters long").isLength({ min: 5 }),
   ],
   async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
-    let email = req.body.email;
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(req.body.password, salt);
+
+    const { email, password } = req.body;
+
     try {
-      let userData = await User.findOne({ email });
+      const userData = await User.findOne({ email });
       if (!userData) {
-        return res
-          .status(400)
-          .json({ errors: "User not exists" });
+        return res.status(400).json({ message: "User does not exist" });
       }
-      const validPassword = await bcrypt.compare(
-        req.body.password,
-        userData.password
-      );
+
+      const validPassword = await bcrypt.compare(password, userData.password);
       if (!validPassword) {
-        return res
-          .status(400)
-          .json({ errors: "Invalid Password" });
+        return res.status(400).json({ message: "Invalid password" });
       }
-      const data={
-        user:{
-          id:userData.id
-        }
+
+      const payload = {
+        user: {
+          id: userData.id,
+        },
+      };
+      const isAdmin = {
+        isAdmin: userData.isAdmin,
       }
-      const authToken = jwt.sign(data, process.env.JWT_SECRET);
-      return res.json({
-        message: "success", authToken
-      });
-    } catch {
-      res.status(400).json({
-        message: "error",
-      });
+
+      const authToken = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1h' });
+      res.json({ message: "success", authToken,  isAdmin});
+    } catch (err) {
+      res.status(500).json({ message: "Server error", error: err.message });
     }
   }
 );
+
 export default userRoutes;
