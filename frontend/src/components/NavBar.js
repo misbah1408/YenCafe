@@ -20,7 +20,6 @@ export default function NavBar() {
   const handleLogout = () => {
     localStorage.removeItem("authToken");
     localStorage.removeItem('isAdmin');
-    localStorage.removeItem('token');
     navigate("/login");
   };
 

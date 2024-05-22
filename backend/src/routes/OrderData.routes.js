@@ -9,7 +9,7 @@ orderData.post("/checkout", async (req, res) => {
     // Get the JWT token from the Authorization header
     const authHeader = req.headers.authorization;
     const token = authHeader.split(" ")[1];
-    //console.log(token)
+    console.log(token)
 
     // Verify and decode the token
     const decoded = jwt.verify(token, process.env.JWT_SECRET);

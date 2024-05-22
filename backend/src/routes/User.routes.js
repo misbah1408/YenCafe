@@ -75,7 +75,7 @@ userRoutes.post(
         isAdmin: userData.isAdmin,
       }
 
-      const authToken = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1h' });
+      const authToken = jwt.sign(payload, process.env.JWT_SECRET);
       res.json({ message: "success", authToken,  isAdmin});
     } catch (err) {
       res.status(500).json({ message: "Server error", error: err.message });

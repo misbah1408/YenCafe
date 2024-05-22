@@ -11,6 +11,11 @@ const orderSchema = new Schema(
       type: Array,
       required: true,
     },
+    delivered:{
+      type: Boolean,
+      default: false,
+      
+    }
   },
   { timestamps: true }
 );

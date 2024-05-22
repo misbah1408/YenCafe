@@ -62,7 +62,7 @@ export default function DisItems({ data }) {
             in_stock ? "bg-blue-600 cursor-pointer" : "bg-gray-500 cursor-not-allowed"
           }`}
           onClick={handleClick}
-          style={{ pointerEvents: in_stock ? 'auto' : 'none' }} // Disable click when out of stock
+          style={{ pointerEvents: in_stock ? 'auto' : 'not-allowed' }} // Disable click when out of stock
         >
           {in_stock ? add : "Out of Stock"}
         </span>
