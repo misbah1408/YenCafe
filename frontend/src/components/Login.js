@@ -27,7 +27,7 @@ export default function Login() {
       }),
     });
     const json = await response.json()
-    console.log(json.isAdmin)
+    // console.log(json.isAdmin)
     if(json.message === "success"){
       localStorage.setItem("authToken", json?.authToken);
       localStorage.setItem("isAdmin", json?.isAdmin?.isAdmin)

@@ -20,7 +20,7 @@ userRoutes.post(
       return res.status(400).json({ errors: errors.array() });
     }
 
-    const { name, email, password, location } = req.body;
+    const { name, email, password } = req.body;
 
     try {
       const salt = await bcrypt.genSalt(10);
@@ -29,8 +29,7 @@ userRoutes.post(
       await User.create({
         name,
         password: hashedPassword,
-        email,
-        location,
+        email
       });
 
       res.status(200).json({ message: "success" });
@@ -66,16 +65,16 @@ userRoutes.post(
         return res.status(400).json({ message: "Invalid password" });
       }
 
-      const payload = {
-        user: {
-          id: userData.id,
-        },
-      };
       const isAdmin = {
         isAdmin: userData.isAdmin,
       }
-
-      const authToken = jwt.sign(payload, process.env.JWT_SECRET);
+      
+      const data={
+        user:{
+          id:userData.id
+        }
+      }
+      const authToken = jwt.sign(data, process.env.JWT_SECRET);
       res.json({ message: "success", authToken,  isAdmin});
     } catch (err) {
       res.status(500).json({ message: "Server error", error: err.message });

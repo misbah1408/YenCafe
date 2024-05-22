@@ -23,7 +23,7 @@ export default function Cart() {
     setCartItem(cart);
     grandT();
   }, [cart.length]);
-  console.log(token)
+  // console.log(token)
 
   const handleCheckout = async () => {
     try {

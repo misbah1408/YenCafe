@@ -1,17 +1,19 @@
 import React, { useState, useEffect } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import logo from "../images/logo.png";
 import { useCart } from "./store/ContextReducer";
+import { isAdmin } from "../utils/Constants";
 
 export default function NavBar() {
   const [cartValue, setCartValue] = useState(0);
   const navigate = useNavigate();
   const cart = useCart();
   // console.log(cart)
-  // console.log(localStorage.getItem("authToken"))
+  // console.log(isAdmin)
+  console.log(localStorage.getItem("authToken"))
   useEffect(() => {
     setCartValue(cart.length);
-  }, [cart]);
+  }, [cart]); 
 
   const handleLogin = () => {
     navigate("/login");
@@ -25,12 +27,12 @@ export default function NavBar() {
 
   return (
     <div className="h-20 flex items-center justify-around shadow-sm shadow-gray-300">
-      <a href="/">
+      <Link to="/">
         <div className="flex items-center gap-3">
           <img className="h-16" src={logo} alt="YenCafe Logo" />
           <span className="text-xl font-bold text-gray-800">YenCafe</span>
         </div>
-      </a>
+      </Link>
       <div className="flex gap-5 items-center">
         <NavLink
           to="/"
@@ -62,6 +64,16 @@ export default function NavBar() {
             Your Order
           </span>
         </NavLink>
+        {isAdmin==="true" ? <NavLink
+          to="/admin"
+          className={({ isActive }) =>
+            isActive ? " text-blue-600 font-semibold" : ""
+          }
+        >
+          <span className="text-lg hover:bg-blue-100 px-3 py-2 rounded-xl">
+            Admin Panel
+          </span>
+        </NavLink>: ""}
         <div className="flex items-center">
           <input
             className="h-9 w-[20rem] outline-none border-[1.6px] border-gray-200 px-3 py-3 rounded-l-xl border-r-white"

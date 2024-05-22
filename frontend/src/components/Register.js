@@ -6,8 +6,7 @@ export default function Register() {
   const [credentials, setCredentials] = useState({
     name:"",
     email:"",
-    password:"",
-    location:""
+    password:""
   })
   const Navigate = useNavigate();
   const handelLogin = () => {
@@ -25,9 +24,7 @@ export default function Register() {
       body:JSON.stringify({
         name:credentials.name,
         email:credentials.email,
-        password:credentials.password,
-        location:credentials.location,
-        isAdmin:false
+        password:credentials.password
       }),
     });
     const json = await response.json()
@@ -42,7 +39,7 @@ export default function Register() {
 
   const handleOnChange =(e)=>{
     setCredentials({...credentials,[e.target.name]:e.target.value})
-      console.log(credentials.location)
+      // console.log(credentials.location)
   }
   return (
     <div className="h-lvh w-[100%] bg-gradient-to-r from-[#44bd76] to-[#61cbcf]">
@@ -84,7 +81,7 @@ export default function Register() {
                 value={credentials.password}
                 onChange={handleOnChange}
               />
-              <select
+              {/* <select
                 name="location"
                 value={credentials.location}
                 onChange={handleOnChange}
@@ -92,7 +89,7 @@ export default function Register() {
               >
                 <option value="Balmatta 4th floor">Balmatta 4th floor</option>
                 <option value="Balmatta 6th floor">Balmatta 6th floor</option>
-              </select>
+              </select> */}
               <button
                 className="h-12 w-1/2 bg-blue-600 text-white rounded-lg"
                 type="submit"

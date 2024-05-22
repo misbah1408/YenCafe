@@ -12,6 +12,12 @@ import MyOrder from "./components/MyOrder";
 import { CartProvider } from "./components/store/ContextReducer";
 import Admin from "./components/Admin/Admin";
 import { isAdmin } from "./utils/Constants";
+import Orders from "./components/Admin/Orders";
+import MainDish from "./components/Admin/MainDish";
+import Beverage from "./components/Admin/Beverage";
+import BreakFast from "./components/Admin/BreakFast";
+import Desserts from "./components/Admin/Desserts";
+import Users from "./components/Admin/Users";
 
 function App() {
   return (
@@ -29,8 +35,15 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route
             path="/admin"
-            element={isAdmin ? <Admin /> : <Navigate to="/" />}
-          />
+            element={isAdmin==="true" ? <Admin /> : <Navigate to="/" />}
+          >
+            <Route path="users" element={<Users />} />
+            <Route path="orders" element={<Orders />} />
+            <Route path="maindishes" element={<MainDish />} />
+            <Route path="beverages" element={<Beverage />} />
+            <Route path="breakfast" element={<BreakFast />} />
+            <Route path="desserts" element={<Desserts />} />
+          </Route>
         </Routes>
       </Router>
     </CartProvider>
