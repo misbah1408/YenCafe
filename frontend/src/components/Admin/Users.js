@@ -1,44 +1,143 @@
-import React, { useEffect, useState } from 'react'
-import { token } from '../../utils/Constants';
+import React, { useEffect, useState } from "react";
+import { token } from "../../utils/Constants";
+import EditUserForm from "./EditUserForm";
 
 export default function Users() {
   const [users, setUsers] = useState([]);
+  const [isEditPopupOpen, setIsEditPopupOpen] = useState(false);
+  const [selectedUser, setSelectedUser] = useState(null);
+
+  const handleEditClick = (user) => {
+    setSelectedUser(user);
+    setIsEditPopupOpen(true);
+  };
+
+  const handleClose = () => {
+    setIsEditPopupOpen(false);
+    setSelectedUser(null);
+  };
+
+  const handleSave = async (updatedUser) => {
+    try {
+      const response = await fetch(`http://localhost:5000/api/v1/users/update/${updatedUser._id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(updatedUser),
+      });
+
+      if (response.ok) {
+        fetchUsers();
+      } else {
+        console.error("Failed to update user");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+
   const fetchUsers = async () => {
     try {
-      // Make a GET request to the /users endpoint
-      const response = await fetch('http://localhost:5000/api/v1/users',{
-      method: 'GET',
+      const response = await fetch("http://localhost:5000/api/v1/users", {
+        method: "GET",
         headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        }
-})
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
-      // Check if the response is successful
       if (!response.ok) {
-        throw new Error('Failed to fetch users');
+        throw new Error("Failed to fetch users");
       }
 
-      // Parse the response body as JSON
       const data = await response.json();
-      console.log(data)
-      // Set the fetched users data in the state
-      setUsers(data);
+      const filtedData = data?.filter((user) => !user.isAdmin);
+      setUsers(filtedData);
     } catch (error) {
-      // Set the error state if an error occurs
-      console.error(error)
-    }}
-  useEffect(()=>{
+      console.error(error);
+    }
+  };
+
+  const deleteUser = async (id) => {
+    try {
+      const response = await fetch(`http://localhost:5000/api/v1/users/delete/${id}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (response.ok) {
+        fetchUsers();
+      } else {
+        console.error("Failed to delete user");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+
+  useEffect(() => {
     fetchUsers();
-  },[])
+  }, []);
+
   return (
-    <div>
-      <h2>Users</h2>
-      <ul>
-        {users.map(user => (
-          <li key={user.id}>{user.name}</li>
-        ))}
-      </ul>
+    <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+      <h2 className="text-2xl font-semibold text-gray-800 mb-6">Users</h2>
+      <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
+        <table className="min-w-full divide-y divide-gray-200">
+          <thead className="bg-gray-50">
+            <tr>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                User Name
+              </th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Email
+              </th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Update
+              </th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Delete
+              </th>
+            </tr>
+          </thead>
+          <tbody className="bg-white divide-y divide-gray-200">
+            {users.map((user) => (
+              <tr key={user._id}>
+                <td className="px-6 py-4 whitespace-nowrap">
+                  <div className="text-sm font-medium text-gray-900">{user.name}</div>
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap">
+                  <div className="text-sm text-gray-900">{user.email}</div>
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap">
+                  <button
+                    className="text-indigo-600 hover:text-indigo-900"
+                    onClick={() => handleEditClick(user)}
+                  >
+                    Edit
+                  </button>
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap">
+                  <button
+                    className="text-red-600 hover:text-red-900"
+                    onClick={() => deleteUser(user._id)}
+                  >
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      {isEditPopupOpen && (
+        <EditUserForm user={selectedUser} onClose={handleClose} onSave={handleSave} />
+      )}
     </div>
-  )
+  );
 }

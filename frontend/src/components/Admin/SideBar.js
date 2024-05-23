@@ -4,7 +4,7 @@ import logo from "../../images/logo.png"
 
 export default function SideBar() {
   return (
-    <div className="h-dvh w-72 bg-slate-100">
+    <div className="h-dvh w-72 bg-slate-100 fixed">
       <div className="flex flex-col justify-center mt-1 gap-2">
         <div className="flex justify-center items-center gap-3">
         <img className="h-12 w-12" src={logo} alt="" />
