@@ -53,7 +53,7 @@ export default function Orders() {
   }, []);
 
   return (
-    <div className="container mx-auto py-6 ml-72 p-4">
+    <div className="container mx-auto py-6 ml-[250px] p-4">
       <h2 className="text-3xl font-semibold text-gray-800 mb-6">Orders</h2>
       <div className="overflow-x-auto">
         <table className="min-w-full bg-white shadow-lg rounded-lg border border-gray-200">

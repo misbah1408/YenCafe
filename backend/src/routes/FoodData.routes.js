@@ -1,4 +1,11 @@
 import { Router } from "express";
+import {
+  createFoodItem,
+  getAllFoodItems,
+} from "../controllers/FoodItems.controller.js";
+import { adminMiddleware } from "../middlewares/admin.middleware.js";
+import authenticateToken from "../middlewares/auth.middleware.js";
+import { upload } from "../middlewares/multer.middleware.js";
 
 const foodDataRoutes = Router();
 
@@ -28,5 +35,17 @@ foodDataRoutes.get("/breakfast", (req, res) => {
     console.error(err);
   }
 });
+
+foodDataRoutes
+  .route("/fooddata")
+  .get(authenticateToken, adminMiddleware, getAllFoodItems);
+foodDataRoutes
+  .route("/create/item")
+  .post(
+    authenticateToken,
+    adminMiddleware,
+    upload.single("img"),
+    createFoodItem
+  );
 
 export default foodDataRoutes;

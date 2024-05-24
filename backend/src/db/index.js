@@ -7,35 +7,6 @@ const connectDB = async () => {
       useNewUrlParser: true,
     });
     console.log("MONGODB connection SUCCESS");
-    const fetchedData = await mongoose.connection.db.collection("food_Items");
-    const data = await fetchedData.find({}).toArray();
-    if(!data){
-      console.error("error");
-    } else{
-      global.food_items = data
-    }
-    const categotyData = await mongoose.connection.db.collection("foodCategory");
-    const catData = await categotyData.find({}).toArray();
-    if(!data){
-      console.error("error");
-    } else{
-      global.foodCategory = catData
-    }
-    const mainDish = await mongoose.connection.db.collection("mainDishes");
-    const mdData = await mainDish.find({}).toArray();
-    if(!mdData){
-      console.error("error");
-    } else{
-      global.mainDish = mdData
-    }
-    
-    const breakFast = await mongoose.connection.db.collection("breakFast");
-    const bfData = await breakFast.find({}).toArray();
-    if(!bfData){
-      console.error("error");
-    } else{
-      global.breakFast = bfData
-    }
     
     // console.log(data);
   } catch (error) {
