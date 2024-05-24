@@ -7,17 +7,34 @@ export default function ItemsDis() {
   const [toggle, setToggle] = useState(true); // Define toggle state
   const [chevron, setChevron] = useState("down"); // Define chevron state
   
-  const param = useParams();
-  // console.log(param.id);
-
+  const {id} = useParams();
+  // console.log(id);
+  
   const getDishes = async () => {
-    const response = await fetch(`http://localhost:5000/api/v1/${param.id}`);
+    const response = await fetch(`http://localhost:5000/api/v1/maindish`);
     const data = await response.json();
-    // console.log(data[0]);
+    // console.log(data );
     // Initialize count for each item
-    const itemsWithCount = data[0].map((item) => ({ ...item, count: 0 }));
+    const itemsWithCount = data.map((item) => ({ ...item, count: 0 }));
     setItems(itemsWithCount);
+    if(id==="maindish"){
+      const filtedData = data.filter((item)=> item.category === "Main Course")
+      setItems(filtedData)
+    }
+    else if(id === "breakfast"){
+      const filtedData = data.filter((item)=> item.category === "Break fast")
+      setItems(filtedData)
+    }
+    else if(id === "desserts"){
+      const filtedData = data.filter((item)=> item.category === "Break fast")
+      setItems(filtedData)
+    }
+    else if(id === "bevrage"){
+      const filtedData = data.filter((item)=> item.category === "Beverage")
+      setItems(filtedData)
+    }
   };
+  
   // const incrementCount = (index) => {
   //   setItems((prevItems) =>
   //     prevItems.map((item, i) =>
@@ -35,14 +52,14 @@ export default function ItemsDis() {
   // };
 
   const handleOnClick = () => {
-    console.log("clicked");
+    // console.log("clicked");
     setToggle((prevToggle) => !prevToggle);
     setChevron((prevChevron) => (prevChevron === "down" ? "up" : "down"));
   };
   
   useEffect(() => {
     getDishes();
-  }, [param.id]);
+  }, [id]);
 
   return (
     <div className="flex justify-center mt-5 p-4">

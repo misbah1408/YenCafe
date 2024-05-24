@@ -3,20 +3,19 @@ import Shimmer from "./Shimmer";
 import MainDishes from "./MainDishes";
 import { useDispatchCart } from "./store/ContextReducer";
 import BreakFast from "./BreakFast";
+import { useParams } from "react-router-dom";
+import Beverage from "./Beverage";
 
 export default function DisItems({ data }) {
   const [add, setAdd] = useState("Add");
   const [qua, setQua] = useState(1);
   const dispatch = useDispatchCart();
 
-  if (data.length <= 0)
-    return (
-      <div>
-        <Shimmer />
-      </div>
-    );
+  if (!data || data.length === 0) {
+    return <Shimmer />;
+  }
 
-  const { category, img, price, title, veg, in_stock } = data || "default";
+  const { category, img, price, title, veg, in_stock, _id } = data;
 
   const handleClick = async () => {
     if (!in_stock) return;
@@ -24,7 +23,7 @@ export default function DisItems({ data }) {
     if (add === "Add") {
       await dispatch({
         type: "ADD",
-        id: data?._id,
+        id: _id,
         img,
         price: finalPrice,
         title,
@@ -32,24 +31,21 @@ export default function DisItems({ data }) {
         quantity: qua,
       });
     } else {
-      await dispatch({ type: "REMOVE", id: data?._id });
+      await dispatch({ type: "REMOVE", id: _id });
     }
   };
 
   const finalPrice = qua * price;
 
-  const QuantitySelector = ({ setQua, handleClick, add }) => (
+  const QuantitySelector = () => (
     <div className="flex gap-3 items-center mt-3">
       <div>
         <select
-          name=""
-          id=""
           className="px-3 outline-none border-2 border-gray-200 rounded-md"
-          onChange={(e) => {
-            setQua(e.target.value);
-          }}
+          value={qua}
+          onChange={(e) => setQua(Number(e.target.value))}
         >
-          {Array.from(Array(5), (e, i) => (
+          {Array.from({ length: 5 }, (_, i) => (
             <option key={i + 1} value={i + 1}>
               {i + 1}
             </option>
@@ -58,11 +54,13 @@ export default function DisItems({ data }) {
       </div>
       <div className="w-max">
         <span
-          className={`h-5 w-20 p-1 px-3 rounded-md text-center text-white  ${
-            in_stock ? "bg-blue-600 cursor-pointer" : "bg-gray-500 cursor-not-allowed"
+          className={`h-10 w-24 p-2 rounded-md text-center text-white ${
+            in_stock
+              ? "bg-blue-600 cursor-pointer"
+              : "bg-gray-500 cursor-not-allowed"
           }`}
           onClick={handleClick}
-          style={{ pointerEvents: in_stock ? 'auto' : 'not-allowed' }} // Disable click when out of stock
+          style={{ cursor: in_stock ? "pointer" : "not-allowed" }}
         >
           {in_stock ? add : "Out of Stock"}
         </span>
@@ -71,24 +69,37 @@ export default function DisItems({ data }) {
   );
 
   const renderContent = () => {
-    if (category === "Main Course") {
-      return (
-        <>
-          <MainDishes data={data} price={finalPrice} />
-          <QuantitySelector setQua={setQua} handleClick={handleClick} add={add} />
-        </>
-      );
-    } else if (category === "Break fast") {
-      return (
-        <>
-          <BreakFast data={data} price={finalPrice} />
-          <QuantitySelector setQua={setQua} handleClick={handleClick} add={add} />
-        </>
-      );
-    } else {
-      return null;
+    switch (category.toLowerCase()) {
+      case "main course":
+        return (
+          <div className="p-5 bg-white rounded-lg shadow-md">
+            <MainDishes data={data} price={finalPrice} />
+            <QuantitySelector />
+          </div>
+        );
+      case "break fast":
+        return (
+          <div className="p-5 bg-white rounded-lg shadow-md">
+            <BreakFast data={data} price={finalPrice} />
+            <QuantitySelector />
+          </div>
+        );
+      case "beverage":
+        return (
+          <div className="p-5 bg-white rounded-lg shadow-md">
+            <Beverage data={data} price={finalPrice} />
+            <QuantitySelector />
+          </div>
+        );
+
+      default:
+        return (
+          <div className="p-5 bg-white rounded-lg shadow-md">
+            Unknown Category
+          </div>
+        );
     }
   };
 
-  return <div>{renderContent()}</div>;
+  return <div className="max-w-3xl mx-auto my-1">{renderContent()}</div>;
 }

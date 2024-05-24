@@ -18,14 +18,7 @@ foodDataRoutes.get("/fooditems", (req, res) => {
   }
 });
 
-foodDataRoutes.get("/maindish", (req, res) => {
-  try {
-    res.send([global.mainDish]);
-  } catch (err) {
-    res.status(500).send(err);
-    console.error(err);
-  }
-});
+foodDataRoutes.route("/maindish").get(getAllFoodItems);
 
 foodDataRoutes.get("/breakfast", (req, res) => {
   try {

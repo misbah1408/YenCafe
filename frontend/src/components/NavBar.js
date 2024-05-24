@@ -10,7 +10,7 @@ export default function NavBar() {
   const cart = useCart();
   // console.log(cart)
   // console.log(isAdmin)
-  console.log(localStorage.getItem("authToken"))
+  // console.log(localStorage.getItem("authToken"))
   useEffect(() => {
     setCartValue(cart.length);
   }, [cart]); 

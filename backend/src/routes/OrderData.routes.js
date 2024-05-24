@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { Order } from "../models/Order.model.js"; // Import the Order model
+import { User } from "../models/User.model.js"
 import jwt from "jsonwebtoken";
 
 const orderData = Router();
@@ -9,7 +10,7 @@ orderData.post("/checkout", async (req, res) => {
     // Get the JWT token from the Authorization header
     const authHeader = req.headers.authorization;
     const token = authHeader.split(" ")[1];
-    console.log(token)
+    console.log(token);
 
     // Verify and decode the token
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
@@ -17,18 +18,20 @@ orderData.post("/checkout", async (req, res) => {
     // Extract the user ID from the decoded token
     const userId = decoded?.user?.id;
     // console.log(userId)
-
+    const user = await User.findOne({ _id: userId }, { name: 1 });
+    const userName = user?.name
     // Ensure cartItems is present in the request body
     const cartItems = req.body;
     // console.log(cartItems)
     if (!Array.isArray(cartItems) || cartItems.length === 0) {
       return res.status(400).json({ error: "Cart items are required" });
     }
-
+    console.log(userName)
     // Save the order to the database, associating it with the user
     const newOrder = new Order({
       orderData: cartItems,
       userId, // Add userId to the order
+      userName
     });
     const savedOrder = await newOrder.save();
 

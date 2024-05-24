@@ -18,6 +18,7 @@ import Beverage from "./components/Admin/Beverage";
 import BreakFast from "./components/Admin/BreakFast";
 import Desserts from "./components/Admin/Desserts";
 import Users from "./components/Admin/Users";
+import CreateItem from "./components/Admin/CreateItem";
 
 function App() {
   return (
@@ -43,6 +44,7 @@ function App() {
             <Route path="beverages" element={<Beverage />} />
             <Route path="breakfast" element={<BreakFast />} />
             <Route path="desserts" element={<Desserts />} />
+            <Route path="createItem" element={<CreateItem />} />
           </Route>
         </Routes>
       </Router>

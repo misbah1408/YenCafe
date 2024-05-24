@@ -7,6 +7,10 @@ const orderSchema = new Schema(
       ref: 'User',
       required: true,
     },
+    userName:{
+      type: String,
+      required: true,
+    },
     orderData: {
       type: Array,
       required: true,
@@ -14,7 +18,6 @@ const orderSchema = new Schema(
     delivered:{
       type: Boolean,
       default: false,
-      
     }
   },
   { timestamps: true }
