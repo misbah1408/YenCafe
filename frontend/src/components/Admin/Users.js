@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { token } from "../../utils/Constants";
+import { FETCH_URL, token } from "../../utils/Constants";
 import EditUserForm from "./EditUserForm";
 
 export default function Users() {
@@ -19,7 +19,7 @@ export default function Users() {
 
   const handleSave = async (updatedUser) => {
     try {
-      const response = await fetch(`http://localhost:5000/api/v1/users/update/${updatedUser._id}`, {
+      const response = await fetch(`${FETCH_URL}/users/update/${updatedUser._id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -40,7 +40,7 @@ export default function Users() {
 
   const fetchUsers = async () => {
     try {
-      const response = await fetch("http://localhost:5000/api/v1/users", {
+      const response = await fetch(`${FETCH_URL}/users`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -62,7 +62,7 @@ export default function Users() {
 
   const deleteUser = async (id) => {
     try {
-      const response = await fetch(`http://localhost:5000/api/v1/users/delete/${id}`, {
+      const response = await fetch(`${FETCH_URL}/users/delete/${id}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",

@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { token } from "../../utils/Constants";
+import { FETCH_URL, token } from "../../utils/Constants";
 
 export default function Orders() {
   const [orData, setOrData] = useState([]);
 
   const getData = async () => {
     try {
-      const response = await fetch("http://localhost:5000/api/v1/orderdata", {
+      const response = await fetch(`${FETCH_URL}/orderdata`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -28,7 +28,7 @@ export default function Orders() {
   const updateDeliveryStatus = async (orderId) => {
     try {
       const response = await fetch(
-        `http://localhost:5000/api/v1//order/delivered/${orderId}`,
+        `${FETCH_URL}/order/delivered/${orderId}`,
         {
           method: "PUT",
           headers: {
@@ -60,7 +60,7 @@ export default function Orders() {
           <thead className="bg-gray-100">
             <tr>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider border border-gray-200">
-                Order ID
+                User Name
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider border border-gray-200">
                 Order Date
@@ -85,7 +85,7 @@ export default function Orders() {
               return (
                 <tr key={order._id} className="hover:bg-gray-50">
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 border border-gray-200">
-                    {order._id}
+                    {order.userName}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 border border-gray-200">
                     {new Date(order.createdAt).toLocaleString()}

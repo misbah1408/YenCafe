@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import DisFood from "./DisFood";
+import { FETCH_URL } from "../utils/Constants";
 
 export default function Dishes() {
   const [dishes, setDishes] = useState([]);
 
   const getDishes = async () => {
-    const response = await fetch("http://localhost:5000/api/v1/fooditems");
+    const response = await fetch(`${FETCH_URL}/fooditems`);
     const data = await response.json();
     // console.log(data[0]);
     setDishes(data[0]);

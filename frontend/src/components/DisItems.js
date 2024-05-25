@@ -5,6 +5,7 @@ import { useDispatchCart } from "./store/ContextReducer";
 import BreakFast from "./BreakFast";
 import { useParams } from "react-router-dom";
 import Beverage from "./Beverage";
+import Desserts from "./Desserts";
 
 export default function DisItems({ data }) {
   const [add, setAdd] = useState("Add");
@@ -88,6 +89,13 @@ export default function DisItems({ data }) {
         return (
           <div className="p-5 bg-white rounded-lg shadow-md">
             <Beverage data={data} price={finalPrice} />
+            <QuantitySelector />
+          </div>
+        );
+        case "desserts":
+        return (
+          <div className="p-5 bg-white rounded-lg shadow-md">
+            <Desserts data={data} price={finalPrice} />
             <QuantitySelector />
           </div>
         );

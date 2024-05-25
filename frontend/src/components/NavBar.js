@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import logo from "../images/logo.png";
 import { useCart } from "./store/ContextReducer";
-import { isAdmin } from "../utils/Constants";
+import { isAdmin, token } from "../utils/Constants";
 
 export default function NavBar() {
   const [cartValue, setCartValue] = useState(0);
@@ -21,6 +21,8 @@ export default function NavBar() {
 
   const handleLogout = () => {
     localStorage.removeItem("authToken");
+    console.log(token)
+    console.log(localStorage.getItem("authToken"))
     localStorage.removeItem('isAdmin');
     navigate("/login");
   };
@@ -74,14 +76,14 @@ export default function NavBar() {
             Admin Panel
           </span>
         </NavLink>: ""}
-        <div className="flex items-center">
+        {/* <div className="flex items-center">
           <input
             className="h-9 w-[20rem] outline-none border-[1.6px] border-gray-200 px-3 py-3 rounded-l-xl border-r-white"
             type="text"
             placeholder="Search"
           />
           <i className="fa-solid fa-magnifying-glass bg-gray-100 h-9 w-12 p-2 pl-4 text-blue-600 border-[2px] border-gray-200 rounded-r-xl"></i>
-        </div>
+        </div> */}
       </div>
       {localStorage.getItem("authToken") ? (
         <div className="flex items-center gap-10">

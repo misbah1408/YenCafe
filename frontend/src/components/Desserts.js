@@ -1,17 +1,17 @@
 import React from "react";
 
-export default function Beverage({data, price}) {
+export default function Desserts({data, price}) {
     const {description, img, title, veg } = data || "default";
   return (
     <div className="w-[700px] flex gap-20 justify-">
       <div className="w-[475px] flex flex-col gap-1">
         {veg === true ? (
           <span className="text-[#9b2948] text-xl font-semibold w-max rounded-xl">
-            <i className="fa-solid fa-mug-hot"></i> <small>Hot</small>
+            <i class="fa-solid fa-cookie-bite"></i> <small>Chocolate</small>
           </span>
         ) : (
           <span className="text-[#368BC1] text-xl font-semibold w-max rounded-xl text-nowrap text-ellipsis">
-            <i className="fa-solid fa-snowflake"></i> <small>Cold</small>
+            <i class="fa-solid fa-cake-candles"></i> <small>Cake</small>
           </span>
         )}
         <span className="text-xl text-gray-700 font-bold">{title} </span>

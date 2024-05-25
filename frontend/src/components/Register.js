@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import logo from "../images/logo.png";
 import { useNavigate } from "react-router-dom";
+import { FETCH_URL } from "../utils/Constants";
 
 export default function Register() {
   const [credentials, setCredentials] = useState({
@@ -16,7 +17,7 @@ export default function Register() {
   const handleSubmit = async(e) => {
     e.preventDefault();
 
-    const response = await fetch("http://localhost:5000/api/v1/register", {
+    const response = await fetch(`${FETCH_URL}/register`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

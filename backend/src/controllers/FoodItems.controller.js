@@ -75,6 +75,7 @@ export const getFoodItemById = async (req, res) => {
 export const updateFoodItem = async (req, res) => {
   const { id } = req.params;
   const { category, title, price, veg, description, in_stock } = req.body;
+  // console.log(title)
 
   try {
     let img;

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import logo from "../images/logo.png";
 import { useNavigate } from "react-router-dom";
+import { FETCH_URL } from "../utils/Constants";
 
 export default function Login() {
   const [credentials, setCredentials] = useState({
@@ -15,8 +16,7 @@ export default function Login() {
 
   const handleSubmit = async(e) => {
     e.preventDefault();
-
-    const response = await fetch("http://localhost:5000/api/v1/login", {
+    const response = await fetch(`${FETCH_URL}/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -27,7 +27,7 @@ export default function Login() {
       }),
     });
     const json = await response.json()
-    // console.log(json.isAdmin)
+    // console.log(json.authToken)
     if(json.message === "success"){
       localStorage.setItem("authToken", json?.authToken);
       localStorage.setItem("isAdmin", json?.isAdmin?.isAdmin)

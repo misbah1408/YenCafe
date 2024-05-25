@@ -23,7 +23,7 @@ export default function Categories() {
                 />
               </div>
               <span className="font-semibold mt-2">Main Dish</span>
-              <span className="text-[11px] font-semibold">(25 Dishe)</span>
+              <span className="text-[11px] font-semibold">(6 Dishes)</span>
             </div>
           </div>
         </Link>
@@ -38,7 +38,7 @@ export default function Categories() {
                 />
               </div>
               <span className="font-semibold mt-2">Break fast</span>
-              <span className="text-[11px] font-semibold">(25 Break fast)</span>
+              <span className="text-[11px] font-semibold">(6 Break fast)</span>
             </div>
           </div>
         </Link>
@@ -52,8 +52,8 @@ export default function Categories() {
                   alt="dessert"
                 />
               </div>
-              <span className="font-semibold mt-2">Dessert</span>
-              <span className="text-[11px] font-semibold">(25 Dessert)</span>
+              <span className="font-semibold mt-2 text-wrap">Dessert & Chocolate</span>
+              <span className="text-[11px] font-semibold">(2 Desserts)</span>
             </div>
           </div>
         </Link>
@@ -68,7 +68,7 @@ export default function Categories() {
                 />
               </div>
               <span className="font-semibold mt-2">Bevrage</span>
-              <span className="text-[11px] font-semibold">(25 Bevrage)</span>
+              <span className="text-[11px] font-semibold">(2 Bevrage)</span>
             </div>
           </div>
         </Link>

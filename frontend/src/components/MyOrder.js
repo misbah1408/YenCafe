@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { emptyCart, token } from "../utils/Constants";
+import { FETCH_URL, emptyCart, token } from "../utils/Constants";
 import OrderDetail from "./OrderDetail";
 
 const Orders = () => {
@@ -12,7 +12,7 @@ const Orders = () => {
     
 
     try {
-      const response = await fetch("http://localhost:5000/api/v1/orders", {
+      const response = await fetch(`${FETCH_URL}/orders`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

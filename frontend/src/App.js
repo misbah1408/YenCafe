@@ -38,7 +38,7 @@ function App() {
             path="/admin"
             element={isAdmin==="true" ? <Admin /> : <Navigate to="/" />}
           >
-            <Route path="users" element={<Users />} />
+            <Route path="users" index element={<Users />} />
             <Route path="orders" element={<Orders />} />
             <Route path="maindishes" element={<MainDish />} />
             <Route path="beverages" element={<Beverage />} />

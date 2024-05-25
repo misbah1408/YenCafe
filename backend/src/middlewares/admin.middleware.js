@@ -2,9 +2,8 @@ import { User } from "../models/User.model.js";
 
 const adminMiddleware = async (req, res, next) => {
   try {
-    const {
-      user: { id },
-    } = req.user;
+    const id = req.user.id
+    // console.log(req.user)
     const user = await User.findById({ _id: id });
     if (!user.isAdmin) {
       return res

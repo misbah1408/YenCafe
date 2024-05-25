@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import EmptyCartPng from "../images/EmptyCart.png";
 import { Link } from "react-router-dom";
 import CartItems from "./CartItems";
-import { token } from "../utils/Constants";
+import { FETCH_URL, token } from "../utils/Constants";
 import { useCart, useDispatchCart } from "./store/ContextReducer";
 
 export default function Cart() {
@@ -24,10 +24,11 @@ export default function Cart() {
     grandT();
   }, [cart.length]);
   // console.log(token)
+  // console.log(localStorage.getItem("authToken"))
 
   const handleCheckout = async () => {
     try {
-      const response = await fetch("http://localhost:5000/api/v1/checkout", {
+      const response = await fetch(`${FETCH_URL}/checkout`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

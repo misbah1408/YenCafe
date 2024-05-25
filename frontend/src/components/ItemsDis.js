@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import DisItems from "./DisItems";
+import { FETCH_URL } from "../utils/Constants";
 
 export default function ItemsDis() {
   const [items, setItems] = useState([]);
@@ -11,7 +12,7 @@ export default function ItemsDis() {
   // console.log(id);
   
   const getDishes = async () => {
-    const response = await fetch(`http://localhost:5000/api/v1/maindish`);
+    const response = await fetch(`${FETCH_URL}/maindish`);
     const data = await response.json();
     // console.log(data );
     // Initialize count for each item
@@ -26,7 +27,7 @@ export default function ItemsDis() {
       setItems(filtedData)
     }
     else if(id === "desserts"){
-      const filtedData = data.filter((item)=> item.category === "Break fast")
+      const filtedData = data.filter((item)=> item.category === "Desserts")
       setItems(filtedData)
     }
     else if(id === "bevrage"){

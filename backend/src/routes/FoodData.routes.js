@@ -2,10 +2,11 @@ import { Router } from "express";
 import {
   createFoodItem,
   getAllFoodItems,
+  updateFoodItem,
 } from "../controllers/FoodItems.controller.js";
 import { adminMiddleware } from "../middlewares/admin.middleware.js";
-import authenticateToken from "../middlewares/auth.middleware.js";
 import { upload } from "../middlewares/multer.middleware.js";
+import jwtMiddleware from "../middlewares/auth.middleware.js";
 
 const foodDataRoutes = Router();
 
@@ -31,14 +32,17 @@ foodDataRoutes.get("/breakfast", (req, res) => {
 
 foodDataRoutes
   .route("/fooddata")
-  .get(authenticateToken, adminMiddleware, getAllFoodItems);
+  .get(jwtMiddleware, adminMiddleware, getAllFoodItems);
 foodDataRoutes
   .route("/create/item")
   .post(
-    authenticateToken,
+    jwtMiddleware,
     adminMiddleware,
     upload.single("img"),
     createFoodItem
   );
+
+foodDataRoutes.route("/admin/maindishes").get(jwtMiddleware, adminMiddleware, getAllFoodItems)
+foodDataRoutes.route("/admin/maindishes/:id").put(jwtMiddleware, adminMiddleware,upload.single("img") ,updateFoodItem)
 
 export default foodDataRoutes;

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { token } from "../../utils/Constants";
+import { FETCH_URL, token } from "../../utils/Constants";
 
 const CreateFoodItem = () => {
   const [formData, setFormData] = useState({
@@ -46,7 +46,7 @@ const CreateFoodItem = () => {
     }
     console.log(formData)
     try {
-      const response = await fetch("http://localhost:5000/api/v1/create/item", {
+      const response = await fetch(`${FETCH_URL}/create/item`, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,
