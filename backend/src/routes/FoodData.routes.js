@@ -1,6 +1,7 @@
 import { Router } from "express";
 import {
   createFoodItem,
+  deleteFoodItem,
   getAllFoodItems,
   updateFoodItem,
 } from "../controllers/FoodItems.controller.js";
@@ -44,5 +45,7 @@ foodDataRoutes
 
 foodDataRoutes.route("/admin/maindishes").get(jwtMiddleware, adminMiddleware, getAllFoodItems)
 foodDataRoutes.route("/admin/maindishes/:id").put(jwtMiddleware, adminMiddleware,upload.single("img") ,updateFoodItem)
+foodDataRoutes.route("/admin/maindishes/delete/:id").delete(jwtMiddleware, adminMiddleware, deleteFoodItem)
+
 
 export default foodDataRoutes;

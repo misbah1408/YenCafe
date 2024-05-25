@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { FETCH_URL, token } from "../../utils/Constants";
-import Modal from './Modal';  // Import the Modal component
+import Modal from "./Modal"; // Import the Modal component
 
 export default function MainDish() {
   const [data, setData] = useState([]);
@@ -24,7 +24,9 @@ export default function MainDish() {
       },
     });
     const data = await response.json();
-    const filteredData = data?.filter((item) => item.category === "Main Course");
+    const filteredData = data?.filter(
+      (item) => item.category === "Main Course"
+    );
 
     setData(filteredData);
   };
@@ -80,7 +82,17 @@ export default function MainDish() {
     setShowModal(false);
     setEditMode(null);
   };
-
+  const handleDeleteClick = async (id) => {
+    await fetch(`${FETCH_URL}/admin/maindishes/delete/${id}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    fetchData();
+    setShowModal(false);
+    setEditMode(null);
+  };
   useEffect(() => {
     fetchData();
   }, []);
@@ -98,6 +110,7 @@ export default function MainDish() {
             <th className="py-2 px-4 border">Veg</th>
             <th className="py-2 px-4 border">Images</th>
             <th className="py-2 px-4 border">Actions</th>
+            <th className="py-2 px-4 border">Delete</th>
           </tr>
         </thead>
         <tbody>
@@ -106,10 +119,16 @@ export default function MainDish() {
               <td className="py-2 px-4 border">{item.title}</td>
               <td className="py-2 px-4 border">{item.price}</td>
               <td className="py-2 px-4 border">{item.description}</td>
-              <td className="py-2 px-4 border">{item.in_stock ? "Yes" : "No"}</td>
+              <td className="py-2 px-4 border">
+                {item.in_stock ? "Yes" : "No"}
+              </td>
               <td className="py-2 px-4 border">{item.veg ? "Yes" : "No"}</td>
               <td className="py-2 px-4 border">
-                <img className="h-16 w-16 object-cover object-center" src={item.img} alt="" />
+                <img
+                  className="h-16 w-16 object-cover object-center"
+                  src={item.img}
+                  alt=""
+                />
               </td>
               <td className="py-2 px-4 border">
                 <button
@@ -117,6 +136,14 @@ export default function MainDish() {
                   className="bg-green-500 text-white py-1 px-3 rounded"
                 >
                   Edit
+                </button>
+              </td>
+              <td className="py-2 px-4 border">
+              <button
+                  onClick={() => handleDeleteClick(item._id)}
+                  className="text-red-600 hover:text-red-900 py-1 px-3 rounded"
+                >
+                  Delete
                 </button>
               </td>
             </tr>
