@@ -4,13 +4,15 @@ import { Link } from "react-router-dom";
 import CartItems from "./CartItems";
 import { FETCH_URL, token } from "../utils/Constants";
 import { useCart, useDispatchCart } from "./store/ContextReducer";
+import { useLocation } from "./store/LocationContext";
 
 export default function Cart() {
   const [cartItem, setCartItem] = useState();
   const [grandTotal, setGrandTotal] = useState();
   const dispatch = useDispatchCart();
   const cart = useCart();
-
+  const { location } = useLocation();
+  // console.log(location)
   // console.log(cart);
   const grandT = () => {
     let total = 0;
@@ -27,29 +29,38 @@ export default function Cart() {
   // console.log(localStorage.getItem("authToken"))
 
   const handleCheckout = async () => {
-    try {
-      const response = await fetch(`${FETCH_URL}/checkout`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          'Authorization': `Bearer ${token}`
-        },
-        body: JSON.stringify(cart), // Use 'cart' instead of 'cartItem'
-      });
-      if (response.ok) {
-        console.log("Checkout successful");
-        dispatch({type: "CLEAR"})
-        
-        // Handle success (e.g., show a success message, redirect)
-      } else {
-        console.error("Checkout failed");
-        // Handle failure (e.g., show an error message)
+    const orderData = {
+      cart,
+      location
+    };
+    if (!location || location === "") {
+      alert("Please select a location");
+    }
+    if(location === "4th Floor Balmatta" || location === "6th Floor Balmatta") {
+      try {
+        const response = await fetch(`${FETCH_URL}/checkout`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`
+          },
+          body: JSON.stringify(orderData),
+        });
+        if (response.ok) {
+          console.log("Checkout successful");
+          dispatch({ type: "CLEAR" });
+          // Handle success
+        } else {
+          console.error("Checkout failed");
+          // Handle failure
+        }
+      } catch (error) {
+        console.error("Error during checkout:", error);
+        // Handle error
       }
-    } catch (error) {
-      console.error("Error during checkout:", error);
-      // Handle error (e.g., show an error message)
     }
   };
+  
   
 
 
@@ -83,7 +94,7 @@ export default function Cart() {
           ))}
         </div>
         <hr />
-        <div className="w-full mt-5">
+        <div className="w-[80%] md:w-full mt-5">
           <h1 className="w-full text-xl font-bold border-b-2 text-start pb-3">
             Billing
           </h1>
@@ -94,7 +105,7 @@ export default function Cart() {
         </div>
         <button
           onClick={handleCheckout}
-          className="bg-green-600 w-full text-white p-5 rounded-lg font-semibold mt-5"
+          className="bg-green-600 w-[80%] md:w-full text-white p-5 rounded-lg font-semibold mt-5"
         >
           Checkout
         </button>

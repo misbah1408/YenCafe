@@ -63,16 +63,16 @@ export default function ItemsDis() {
   }, [id]);
 
   return (
-    <div className="flex justify-center mt-5 p-4">
+    <div className="w-[100%] md:w-full flex justify-center mt-5 md:p-4">
       <div className="flex flex-col gap-5 shadow-md p-6 rounded-lg">
         <div
-          className="w-[700px] flex items-center justify-between border-b-2"
+          className="md:w-[700px] flex items-center justify-between border-b-2"
           onClick={handleOnClick}
         >
           <span className="text-2xl font-bold">{items[0]?.category}</span>
           <i className={`fa-solid fa-chevron-${chevron} font-bold pr-6`}></i>
         </div>
-        <div>
+        <div className="">
           {toggle &&
             items.map((food) => (
               <div key={food._id} className="flex flex-col pb-5 gap-5">

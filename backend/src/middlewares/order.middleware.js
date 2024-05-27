@@ -9,15 +9,17 @@ const checkoutController = async (req, res) => {
     // console.log(req.user)
     // Ensure cartItems is present in the request body
     const cartItems = req.body;
-    if (!Array.isArray(cartItems) || cartItems.length === 0) {
+    // console.log(cartItems.cart)
+    if (!cartItems) {
       return res.status(400).json({ error: "Cart items are required" });
     }
 
     // Save the order to the database, associating it with the user
     const newOrder = new Order({
-      orderData: cartItems,
+      orderData: cartItems.cart,
       userId,
       userName,
+      location : cartItems.location
     });
     const savedOrder = await newOrder.save();
 
@@ -31,8 +33,9 @@ const checkoutController = async (req, res) => {
 const orderController = async (req, res) => {
   try {
     const userId = req.user?.id;
-    const orders = await Order.find({ userId });
-    // console.log(orders)
+    console.log(req.user)
+    const orders = await Order.find({ userId:userId });
+    console.log(orders)
     res.status(200).json(orders);
   } catch (error) {
     console.error("Error fetching orders:", error);

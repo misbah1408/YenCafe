@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import logo from "../images/logo.png";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FETCH_URL } from "../utils/Constants";
 
 export default function Register() {
@@ -43,11 +43,11 @@ export default function Register() {
       // console.log(credentials.location)
   }
   return (
-    <div className="h-lvh w-[100%] bg-gradient-to-r from-[#44bd76] to-[#61cbcf]">
-      <div className="absolute h-[40rem] w-[30rem] bg-white top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] rounded-xl">
+    <div className="h-dvh w-[100%] bg-gradient-to-r from-[#59c975] to-[#41c5c7]">
+      <div className="absolute h-[34rem] w-[24rem] md:h-[38rem] md:w-[30rem] bg-white top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] rounded-xl">
         <div className="flex flex-col align-middle gap-3">
           <div className="flex flex-col items-center mt-6">
-            <img className="h-[8rem]" src={logo} alt="" />
+            <img className="h-24 md:h-[8rem]" src={logo} alt="" />
             <p className="flex flex-col items-center">
               <span className="font-bold text-xl">YENEPOYA</span>
               <span className="font-semibold">(Deemed to be University)</span>
@@ -59,7 +59,7 @@ export default function Register() {
               onSubmit={handleSubmit}
             >
               <input
-                className="h-12 w-1/2 outline-none px-6 py-2 bg-gray-100 rounded-md"
+                className="md:h-12 md:w-1/2 outline-none px-6 py-2 bg-gray-100 rounded-md"
                 type="text"
                 placeholder="User name"
                 name="name"
@@ -67,7 +67,7 @@ export default function Register() {
                 onChange={handleOnChange}
               />
               <input
-                className="h-12 w-1/2 @layer base outline-none px-6 py-2 bg-gray-100 rounded-md"
+                className="md:h-12 md:w-1/2 @layer base outline-none px-6 py-2 bg-gray-100 rounded-md"
                 type="text"
                 placeholder="Email"
                 name="email"
@@ -75,7 +75,7 @@ export default function Register() {
                 onChange={handleOnChange}
               />
               <input
-                className="h-12 w-1/2 outline-none px-6 py-2 bg-gray-100 rounded-md"
+                className="md:h-12 md:w-1/2 outline-none px-6 py-2 bg-gray-100 rounded-md"
                 type="password"
                 placeholder="Password"
                 name="password"
@@ -86,13 +86,13 @@ export default function Register() {
                 name="location"
                 value={credentials.location}
                 onChange={handleOnChange}
-                className="h-12 w-1/2 outline-none px-6 py-2 bg-gray-100 rounded-md"
+                className="md:h-12 md:w-1/2 outline-none px-6 py-2 bg-gray-100 rounded-md"
               >
                 <option value="Balmatta 4th floor">Balmatta 4th floor</option>
                 <option value="Balmatta 6th floor">Balmatta 6th floor</option>
               </select> */}
               <button
-                className="h-12 w-1/2 bg-blue-600 text-white rounded-lg"
+                className="h-10 w-[65%] md:h-12 md:w-1/2 bg-blue-600 text-white rounded-lg"
                 type="submit"
               >
                 Register
@@ -102,12 +102,12 @@ export default function Register() {
           <div className="flex flex-col items-center gap-1 mt-2">
             <span
               onClick={handelLogin}
-              className="text-blue-600 font-medium cursor-pointer"
+              className="text-blue-600 font-medium cursor-pointer text-sm md:text-md"
             >
-              Already Registered?
+              <Link to='/login'>Already Registered?</Link>
             </span>
             <button
-              className="h-12 w-1/2 bg-blue-600 text-white rounded-lg"
+              className="h-10 w-[65%] md:h-12 md:w-1/2 bg-blue-600 text-white rounded-lg"
               onClick={handelLogin}
             >
               Login

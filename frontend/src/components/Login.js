@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import logo from "../images/logo.png";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FETCH_URL } from "../utils/Constants";
 
 export default function Login() {
@@ -42,8 +42,8 @@ export default function Login() {
     setCredentials({...credentials,[e.target.name]:e.target.value})
   }
   return (
-    <div className="h-lvh w-[100%] bg-gradient-to-r from-[#44bd76] to-[#61cbcf]">
-      <div className="absolute h-[35rem] w-[30rem] bg-white top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] rounded-xl">
+    <div className="h-dvh w-[100%] bg-gradient-to-r from-[#59c975] to-[#41c5c7]">
+      <div className="absolute h-[32rem] w-[20rem] md:h-[35rem] md:w-[30rem] bg-white top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] rounded-xl">
         <div className="flex flex-col align-middle gap-3">
           <div className="flex flex-col items-center mt-6">
             <img className="h-[8rem]" src={logo} alt="" />
@@ -58,7 +58,7 @@ export default function Login() {
               onSubmit={handleSubmit}
             >
               <input
-                className="h-12 w-1/2 @layer base outline-none px-6 py-2 bg-gray-100 rounded-md"
+                className="md:h-12 md:w-1/2 @layer base outline-none px-6 py-2 bg-gray-100 rounded-md"
                 type="text"
                 placeholder="Email"
                 name="email"
@@ -66,7 +66,7 @@ export default function Login() {
                 onChange={handleOnChange}
               />
               <input
-                className="h-12 w-1/2 outline-none px-6 py-2 bg-gray-100 rounded-md"
+                className="md:h-12 md:w-1/2 outline-none px-6 py-2 bg-gray-100 rounded-md"
                 type="password"
                 placeholder="Password"
                 name="password"
@@ -74,19 +74,19 @@ export default function Login() {
                 onChange={handleOnChange}
               />
               <button
-                className="h-12 w-1/2 bg-blue-600 text-white rounded-lg"
+                className="h-10 w-2/3 md:h-12 md:w-1/2 bg-blue-600 text-white rounded-lg"
                 type="submit"
               >
                 Login
               </button>
             </form>
           </div>
-          <div className="flex flex-col items-center gap-1">
-              <a className="text-blue-600 font-semibold" href="/">
-                Forgot your password?
-              </a>
+          <div className=" flex flex-col items-center gap-1">
+              <Link className="text-blue-600 font-semibold md:text-md text-sm" to="/">
+                <span>Forgot your password?</span>
+              </Link>
               <button
-                className="h-12 w-1/2 bg-blue-600 text-white rounded-lg"
+                className="h-10 w-2/3 md:h-12 md:w-1/2 bg-blue-600 text-white rounded-lg"
                 onClick={handelRegister}
               >
                 Register

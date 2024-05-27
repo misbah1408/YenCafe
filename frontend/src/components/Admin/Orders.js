@@ -63,6 +63,9 @@ export default function Orders() {
                 User Name
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider border border-gray-200">
+                Floor
+              </th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider border border-gray-200">
                 Order Date
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider border border-gray-200">
@@ -86,6 +89,9 @@ export default function Orders() {
                 <tr key={order._id} className="hover:bg-gray-50">
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 border border-gray-200">
                     {order.userName}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 border border-gray-200">
+                    {order.location}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 border border-gray-200">
                     {new Date(order.createdAt).toLocaleString()}

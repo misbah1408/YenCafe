@@ -3,7 +3,6 @@ import Shimmer from "./Shimmer";
 import MainDishes from "./MainDishes";
 import { useDispatchCart } from "./store/ContextReducer";
 import BreakFast from "./BreakFast";
-import { useParams } from "react-router-dom";
 import Beverage from "./Beverage";
 import Desserts from "./Desserts";
 
@@ -73,7 +72,7 @@ export default function DisItems({ data }) {
     switch (category.toLowerCase()) {
       case "main course":
         return (
-          <div className="p-5 bg-white rounded-lg shadow-md">
+          <div className="w-[100%] p-5 bg-white rounded-lg shadow-md">
             <MainDishes data={data} price={finalPrice} />
             <QuantitySelector />
           </div>
@@ -109,5 +108,5 @@ export default function DisItems({ data }) {
     }
   };
 
-  return <div className="max-w-3xl mx-auto my-1">{renderContent()}</div>;
+  return <div className="md:max-w-3xl md:mx-auto md:my-1">{renderContent()}</div>;
 }

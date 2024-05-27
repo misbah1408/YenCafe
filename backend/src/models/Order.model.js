@@ -18,6 +18,9 @@ const orderSchema = new Schema(
     delivered:{
       type: Boolean,
       default: false,
+    },
+    location:{
+      type: String,
     }
   },
   { timestamps: true }
