@@ -8,6 +8,7 @@ export default function Login() {
     email:"",
     password:"",
   })
+  const [error, setError] = useState("")
   const Navigate = useNavigate()
   const handelRegister = () => {
     Navigate("/register")
@@ -27,14 +28,14 @@ export default function Login() {
       }),
     });
     const json = await response.json()
-    // console.log(json.authToken)
+    // console.log(json)
+    if(json.message === "Email does not exists" || "Invalid password"){
+      setError(json.message)
+    }
     if(json.message === "success"){
       localStorage.setItem("authToken", json?.authToken);
       localStorage.setItem("isAdmin", json?.isAdmin?.isAdmin)
       Navigate("/")
-    }
-    else{
-      alert("Invalid Credentials")
     }
   };
 
@@ -65,6 +66,7 @@ export default function Login() {
                 value={credentials.email}
                 onChange={handleOnChange}
               />
+              {error === "Email does not exists" ? <span className="text-[12px] text-red-700 text-start">Invalid Email</span> : null}
               <input
                 className="md:h-12 md:w-1/2 outline-none px-6 py-2 bg-gray-100 rounded-md"
                 type="password"
@@ -73,6 +75,7 @@ export default function Login() {
                 value={credentials.password}
                 onChange={handleOnChange}
               />
+              {error === "Invalid password" ? <span className="text-[12px] text-red-700 text-start">Invalid Password</span> : null}
               <button
                 className="h-10 w-2/3 md:h-12 md:w-1/2 bg-blue-600 text-white rounded-lg"
                 type="submit"

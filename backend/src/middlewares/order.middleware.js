@@ -33,9 +33,9 @@ const checkoutController = async (req, res) => {
 const orderController = async (req, res) => {
   try {
     const userId = req.user?.id;
-    console.log(req.user)
+    // console.log(req.user)
     const orders = await Order.find({ userId:userId });
-    console.log(orders)
+    // console.log(orders)
     res.status(200).json(orders);
   } catch (error) {
     console.error("Error fetching orders:", error);

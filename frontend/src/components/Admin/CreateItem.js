@@ -44,7 +44,7 @@ const CreateFoodItem = () => {
     for (const key in formData) {
       data.append(key, formData[key]);
     }
-    console.log(formData)
+    // console.log(formData)
     try {
       const response = await fetch(`${FETCH_URL}/create/item`, {
         method: "POST",
@@ -59,7 +59,7 @@ const CreateFoodItem = () => {
       }
   
       const result = await response.json();
-      console.log(result);
+      // console.log(result);
   
       // Alert success message and reset form data
       alert("Item created successfully");

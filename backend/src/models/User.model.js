@@ -12,13 +12,9 @@ const userSchema = new Schema(
       required: true,
       unique:true
     },
-    location:{
-        type:String,
-        required:false
-    },
     password: {
       type: String,
-      required: true,
+      required: [true, "Password required"],
     },
     isAdmin: {
       type: Boolean,

@@ -9,6 +9,7 @@ export default function Register() {
     email:"",
     password:""
   })
+  const [error, setError] = useState("")
   const Navigate = useNavigate();
   const handelLogin = () => {
     Navigate("/login");
@@ -30,11 +31,11 @@ export default function Register() {
     });
     const json = await response.json()
     // console.log(json)
+    if(json.message === "Existed Email" || "User Name already used"){
+      setError(json.message)
+    }
     if(json.message === "success"){
       Navigate("/login")
-    }
-    else{
-      alert("Invalid Credentials")
     }
   };
 
@@ -66,6 +67,7 @@ export default function Register() {
                 value={credentials.name}
                 onChange={handleOnChange}
               />
+              {error === "User Name already used" ? <span className="text-[12px] text-red-700 text-start">Username already used</span> : null}
               <input
                 className="md:h-12 md:w-1/2 @layer base outline-none px-6 py-2 bg-gray-100 rounded-md"
                 type="text"
@@ -74,6 +76,8 @@ export default function Register() {
                 value={credentials.email}
                 onChange={handleOnChange}
               />
+              {error === "Existed Email" ? <span className="text-[12px] text-red-700 text-start">Existed Email</span> : null}
+
               <input
                 className="md:h-12 md:w-1/2 outline-none px-6 py-2 bg-gray-100 rounded-md"
                 type="password"
