@@ -105,7 +105,7 @@ const CreateFoodItem = () => {
           >
             <option value="">Select Category</option>
             <option value="Main Course">Main Course</option>
-            <option value="Break Fast">Break fast</option>
+            <option value="Break fast">Break Fast</option>
             <option value="Beverage">Beverage</option>
             <option value="Desserts">Desserts</option>
           </select>
@@ -175,7 +175,7 @@ const CreateFoodItem = () => {
               className="block text-gray-700 text-sm font-bold"
               htmlFor="veg"
             >
-              Veg ( <small>if Non-Veg leave it blank</small> )
+              Veg or Hot or Chocolate ( <small>if Non-Veg leave it blank</small> )
             </label>
           </div>
           <div className="mb-4 flex items-center">

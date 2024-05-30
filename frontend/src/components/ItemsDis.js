@@ -7,6 +7,7 @@ export default function ItemsDis() {
   const [items, setItems] = useState([]);
   const [toggle, setToggle] = useState(true); // Define toggle state
   const [chevron, setChevron] = useState("down"); // Define chevron state
+  const [title, setTitle] = useState("")
   
   const {id} = useParams();
   // console.log(id);
@@ -20,18 +21,22 @@ export default function ItemsDis() {
     setItems(itemsWithCount);
     if(id==="maindish"){
       const filtedData = data.filter((item)=> item.category === "Main Course")
+      setTitle("Main Dishe's")
       setItems(filtedData)
     }
     else if(id === "breakfast"){
       const filtedData = data.filter((item)=> item.category === "Break fast")
+      setTitle("Break Fast")
       setItems(filtedData)
     }
     else if(id === "desserts"){
       const filtedData = data.filter((item)=> item.category === "Desserts")
+      setTitle("Desserts & Chocolates")
       setItems(filtedData)
     }
     else if(id === "bevrage"){
       const filtedData = data.filter((item)=> item.category === "Beverage")
+      setTitle("Beverages")
       setItems(filtedData)
     }
   };
@@ -63,14 +68,14 @@ export default function ItemsDis() {
   }, [id]);
 
   return (
-    <div className="w-[100%] md:w-full flex justify-center mt-5 md:p-4">
-      <div className="flex flex-col gap-5 shadow-md p-6 rounded-lg">
+    <div className="w-[100%] md:w-full flex justify-center mt-20 md:p-4">
+      <div className="w-[94%] md:w-[54%] flex flex-col gap-5 shadow-md p-6 rounded-lg">
         <div
-          className="md:w-[700px] flex items-center justify-between border-b-2"
+          className="md:full flex items-center justify-between "
           onClick={handleOnClick}
         >
-          <span className="text-2xl font-bold">{items[0]?.category}</span>
-          <i className={`fa-solid fa-chevron-${chevron} font-bold pr-6`}></i>
+          <span className="text-2xl font-bold">{title}</span>
+          <i className={`fa-solid fa-chevron-${chevron} font-bold `}></i>
         </div>
         <div className="">
           {toggle &&

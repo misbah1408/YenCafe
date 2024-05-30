@@ -80,6 +80,17 @@ export default function Desserts() {
     setShowModal(false);
     setEditMode(null);
   };
+  const handleDeleteClick = async (id) => {
+    await fetch(`${FETCH_URL}/admin/maindishes/delete/${id}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    fetchData();
+    setShowModal(false);
+    setEditMode(null);
+  };
 
   useEffect(() => {
     fetchData();
@@ -97,6 +108,7 @@ export default function Desserts() {
             <th className="py-2 px-4 border">In Stock</th>
             <th className="py-2 px-4 border">Chocolate</th>
             <th className="py-2 px-4 border">Images</th>
+            <th className="py-2 px-4 border">Delete</th>
             <th className="py-2 px-4 border">Actions</th>
           </tr>
         </thead>
@@ -117,6 +129,14 @@ export default function Desserts() {
                   className="bg-green-500 text-white py-1 px-3 rounded"
                 >
                   Edit
+                </button>
+              </td>
+              <td className="py-2 px-4 border">
+              <button
+                  onClick={() => handleDeleteClick(item._id)}
+                  className="text-red-600 hover:text-red-900 py-1 px-3 rounded"
+                >
+                  Delete
                 </button>
               </td>
             </tr>

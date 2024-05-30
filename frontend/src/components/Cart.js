@@ -68,7 +68,7 @@ export default function Cart() {
   if (cart.length <= 0)
     return (
       <>
-        <div className="relative top-8 flex felx-col justify-center p-10">
+        <div className="relative top-8 flex felx-col justify-center p-10 mt-20">
           <div className="flex flex-col">
             <img src={EmptyCartPng} alt="empty cart png" />
             <Link to="/">
@@ -81,7 +81,7 @@ export default function Cart() {
       </>
     );
   return (
-    <div className="flex justify-center mt-3">
+    <div className="flex justify-center mt-20">
       <div className="flex flex-col justify-center items-center">
         <h1 className="text-xl font-bold border-b-2 w-full text-center pb-3">
           CART & CHECKOUT

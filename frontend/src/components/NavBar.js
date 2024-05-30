@@ -36,7 +36,7 @@ export default function NavBar() {
   };
 
   return (
-    <div className="h-20 flex items-center justify-between shadow-sm shadow-gray-300 px-4 md:px-8">
+    <div className="h-20 w-full flex items-center justify-between shadow-sm shadow-gray-300 px-4 md:px-8 fixed z-50 bg-white top-0">
       <Link to="/">
         <div className="flex items-center gap-3 ml-3">
           <img className="h-16" src={logo} alt="YenCafe Logo" />
@@ -136,7 +136,7 @@ export default function NavBar() {
       </div>
       <div className="md:hidden flex items-center">
         <button onClick={toggleMenu} className="text-gray-700 focus:outline-none">
-          <i className="fa-solid fa-bars text-2xl"></i>
+          {!isMenuOpen ? <i className="fa-solid fa-bars text-2xl"></i> : <i class="fa-solid fa-xmark text-[28px]"></i>}
         </button>
       </div>
       {isMenuOpen && (

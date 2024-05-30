@@ -36,15 +36,15 @@ const Orders = () => {
   },[]);
   if(orders.length===0){
     return(
-      <div className="flex flex-col justify-center items-center p-5 bg-[#fdfdfd]">
-        <img className="w-[30%]" src={emptyCart} alt="" />
-        <span className="text-xl font-semibold mt-5">No Orders</span>
+      <div className="flex flex-col justify-center items-center p-5 md:mt-0 mt-20 bg-[#fdfdfd]">
+        <img className="w-[1000%] md:w-[30%]" src={emptyCart} alt="" />
+        <span className="text-xl font-semibold mt-7 md:mt-5">No Orders</span>
         <span>You haven't placed any order yet.</span>
       </div>
     );
   }
   return (
-    <div className="flex justify-center">
+    <div className="flex justify-center mt-20">
       <div className="mt-5 md:w-[50%] w-[95%]">
         <h1 className="text-xl font-bold border-b-2 border-gray-200 pb-3">Orders History</h1>
         <div>
