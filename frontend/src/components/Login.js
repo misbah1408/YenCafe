@@ -85,7 +85,7 @@ export default function Login() {
             </form>
           </div>
           <div className=" flex flex-col items-center gap-1">
-              <Link className="text-blue-600 font-semibold md:text-md text-sm" to="/">
+              <Link className="text-blue-600 font-semibold md:text-md text-sm" to="/forgotpassword">
                 <span>Forgot your password?</span>
               </Link>
               <button

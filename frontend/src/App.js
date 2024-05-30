@@ -19,6 +19,7 @@ import BreakFast from "./components/Admin/BreakFast";
 import Desserts from "./components/Admin/Desserts";
 import Users from "./components/Admin/Users";
 import CreateItem from "./components/Admin/CreateItem";
+import ForgotPassword from "./components/ForgotPassword";
 
 function App() {
   return (
@@ -34,6 +35,7 @@ function App() {
           </Route>
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/forgotpassword" element={<ForgotPassword/>} />
           <Route
             path="/admin"
             element={isAdmin==="true" ? <Admin /> : <Navigate to="/" />}

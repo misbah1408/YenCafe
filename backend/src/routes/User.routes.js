@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { loginUser, registerUser } from "../controllers/CreateUser.controller.js";
+import { forgotPassword, loginUser, registerUser } from "../controllers/CreateUser.controller.js";
 
 const userRoutes = Router();
 
@@ -7,5 +7,6 @@ const userRoutes = Router();
 userRoutes.route("/register").post(registerUser)
 // User login route
 userRoutes.route("/login").post(loginUser)
-
+//User forgotPassword
+userRoutes.route("/update-password").post(forgotPassword)
 export default userRoutes;
