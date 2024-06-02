@@ -25,6 +25,26 @@ This project is a MERN stack application designed to facilitate food ordering fo
 - **Multer**: Middleware for handling multipart/form-data, used for file uploads.
 - **Cloudinary**: Cloud service for managing and delivering media assets (images, videos).
 
+## Dependencies for Backend
+- **bcryptjs**
+- **cors**
+- **dotenv**
+- **express**
+- **jsonwebtoken**
+- **mongoose**
+- **multer**
+- **nodemon**
+- **express-validator**
+- **cloudinary**
+- **axios**
+- **cookie-parser**
+
+## Dependencies for Frontend
+- **react**
+- **react-dom**
+- **react-router-dom**
+- **react-scripts**
+- **tailwindcss**
 
 ## Setup Instructions
 1. Clone the repository: ("https://github.com/misbah1408/YenCafe.git")
