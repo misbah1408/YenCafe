@@ -12,9 +12,9 @@ export default function Body() {
       <main>
         <Outlet />
       </main>
-      <footer className="w-[100%] mt-9">
+      {/* <footer className="w-[100%] mt-9">
         <Footer />
-      </footer>
+      </footer> */}
     </>
   );
 }

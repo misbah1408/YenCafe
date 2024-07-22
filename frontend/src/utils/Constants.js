@@ -2,6 +2,7 @@ export const colLogo = "https://upload.wikimedia.org/wikipedia/en/7/7a/Yenepoya_
 export const token = localStorage.getItem("authToken")
 export const isAdmin = localStorage.getItem("isAdmin")
 export const FETCH_URL = "http://localhost:5000/api/v1"
+
 export const options = {
     month: "long", // Full month name
     day: "numeric", // Day of the month

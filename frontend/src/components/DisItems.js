@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Shimmer from "./Shimmer";
 import MainDishes from "./MainDishes";
-import { useDispatchCart } from "./store/ContextReducer";
+import { useDispatchCart, useCart } from "./store/ContextReducer";
 import BreakFast from "./BreakFast";
 import Beverage from "./Beverage";
 import Desserts from "./Desserts";
@@ -10,12 +10,14 @@ export default function DisItems({ data }) {
   const [add, setAdd] = useState("Add");
   const [qua, setQua] = useState(1);
   const dispatch = useDispatchCart();
-
-  if (!data || data.length === 0) {
-    return <Shimmer />;
-  }
+  const cart = useCart();
 
   const { category, img, price, title, veg, in_stock, _id } = data;
+
+  useEffect(() => {
+    const isInCart = cart.some((item) => item.id === _id);
+    setAdd(isInCart ? "Remove" : "Add");
+  }, [cart, _id]);
 
   const handleClick = async () => {
     if (!in_stock) return;
@@ -91,14 +93,13 @@ export default function DisItems({ data }) {
             <QuantitySelector />
           </div>
         );
-        case "desserts":
+      case "desserts":
         return (
           <div className="p-5 bg-white rounded-lg shadow-md">
             <Desserts data={data} price={finalPrice} />
             <QuantitySelector />
           </div>
         );
-
       default:
         return (
           <div className="p-5 bg-white rounded-lg shadow-md">
@@ -108,5 +109,15 @@ export default function DisItems({ data }) {
     }
   };
 
-  return <div className="md:max-w-3xl md:mx-auto md:my-1">{renderContent()}</div>;
+  if (!data || data.length === 0) {
+    return <Shimmer />;
+  } else {
+    return (
+      data && (
+        <div className="md:max-w-3xl md:mx-auto md:my-1">
+          {renderContent()}
+        </div>
+      )
+    );
+  }
 }

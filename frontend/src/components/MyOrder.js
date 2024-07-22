@@ -48,11 +48,10 @@ const Orders = () => {
       <div className="mt-5 md:w-[50%] w-[95%]">
         <h1 className="text-xl font-bold border-b-2 border-gray-200 pb-3">Orders History</h1>
         <div>
-          {orders?.map((item) => { return(
+          {orders?.map((item) => { return (
             <div key={item._id} className="relative mt-3 py-3 border-b-2 border-gray-200">
               <OrderDetail data={item} />
-              <span className="absolute -top-2 right-4 bg-slate-100 p-1 text-[10px] md:text-[15px] border-2 border-black">{item.location}</span>
-
+              <span className="absolute -top-2 right-4 bg-slate-100 p-1 text-[10px] md:text-[15px] border-2 border-gray-300 rounded-lg">{item.location}</span>
             </div>);
           })}
         </div>

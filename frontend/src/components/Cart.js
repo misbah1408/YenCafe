@@ -31,7 +31,8 @@ export default function Cart() {
   const handleCheckout = async () => {
     const orderData = {
       cart,
-      location
+      location,
+      total: grandTotal,
     };
     if (!location || location === "") {
       alert("Please select a location");

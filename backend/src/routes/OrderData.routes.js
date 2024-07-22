@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { checkoutController, orderController } from "../middlewares/order.middleware.js";
+import { checkoutController, orderController } from "../controllers/Order.controller.js";
 import jwtMiddleware from "../middlewares/auth.middleware.js";
 
 const orderData = Router();

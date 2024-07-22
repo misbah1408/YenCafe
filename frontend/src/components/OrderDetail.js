@@ -15,8 +15,6 @@ export default function OrderDetail({ data }) {
 
       if (data.orderData) {
         setOrderData(data.orderData);
-        const total = data.orderData.reduce((acc, item) => acc + item.price, 0);
-        setPrice(total);
       }
     }
   }, [data]);
@@ -27,7 +25,7 @@ export default function OrderDetail({ data }) {
         <span className="text-lg font-bold">{orderedDate}</span>
         <span
           className={`text-md font-semibold ${
-            data.delivered ? "text-green-600" : "text-gray-400"
+            data.delivered ? "text-green-600 border-green-600" : "text-gray-400 border-gray-400"
           } border-2 rounded-lg p-1`}
         >
           {data.delivered ? "Delivered" : "Yet Delivered"}
@@ -37,8 +35,8 @@ export default function OrderDetail({ data }) {
         <OrderedItems key={items.id} data={items} />
       ))}
       <div className="flex justify-end mt-2">
-        <span className="text-lg font-semibold text-gray-500">
-          Total: RS. {price} ₹
+        <span className={`text-lg font-semibold text-gray-500 `}>
+          Total: RS. {data.total} ₹
         </span>
       </div>
     </div>

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import DisItems from "./DisItems";
 import { FETCH_URL } from "../utils/Constants";
+import Shimmer from "./Shimmer";
 
 export default function ItemsDis() {
   const [items, setItems] = useState([]);
@@ -66,7 +67,9 @@ export default function ItemsDis() {
   useEffect(() => {
     getDishes();
   }, [id]);
-
+  if(!items){
+    return <div><Shimmer/></div>
+  }else{
   return (
     <div className="w-[100%] md:w-full flex justify-center mt-20 md:p-4">
       <div className="w-[94%] md:w-[54%] flex flex-col gap-5 shadow-md p-6 rounded-lg">
@@ -87,5 +90,5 @@ export default function ItemsDis() {
         </div>
       </div>
     </div>
-  );
+  );}
 }

@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { FETCH_URL, token } from "../../utils/Constants";
+import { io } from "socket.io-client";
 
 export default function Orders() {
   const [orData, setOrData] = useState([]);
@@ -19,29 +20,26 @@ export default function Orders() {
       }
 
       const data = await response.json();
-      // console.log(data);
       setOrData(data.reverse());
     } catch (error) {
       console.error(error);
     }
   };
+
   const updateDeliveryStatus = async (orderId) => {
     try {
-      const response = await fetch(
-        `${FETCH_URL}/order/delivered/${orderId}`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
+      const response = await fetch(`${FETCH_URL}/order/delivered/${orderId}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
-      );
+      });
 
       if (!response.ok) {
         throw new Error("Failed to update delivery status");
-      }else{
-        getData()
+      } else {
+        getData();
       }
     } catch (error) {
       console.error(error);
@@ -50,6 +48,29 @@ export default function Orders() {
 
   useEffect(() => {
     getData();
+
+    const socket = io("http://localhost:5000/", {
+      extraHeaders: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    socket.on("connect", () => {
+      console.log("Connected to socket server");
+    });
+
+    socket.on("orderUpdate", (orders) => {
+      console.log("Orders updated:", orders);
+      setOrData(orders.reverse());
+    });
+
+    socket.on("disconnect", () => {
+      console.log("Disconnected from socket server");
+    });
+
+    return () => {
+      socket.disconnect();
+    };
   }, []);
 
   return (
@@ -81,10 +102,6 @@ export default function Orders() {
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
             {orData.map((order) => {
-              const grandTotal = order?.orderData?.reduce(
-                (total, item) => total + item.price,
-                0
-              );
               return (
                 <tr key={order._id} className="hover:bg-gray-50">
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 border border-gray-200">
@@ -97,22 +114,18 @@ export default function Orders() {
                     {new Date(order.createdAt).toLocaleString()}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 border border-gray-200">
-                    
-                      {!order.delivered ? (
-                        <button
-                          onClick={() => updateDeliveryStatus(order._id)}
-                          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                        >
-                          Mark as Delivered
-                        </button>
-                      ) : (
-                        <button
-                          className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
-                        >
-                          Delivered
-                        </button>
-                      )}
-                    
+                    {!order.delivered ? (
+                      <button
+                        onClick={() => updateDeliveryStatus(order._id)}
+                        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                      >
+                        Mark as Delivered
+                      </button>
+                    ) : (
+                      <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+                        Delivered
+                      </button>
+                    )}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 border border-gray-200">
                     <div className="overflow-x-auto">
@@ -155,7 +168,7 @@ export default function Orders() {
                     </div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 border border-gray-200">
-                    {grandTotal.toFixed(2)}
+                    {order.total.toFixed(2)}
                   </td>
                 </tr>
               );

@@ -9,6 +9,10 @@
     margin: 0;
   }
 }
+body{
+  scroll-behavior: smooth;
+  scroll-snap-type: y mandatory;
+}
 
 @layer utilities {
   .border-gradient {

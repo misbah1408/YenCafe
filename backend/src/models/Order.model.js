@@ -21,6 +21,16 @@ const orderSchema = new Schema(
     },
     location:{
       type: String,
+      required: true,
+    },
+    status:{
+      type: String,
+      default: "Yet to Deliver",
+      required: true,
+    },
+    total:{
+      type: Number,
+      required: true,
     }
   },
   { timestamps: true }

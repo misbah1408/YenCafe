@@ -3,25 +3,28 @@ import { User } from "../models/User.model.js";
 
 const checkoutController = async (req, res) => {
   try {
-    const userId = req.user?.id; // Extract the user ID from the request object
+    const userId = req.user?.id;
     const user = await User.findOne({ _id: userId }, { name: 1 });
     const userName = user?.name;
-    // console.log(req.user)
-    // Ensure cartItems is present in the request body
+    // console.log("user id",userId)
     const cartItems = req.body;
-    // console.log(cartItems.cart)
     if (!cartItems) {
       return res.status(400).json({ error: "Cart items are required" });
     }
 
-    // Save the order to the database, associating it with the user
     const newOrder = new Order({
       orderData: cartItems.cart,
       userId,
       userName,
-      location : cartItems.location
+      location: cartItems.location,
+      status: "Yet deliver",
+      total: cartItems.total
     });
     const savedOrder = await newOrder.save();
+
+    // Emit the updated list of orders to all clients
+    const orders = await Order.find({});
+    req.io.emit('orderUpdate', orders);
 
     res.status(201).json(savedOrder);
   } catch (error) {
@@ -29,6 +32,7 @@ const checkoutController = async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 };
+
 
 const orderController = async (req, res) => {
   try {
