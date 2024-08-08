@@ -25,7 +25,7 @@ export default function Register() {
         "Content-Type": "application/json",
       },
       body:JSON.stringify({
-        name:credentials.name,
+        name:credentials.name.toLowerCase(),
         email:credentials.email,
         password:credentials.password
       }),
@@ -46,7 +46,7 @@ export default function Register() {
   }
   return (
     <div className="h-dvh w-[100%] bg-gradient-to-r from-[#59c975] to-[#41c5c7]">
-      <div className="absolute h-[32rem] w-[20rem] md:h-[35rem] md:w-[30rem] bg-white top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] rounded-xl">
+      <div className="absolute h-[32rem] w-[20rem] md:h-[38rem] md:w-[30rem] bg-white top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] rounded-xl">
         <div className="flex flex-col align-middle gap-3">
           <div className="flex flex-col items-center mt-6">
             <img className="h-24 md:h-[8rem]" src={logo} alt="" />
@@ -88,11 +88,11 @@ export default function Register() {
                   value={credentials.password}
                   onChange={handleOnChange}
                 />
-                <div className="w-15% h-[40px] md:w-[15%] outline-none pr-5 pt-2 bg-gray-100 rounded-r-md" onClick={()=> setPasVis((pre) => !pre)}>
+                <div className="w-15% h-[40px] md:w-[15%] outline-none  bg-gray-100 rounded-r-md" onClick={()=> setPasVis((pre) => !pre)}>
                 {pasVis ? (
-                  <i class="fa-solid fa-eye-slash text-gray-500"></i>
+                  <i className="fa-solid fa-eye-slash text-gray-500 pr-5 pt-3"></i>
                 ) : (
-                  <i class="fa-solid fa-eye text-gray-500"></i>
+                  <i className="fa-solid fa-eye text-gray-500 pr-[22px] pt-3"></i>
                 )}
                 </div>
               </div>

@@ -7,11 +7,11 @@ export default function Desserts({data, price}) {
       <div className="w-[475px] flex flex-col gap-1">
         {veg === true ? (
           <span className="text-[#9b2948] text-md md:text-2xl font-semibold w-max rounded-xl">
-            <i class="fa-solid fa-cookie-bite"></i> <small>Chocolate</small>
+            <i className="fa-solid fa-cookie-bite"></i> <small>Chocolate</small>
           </span>
         ) : (
           <span className="text-[#368BC1] text-md md:text-2xl font-semibold w-max rounded-xl text-nowrap text-ellipsis">
-            <i class="fa-solid fa-cake-candles"></i> <small>Cake</small>
+            <i className="fa-solid fa-cake-candles"></i> <small>Cake</small>
           </span>
         )}
         <span className="md:text-xl text-md text-gray-700 font-bold text-nowrap">{title} </span>

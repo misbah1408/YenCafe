@@ -22,7 +22,7 @@ export const registerUser = [
     }
 
     const { name, email, password } = req.body;
-
+    console.log(name)
     try {
       const salt = await bcrypt.genSalt(10);
       const hashedPassword = await bcrypt.hash(password, salt);

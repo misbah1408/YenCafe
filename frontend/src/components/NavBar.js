@@ -50,7 +50,7 @@ export default function NavBar() {
           className="rounded-md outline-none bg-white"
           onChange={handleChange}
         >
-          <option value="" selected>Select Location</option>
+          <option value="">Select Location</option>
           <option value="4th Floor Balmatta">4th Floor Balmatta</option>
           <option value="6th Floor Balmatta">6th Floor Balmatta</option>
         </select>
@@ -136,7 +136,7 @@ export default function NavBar() {
       </div>
       <div className="md:hidden flex items-center">
         <button onClick={toggleMenu} className="text-gray-700 focus:outline-none">
-          {!isMenuOpen ? <i className="fa-solid fa-bars text-2xl"></i> : <i class="fa-solid fa-xmark text-[28px]"></i>}
+          {!isMenuOpen ? <i className="fa-solid fa-bars text-2xl"></i> : <i className="fa-solid fa-xmark text-[28px]"></i>}
         </button>
       </div>
       {isMenuOpen && (

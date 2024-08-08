@@ -48,7 +48,7 @@ export default function Cart() {
           body: JSON.stringify(orderData),
         });
         if (response.ok) {
-          console.log("Checkout successful");
+          // console.log("Checkout successful");
           dispatch({ type: "CLEAR" });
           // Handle success
         } else {
@@ -89,7 +89,7 @@ export default function Cart() {
         </h1>
         <div className="mt-5">
           {cartItem?.map((item) => (
-            <div key={item._id}>
+            <div key={item.id}>
               <CartItems data={item} />
             </div>
           ))}

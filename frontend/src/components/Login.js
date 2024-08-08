@@ -80,11 +80,11 @@ export default function Login() {
                   value={credentials.password}
                   onChange={handleOnChange}
                 />
-                <div className="w-15% h-[40px] md:w-[15%] outline-none pr-5 pt-2 bg-gray-100 rounded-r-md" onClick={()=> setPasVis((pre) => !pre)}>
+                <div className="w-15% h-[40px] md:w-[15%] outline-none  bg-gray-100 rounded-r-md" onClick={()=> setPasVis((pre) => !pre)}>
                 {pasVis ? (
-                  <i class="fa-solid fa-eye-slash text-gray-500"></i>
+                  <i className="fa-solid fa-eye-slash text-gray-500 pr-5 pt-3"></i>
                 ) : (
-                  <i class="fa-solid fa-eye text-gray-500"></i>
+                  <i className="fa-solid fa-eye text-gray-500 pr-[22px] pt-3"></i>
                 )}
                 </div>
               </div>

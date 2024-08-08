@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { FETCH_URL, token } from "../../utils/Constants";
-import { io } from "socket.io-client";
+import socketIo, { createSocketInstance } from "../../utils/socket";
 
 export default function Orders() {
   const [orData, setOrData] = useState([]);
@@ -48,17 +48,7 @@ export default function Orders() {
 
   useEffect(() => {
     getData();
-
-    const socket = io("http://localhost:5000/", {
-      extraHeaders: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-
-    socket.on("connect", () => {
-      console.log("Connected to socket server");
-    });
-
+    const socket = createSocketInstance();
     socket.on("orderUpdate", (orders) => {
       console.log("Orders updated:", orders);
       setOrData(orders.reverse());
@@ -72,7 +62,7 @@ export default function Orders() {
       socket.disconnect();
     };
   }, []);
-
+  if(orData.length <= 0) return null;
   return (
     <div className="container mx-auto py-6 ml-[250px] p-4">
       <h2 className="text-3xl font-semibold text-gray-800 mb-6">Orders</h2>

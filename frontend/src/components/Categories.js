@@ -59,7 +59,7 @@ export default function Categories() {
             </div>
           </div>
         </Link>
-        <Link to={`/menu/bevrage`}>
+        <Link to={`/menu/beverage`}>
           <div className="h-[190px] w-[150px] md:h-[200px] md:w-[170px] text-[14px] md:text-12 shadow-equal rounded-2xl flex items-center justify-center cursor-pointer hover:translate-y-2 transition-all">
             <div className="flex flex-col items-center">
               <div className="h-20 w-20 md:h-24 md:w-24 bg-blue-300 -mt-3 flex items-center justify-center rounded-full shadow-equal">

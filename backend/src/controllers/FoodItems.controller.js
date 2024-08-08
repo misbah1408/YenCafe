@@ -48,6 +48,7 @@ export const createFoodItem = async (req, res) => {
 export const getAllFoodItems = async (req, res) => {
   try {
     const foodItems = await MainDishe.find();
+    req.io.emit('updateData', foodItems);
     res.status(200).json(foodItems);
   } catch (error) {
     res.status(500).json({ message: error.message });

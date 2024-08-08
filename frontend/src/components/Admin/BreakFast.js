@@ -25,7 +25,7 @@ export default function BreakFast() {
     });
     const data = await response.json();
     const filteredData = data?.filter((item) => item.category === "Break fast");
-    console.log(filteredData)
+    // console.log(filteredData)
     setData(filteredData);
   };
 
