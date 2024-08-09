@@ -92,7 +92,7 @@ export default function Users() {
           <thead className="bg-gray-50">
             <tr>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                User Name
+                Campus Id
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                 Email
@@ -109,7 +109,7 @@ export default function Users() {
             {users.map((user) => (
               <tr key={user._id}>
                 <td className="px-6 py-4 whitespace-nowrap">
-                  <div className="text-sm font-medium text-gray-900">{user.name}</div>
+                  <div className="text-sm font-medium text-gray-900">{user.campusId || user.name}</div>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
                   <div className="text-sm text-gray-900">{user.email}</div>
@@ -125,7 +125,7 @@ export default function Users() {
                 <td className="px-6 py-4 whitespace-nowrap">
                   <button
                     className="text-red-600 hover:text-red-900"
-                    onClick={() => deleteUser(user._id)}
+                    onDoubleClick={() => deleteUser(user._id)}
                   >
                     Delete
                   </button>

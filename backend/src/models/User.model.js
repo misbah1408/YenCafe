@@ -2,8 +2,8 @@ import mongoose, { Schema } from "mongoose";
 
 const userSchema = new Schema(
   {
-    name: {
-      type: String,
+    campusId: {
+      type: Number,
       required: true,
       unique:true
     },

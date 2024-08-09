@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 
 export default function EditUserForm({ user, onClose, onSave }) {
-  const [name, setName] = useState(user.name);
+  const [campusId, setCampusId] = useState(user.campusId);
   const [email, setEmail] = useState(user.email);
 
   const handleSave = () => {
-    onSave({ ...user, name, email });
+    onSave({ ...user, campusId, email });
+    // console.log(id)
     onClose();
   };
 
@@ -15,13 +16,16 @@ export default function EditUserForm({ user, onClose, onSave }) {
         <h2 className="text-xl font-semibold mb-4">Edit User</h2>
         <div className="mb-4">
           <label className="block text-sm font-medium text-gray-700">
-            User Name
+           Campus Id
           </label>
           <input
-            type="text"
+            type="number"
             className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
+            value={campusId}
+            onChange={(e) => {
+              setCampusId(e.target.value)
+              // console.log(e.target.value)
+            }}
           />
         </div>
         <div className="mb-4">

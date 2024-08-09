@@ -6,9 +6,9 @@ import jwt from "jsonwebtoken";
 export const registerUser = [
   // Validation middleware
   body("email", "Enter a valid email").isEmail(),
-  body("name", "Username must be between 5 and 10 characters").isLength({
+  body("campusId", "campusId must be between 5 digits").isLength({
     min: 5,
-    max: 10,
+    max: 5,
   }),
   body("password", "Password must be at least 5 characters long").isLength({
     min: 5,
@@ -21,26 +21,26 @@ export const registerUser = [
       return res.status(400).json({ errors: errors.array() });
     }
 
-    const { name, email, password } = req.body;
-    console.log(name)
+    const { campusId, email, password } = req.body;
+    console.log(campusId)
     try {
       const salt = await bcrypt.genSalt(10);
       const hashedPassword = await bcrypt.hash(password, salt);
       const userEmail = await User.findOne({
         $or: [{ email: email }],
       });
-      const userName = await User.findOne({
-        $or: [{ name: name }],
+      const id = await User.findOne({
+        $or: [{ campusId }],
       });
       if (userEmail) {
         return res.status(400).json({ message: "Existed Email" });
       }
-      if (userName) {
-        return res.status(400).json({ message: "User Name already used" });
+      if (id) {
+        return res.status(400).json({ message: "Campus Id already used" });
       }
 
       await User.create({
-        name,
+        campusId,
         password: hashedPassword,
         email,
       });
