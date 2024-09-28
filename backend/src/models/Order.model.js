@@ -7,8 +7,8 @@ const orderSchema = new Schema(
       ref: 'User',
       required: true,
     },
-    userName:{
-      type: String,
+    campusId:{
+      type: Number,
       required: true,
     },
     orderData: {

@@ -4,9 +4,9 @@ import { User } from "../models/User.model.js";
 const checkoutController = async (req, res) => {
   try {
     const userId = req.user?.id;
-    const user = await User.findOne({ _id: userId }, { name: 1 });
-    const userName = user?.name;
-    // console.log("user id",userId)
+    const user = await User.findOne({ _id: userId });
+    const campusId = user?.campusId;
+    console.log("user id",user)
     const cartItems = req.body;
     if (!cartItems) {
       return res.status(400).json({ error: "Cart items are required" });
@@ -15,7 +15,7 @@ const checkoutController = async (req, res) => {
     const newOrder = new Order({
       orderData: cartItems.cart,
       userId,
-      userName,
+      campusId,
       location: cartItems.location,
       status: "Yet deliver",
       total: cartItems.total

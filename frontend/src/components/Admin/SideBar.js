@@ -19,8 +19,8 @@ export default function SideBar() {
           <img className="h-12" src={logo} alt="Logo" />
           <span
             className={`text-lg font-semibold text-blue-600 transition-opacity duration-300 ${
-              toggle ? "hidden" : ""
-            }`}
+              toggle ? "hidden" : "" 
+            } text-nowrap`}
           >
             Dashboard
           </span>
@@ -36,7 +36,7 @@ export default function SideBar() {
           >
             <li className={`${"px-5 py-2"} rounded-lg flex items-center gap-3`}>
               <i className="fa-solid fa-house"></i>
-              <span className={`${toggle ? "hidden" : ""}`}>Home</span>
+              <span className={`${toggle ? "hidden" : ""} text-nowrap`}>Home</span>
             </li>
           </NavLink>
           <NavLink
@@ -49,7 +49,7 @@ export default function SideBar() {
           >
             <li className="px-5 py-2 rounded-lg flex items-center gap-3">
               <i className="fa-solid fa-users"></i>
-              <span className={`${toggle ? "hidden" : ""}`}>Users</span>
+              <span className={`${toggle ? "hidden" : ""} text-nowrap`}>Users</span>
             </li>
           </NavLink>
           <NavLink
@@ -62,7 +62,7 @@ export default function SideBar() {
           >
             <li className="px-5 py-2 rounded-lg flex items-center gap-3">
               <i className="fa-solid fa-cart-shopping"></i>
-              <span className={`${toggle ? "hidden" : ""}`}>Orders</span>
+              <span className={`${toggle ? "hidden" : ""} text-nowrap`}>Orders</span>
             </li>
           </NavLink>
           <NavLink
@@ -75,7 +75,7 @@ export default function SideBar() {
           >
             <li className="px-5 py-2 rounded-lg flex items-center gap-3">
               <i className="fa-solid fa-plus"></i>
-              <span className={`${toggle ? "hidden" : ""}`}>Create Item</span>
+              <span className={`${toggle ? "hidden" : ""} text-nowrap`}>Create Item</span>
             </li>
           </NavLink>
           <NavLink
@@ -88,7 +88,7 @@ export default function SideBar() {
           >
             <li className="px-5 py-2 rounded-lg flex items-center gap-3">
               <i className="fa-solid fa-utensils"></i>
-              <span className={`${toggle ? "hidden" : ""}`}>Main Dishes</span>
+              <span className={`${toggle ? "hidden" : ""} text-nowrap`}>Main Dishes</span>
             </li>
           </NavLink>
           <NavLink
@@ -101,7 +101,7 @@ export default function SideBar() {
           >
             <li className="px-5 py-2 rounded-lg flex items-center gap-3">
               <i className="fa-solid fa-bowl-rice"></i>
-              <span className={`${toggle ? "hidden" : ""}`}>Break Fast</span>
+              <span className={`${toggle ? "hidden" : ""} text-nowrap`}>Break Fast</span>
             </li>
           </NavLink>
           <NavLink
@@ -114,7 +114,7 @@ export default function SideBar() {
           >
             <li className="px-5 py-2 rounded-lg flex items-center gap-3">
               <i className="fa-solid fa-cake-candles"></i>
-              <span className={`${toggle ? "hidden" : ""}`}>Desserts</span>
+              <span className={`${toggle ? "hidden" : ""} text-nowrap`}>Desserts</span>
             </li>
           </NavLink>
           <NavLink
@@ -127,7 +127,7 @@ export default function SideBar() {
           >
             <li className="px-5 py-2 rounded-lg flex items-center gap-3">
               <i className="fa-solid fa-champagne-glasses"></i>
-              <span className={`${toggle ? "hidden" : ""}`}>Beverages</span>
+              <span className={`${toggle ? "hidden" : ""} text-nowrap`}>Beverages</span>
             </li>
           </NavLink>
         </ul>

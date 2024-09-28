@@ -5,7 +5,8 @@ const userSchema = new Schema(
     campusId: {
       type: Number,
       required: true,
-      unique:true
+      unique:true,
+      index:true
     },
     email: {
       type: String,

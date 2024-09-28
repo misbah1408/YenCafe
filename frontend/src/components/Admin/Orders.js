@@ -71,7 +71,7 @@ export default function Orders() {
           <thead className="bg-gray-100">
             <tr>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider border border-gray-200">
-                User Name
+                Campus Id
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider border border-gray-200">
                 Floor
@@ -95,7 +95,7 @@ export default function Orders() {
               return (
                 <tr key={order._id} className="hover:bg-gray-50">
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 border border-gray-200">
-                    {order.userName}
+                    {order.campusId}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 border border-gray-200">
                     {order.location}

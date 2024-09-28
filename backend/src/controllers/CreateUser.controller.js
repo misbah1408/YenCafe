@@ -26,12 +26,8 @@ export const registerUser = [
     try {
       const salt = await bcrypt.genSalt(10);
       const hashedPassword = await bcrypt.hash(password, salt);
-      const userEmail = await User.findOne({
-        $or: [{ email: email }],
-      });
-      const id = await User.findOne({
-        $or: [{ campusId }],
-      });
+      const userEmail = await User.findOne({email});
+      const id = await User.findOne({ campusId });
       if (userEmail) {
         return res.status(400).json({ message: "Existed Email" });
       }
@@ -39,11 +35,12 @@ export const registerUser = [
         return res.status(400).json({ message: "Campus Id already used" });
       }
 
-      await User.create({
+      const user = await User.create({
         campusId,
         password: hashedPassword,
         email,
       });
+      console.log(user)
 
       res.status(200).json({ message: "success" });
     } catch (err) {
