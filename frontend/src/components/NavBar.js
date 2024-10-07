@@ -2,16 +2,18 @@ import React, { useEffect, useState } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import logo from "../images/logo.png";
 import { isAdmin } from "../utils/Constants";
-import { useCart } from "./store/ContextReducer";
-import { useLocation } from "./store/LocationContext";
+import { useDispatch, useSelector } from "react-redux";
+import { setLocation } from "./store/locationSlice";
+import { removeUser } from "./store/userSlice";
 
 export default function NavBar() {
   const [cartValue, setCartValue] = useState(0);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const navigate = useNavigate();
-  const cart = useCart();
-  const { setLocation } = useLocation(); // Get setLocation from context
-  // console.log(token)
+  const cart = useSelector((state) => state.cart)
+  const location = useSelector((state) => state.location); // Access location state from Redux
+  const dispatch = useDispatch();
+
   useEffect(() => {
     setCartValue(cart.length);
   }, [cart]);
@@ -21,6 +23,7 @@ export default function NavBar() {
   };
 
   const handleLogout = () => {
+    dispatch(removeUser())
     localStorage.removeItem("authToken");
     localStorage.removeItem("isAdmin");
     navigate("/login");
@@ -28,7 +31,7 @@ export default function NavBar() {
 
   const handleChange = (event) => {
     const selectedLocation = event.target.value;
-    setLocation(selectedLocation); // Update location in context
+    dispatch(setLocation(selectedLocation)); // Dispatch the location change
   };
 
   const toggleMenu = () => {
@@ -43,11 +46,12 @@ export default function NavBar() {
           <span className="hidden md:flex text-xl font-bold text-gray-800">YenCafe</span>
         </div>
       </Link>
-      <div className=" md:flex items-center gap-1">
+      <div className="md:flex items-center gap-1">
         <select
           name="location"
           id="location"
           className="rounded-md outline-none bg-white"
+          value={location}
           onChange={handleChange}
         >
           <option value="">Select Location</option>
@@ -67,16 +71,6 @@ export default function NavBar() {
             Home
           </span>
         </NavLink>
-        {/* <NavLink
-          to="/menu"
-          className={({ isActive }) =>
-            isActive ? " text-blue-600 font-semibold" : ""
-          }
-        >
-          <span className="text-lg hover:bg-blue-100 px-3 py-2 rounded-xl">
-            Menu
-          </span>
-        </NavLink> */}
         <NavLink
           to="/myorder"
           className={({ isActive }) =>
@@ -149,13 +143,6 @@ export default function NavBar() {
             >
               Home
             </NavLink>
-            {/* <NavLink
-              to="/menu"
-              className="text-lg text-gray-700 w-full py-2"
-              onClick={toggleMenu}
-            >
-              Menu
-            </NavLink> */}
             <NavLink
               to="/myorder"
               className="text-lg text-gray-700 w-full py-2"
@@ -179,6 +166,7 @@ export default function NavBar() {
                   className="w-full text-gray-700"
                   onClick={toggleMenu}
                 >
+                  Cart
                 </NavLink>
                 <button
                   className="bg-blue-600 text-white px-5 py-2 rounded-lg w-full"

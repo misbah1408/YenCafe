@@ -1,16 +1,18 @@
 import React, { useState, useEffect } from "react";
 import Shimmer from "./Shimmer";
 import MainDishes from "./MainDishes";
-import { useDispatchCart, useCart } from "./store/ContextReducer";
 import BreakFast from "./BreakFast";
 import Beverage from "./Beverage";
 import Desserts from "./Desserts";
+import { useDispatch, useSelector } from "react-redux";
+import { addItem, removeItem } from "./store/cartSlice";
 
 export default function DisItems({ data }) {
   const [add, setAdd] = useState("Add");
   const [qua, setQua] = useState(1);
-  const dispatch = useDispatchCart();
-  const cart = useCart();
+  // const dispatch = useDispatchCart();
+  const cart = useSelector((state) => state.cart);
+  const dispatch = useDispatch();
 
   const { category, img, price, title, veg, in_stock, _id } = data;
 
@@ -21,20 +23,25 @@ export default function DisItems({ data }) {
 
   const handleClick = async () => {
     if (!in_stock) return;
-    setAdd((prevAdd) => (prevAdd === "Add" ? "Remove" : "Add"));
-    if (add === "Add") {
-      await dispatch({
-        type: "ADD",
-        id: _id,
-        img,
-        price: finalPrice,
-        title,
-        veg,
-        quantity: qua,
-      });
-    } else {
-      await dispatch({ type: "REMOVE", id: _id });
-    }
+
+    setAdd((prevAdd) => {
+      const isAdding = prevAdd === "Add";
+      if (isAdding) {
+        dispatch(
+          addItem({
+            id: _id,
+            img,
+            price: finalPrice,
+            title,
+            veg,
+            quantity: qua,
+          })
+        );
+      } else {
+        dispatch(removeItem({ id: _id }));
+      }
+      return isAdding ? "Remove" : "Add";
+    });
   };
 
   const finalPrice = qua * price;
@@ -110,13 +117,21 @@ export default function DisItems({ data }) {
   };
 
   if (!data || data.length === 0) {
-    return <Shimmer />;
+    return (
+      <>
+        <div className="md:max-w-3xl md:mx-auto md:my-1 flex flex-col items-center justify-center">
+          <Shimmer />
+          <Shimmer />
+          <Shimmer />
+          <Shimmer />
+          <Shimmer />
+        </div>
+      </>
+    );
   } else {
     return (
       data && (
-        <div className="md:max-w-3xl md:mx-auto md:my-1">
-          {renderContent()}
-        </div>
+        <div className="md:max-w-3xl md:mx-auto md:my-1">{renderContent()}</div>
       )
     );
   }

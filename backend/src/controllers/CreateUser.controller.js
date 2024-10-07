@@ -63,7 +63,7 @@ export const loginUser = [
     const { email, password } = req.body;
 
     try {
-      const userData = await User.findOne({ email });
+      const userData = await User.findOne({ email },);
       if (!userData) {
         return res.status(400).json({ message: "Email does not exist" });
       }
@@ -82,8 +82,12 @@ export const loginUser = [
           id: userData.id,
         },
       };
+      const loggedInUser = await User.findById(userData._id).select(
+        "-password -refreshToken"
+      );
       const authToken = jwt.sign(data, process.env.JWT_SECRET);
-      res.json({ message: "success", authToken, isAdmin });
+      res.json({ message: "success", authToken, isAdmin,  user: loggedInUser });
+
     } catch (err) {
       res.status(500).json({ message: "Server error", error: err.message });
     }

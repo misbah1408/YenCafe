@@ -9,7 +9,6 @@ import Home from "../src/components/Home";
 import Cart from "../src/components/Cart";
 import ItemsDis from "../src/components/ItemsDis";
 import MyOrder from "./components/MyOrder";
-import { CartProvider } from "./components/store/ContextReducer";
 import Admin from "./components/Admin/Admin";
 import { isAdmin } from "./utils/Constants";
 import Orders from "./components/Admin/Orders";
@@ -23,7 +22,6 @@ import ForgotPassword from "./components/ForgotPassword";
 
 function App() {
   return (
-    <CartProvider>
       <Router>
         <Routes>
           <Route path="/" element={<Body />}>
@@ -50,7 +48,6 @@ function App() {
           </Route>
         </Routes>
       </Router>
-    </CartProvider>
   );
 }
 

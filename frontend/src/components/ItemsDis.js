@@ -24,19 +24,27 @@ export default function ItemsDis() {
       let newTitle = "";
       switch (id) {
         case "maindish":
-          filteredData = itemsWithCount.filter((item) => item.category === "Main Course");
+          filteredData = itemsWithCount.filter(
+            (item) => item.category === "Main Course"
+          );
           newTitle = "Main Dishes";
           break;
         case "breakfast":
-          filteredData = itemsWithCount.filter((item) => item.category === "Break fast");
+          filteredData = itemsWithCount.filter(
+            (item) => item.category === "Break fast"
+          );
           newTitle = "Breakfast";
           break;
         case "desserts":
-          filteredData = itemsWithCount.filter((item) => item.category === "Desserts");
+          filteredData = itemsWithCount.filter(
+            (item) => item.category === "Desserts"
+          );
           newTitle = "Desserts & Chocolates";
           break;
         case "beverage":
-          filteredData = itemsWithCount.filter((item) => item.category === "Beverage");
+          filteredData = itemsWithCount.filter(
+            (item) => item.category === "Beverage"
+          );
           newTitle = "Beverages";
           break;
         default:
@@ -59,7 +67,7 @@ export default function ItemsDis() {
 
   useEffect(() => {
     getDishes();
-    
+
     const socket = createSocketInstance();
     socket.on("connect", () => {
       console.log("Connected to socket server");
@@ -67,9 +75,11 @@ export default function ItemsDis() {
 
     socket.on("updateData", (updatedData) => {
       console.log("Updated data:", updatedData);
-      setItems(prevItems => 
-        prevItems.map(item => 
-          updatedData.find(updatedItem => updatedItem._id === item._id) || item
+      setItems((prevItems) =>
+        prevItems.map(
+          (item) =>
+            updatedData.find((updatedItem) => updatedItem._id === item._id) ||
+            item
         )
       );
     });
@@ -84,13 +94,26 @@ export default function ItemsDis() {
   }, [id]);
 
   if (loading) {
-    return <Shimmer />;
+    return (
+      <>
+        <div className="w-[100%] md:w-full flex justify-center mt-20 md:p-4 flex-col items-center gap-4">
+          <Shimmer />
+          <Shimmer />
+          <Shimmer />
+          <Shimmer />
+          <Shimmer />
+        </div>
+      </>
+    );
   }
 
   return (
     <div className="w-[100%] md:w-full flex justify-center mt-20 md:p-4">
       <div className="w-[94%] md:w-[54%] flex flex-col gap-5 shadow-md p-6 rounded-lg">
-        <div className="md:full flex items-center justify-between" onClick={handleOnClick}>
+        <div
+          className="md:full flex items-center justify-between"
+          onClick={handleOnClick}
+        >
           <span className="text-2xl font-bold">{title}</span>
           <i className={`fa-solid fa-chevron-${chevron} font-bold `}></i>
         </div>

@@ -1,12 +1,13 @@
 import React from "react";
-import { useDispatchCart } from "./store/ContextReducer";
+import { removeItem } from "./store/cartSlice";
+import { useDispatch } from "react-redux";
 
 export default function CartItems({ data }) {
-  const dispatch = useDispatchCart();
+  const dispatch = useDispatch();
   const { img, title, price, quantity, veg } = data || {};
 
   const handleClick = async () => {
-    await dispatch({ type: "REMOVE", id: data.id });
+    await dispatch(removeItem({id: data.id} ));
     // console.log("Updated cart:", cart);
   };
   return (

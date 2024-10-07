@@ -24,6 +24,7 @@ This project is a MERN stack application designed to facilitate food ordering fo
 - **JWT (JSON Web Tokens)**: For user authentication and authorization.
 - **Multer**: Middleware for handling multipart/form-data, used for file uploads.
 - **Cloudinary**: Cloud service for managing and delivering media assets (images, videos).
+- **Redux Toolkit**: Redux library for state management.
 
 ## Dependencies for Backend
 - **bcryptjs**
@@ -45,6 +46,8 @@ This project is a MERN stack application designed to facilitate food ordering fo
 - **react-router-dom**
 - **react-scripts**
 - **tailwindcss**
+- **react-redux**
+- **redux-toolkit**
 
 ## Setup Instructions
 1. Clone the repository: ("https://github.com/misbah1408/YenCafe.git")

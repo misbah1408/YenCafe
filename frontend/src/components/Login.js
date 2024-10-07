@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import logo from "../images/logo.png";
 import { Link, useNavigate } from "react-router-dom";
 import { FETCH_URL } from "../utils/Constants";
+import { useDispatch, useSelector } from "react-redux";
+import { addUser } from "./store/userSlice";
 
 export default function Login() {
   const [credentials, setCredentials] = useState({
@@ -14,6 +16,9 @@ export default function Login() {
   const handelRegister = () => {
     Navigate("/register");
   };
+  const user = useSelector((state) => state.user)
+  const dispatch = useDispatch();
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -33,6 +38,7 @@ export default function Login() {
       setError(json.message);
     }
     if (json.message === "success") {
+      dispatch(addUser(json.user))
       localStorage.setItem("authToken", json?.authToken);
       localStorage.setItem("isAdmin", json?.isAdmin?.isAdmin);
       Navigate("/");
