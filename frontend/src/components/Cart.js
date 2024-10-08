@@ -5,6 +5,8 @@ import CartItems from "./CartItems";
 import { FETCH_URL, token } from "../utils/Constants";
 import { useDispatch, useSelector } from "react-redux";
 import { clearCart } from "./store/cartSlice";
+import { ToastContainer, toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function Cart() {
   const [cartItem, setCartItem] = useState([]);
@@ -17,8 +19,9 @@ export default function Cart() {
   const calculateGrandTotal = () => {
     let total = 0;
     cart.forEach((item) => {
-      total += item.price * item.quantity;
+      total += item.price;
     });
+    // console.log(total)
     setGrandTotal(total);
   };
 
@@ -29,9 +32,17 @@ export default function Cart() {
 
   const handleCheckout = async () => {
     if (!location || location === "") {
-      console.log(location)
-      alert("Please select a location");
-      return;
+      console.log(location);
+      toast.error("Please select a location", {
+        position: "top-center",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        draggable: true,
+        pauseOnHover: true,
+        theme: "light",
+      });
+      return; // Exit the function after showing the toast
     }
 
     const orderData = {
@@ -52,22 +63,17 @@ export default function Cart() {
         });
 
         if (response.ok) {
-          // Clear the cart after successful checkout
           dispatch(clearCart());
-          // Optionally, redirect or show success message
           console.log("Checkout successful");
         } else {
           console.error("Checkout failed");
-          // Handle failure response
         }
       } catch (error) {
         console.error("Error during checkout:", error);
-        // Handle fetch error
       }
     }
   };
 
-  // If cart is empty, show an empty cart image and message
   if (cart.length <= 0)
     return (
       <div className="relative top-8 flex flex-col justify-center p-10  m-auto items-center">
@@ -89,7 +95,12 @@ export default function Cart() {
           <h1 className="text-xl font-bold border-b-2 w-full  pb-3">
             CART & CHECKOUT
           </h1>
-          {/* <span className=" text-xl font-bold border-b-2  pb-3 text-nowrap hover:text-red-600" onClick={dispatch(clearCart())}>Clear  <i className="fa-regular fa-circle-xmark text-red-600"></i></span> */}
+          <span
+            className=" text-xl font-bold border-b-2  pb-3 text-nowrap hover:text-red-600"
+            onClick={() => dispatch(clearCart())}
+          >
+            Clear <i className="fa-regular fa-circle-xmark text-red-600"></i>
+          </span>
         </div>
         <div className="mt-5">
           {cartItem?.map((item) => (
@@ -116,6 +127,7 @@ export default function Cart() {
         >
           Checkout
         </button>
+        <ToastContainer />
       </div>
     </div>
   );

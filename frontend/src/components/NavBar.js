@@ -13,6 +13,7 @@ export default function NavBar() {
   const cart = useSelector((state) => state.cart)
   const location = useSelector((state) => state.location); // Access location state from Redux
   const dispatch = useDispatch();
+  const user = useSelector((state) => state.user);
 
   useEffect(() => {
     setCartValue(cart.length);
@@ -95,7 +96,7 @@ export default function NavBar() {
         )}
       </div>
       <div className="md:flex items-center gap-10">
-        {localStorage.getItem("authToken") ? (
+        {user ? (
           <>
             <NavLink
               to="/cart"
@@ -150,7 +151,7 @@ export default function NavBar() {
             >
               Your Order
             </NavLink>
-            {isAdmin === "true" && (
+            {user.isAdmin && (
               <NavLink
                 to="/admin"
                 className="text-lg text-gray-700 w-full py-2"

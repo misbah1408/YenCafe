@@ -30,6 +30,7 @@ export default function DisItems({ data }) {
         dispatch(
           addItem({
             id: _id,
+            category,
             img,
             price: finalPrice,
             title,
