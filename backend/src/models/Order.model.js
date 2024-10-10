@@ -31,19 +31,6 @@ const orderSchema = new Schema(
     total:{
       type: Number,
       required: true,
-    },
-    paymentMethod:{
-      type: String,
-      required: true,
-    },
-    razorpayOrderId:{
-      type: String,
-    },
-    razorpayPaymentId:{
-      type: String,
-    },
-    paymentStatus:{
-      type: String,
     }
   },
   { timestamps: true }

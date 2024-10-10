@@ -10,6 +10,7 @@ import Cart from "../src/components/Cart";
 import ItemsDis from "../src/components/ItemsDis";
 import MyOrder from "./components/MyOrder";
 import Admin from "./components/Admin/Admin";
+import { isAdmin } from "./utils/Constants";
 import Orders from "./components/Admin/Orders";
 import MainDish from "./components/Admin/MainDish";
 import Beverage from "./components/Admin/Beverage";
@@ -18,10 +19,8 @@ import Desserts from "./components/Admin/Desserts";
 import Users from "./components/Admin/Users";
 import CreateItem from "./components/Admin/CreateItem";
 import ForgotPassword from "./components/ForgotPassword";
-import { useSelector } from "react-redux";
 
 function App() {
-  const {isAdmin} = useSelector((state) => state.user);
   return (
       <Router>
         <Routes>
@@ -37,7 +36,7 @@ function App() {
           <Route path="/forgotpassword" element={<ForgotPassword/>} />
           <Route
             path="/admin"
-            element={ isAdmin ? <Admin /> : <Navigate to="/" />}
+            element={isAdmin==="true" ? <Admin /> : <Navigate to="/" />}
           >
             <Route path="users" index element={<Users />} />
             <Route path="orders" element={<Orders />} />
