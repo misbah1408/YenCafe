@@ -5,7 +5,7 @@ import { useDispatch } from "react-redux";
 export default function CartItems({ data }) {
   const dispatch = useDispatch();
   const { img, title, price, quantity, veg, category } = data || {};
-  console.log(category);
+  // console.log(category);
   
   const handleClick = () => {
     dispatch(removeItem({ id: data.id }));
