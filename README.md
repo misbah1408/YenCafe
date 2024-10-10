@@ -1,7 +1,3 @@
-Here's a more polished version of your project documentation, emphasizing readability and structure:
-
----
-
 # 🍽️ **YenCafe - Food Ordering Dine-In Website for College** 
 
 ## 🌟 **Overview**
