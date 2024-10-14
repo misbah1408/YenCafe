@@ -6,7 +6,7 @@ const orderData = Router();
 
 
 orderData.route("/checkout").post( jwtMiddleware, checkoutController )
-orderData.route("/checkout").post( jwtMiddleware, verifyPaymentController )
+orderData.route("/verify-payment").post( jwtMiddleware, verifyPaymentController )
 orderData.route("/orders").get( jwtMiddleware, orderController )
 
 

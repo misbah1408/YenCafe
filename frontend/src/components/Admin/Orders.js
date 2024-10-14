@@ -50,7 +50,7 @@ export default function Orders() {
     getData();
     const socket = createSocketInstance();
     socket.on("orderUpdate", (orders) => {
-      console.log("Orders updated:", orders);
+      // console.log("Orders updated:", orders);
       setOrData(orders.reverse());
     });
 

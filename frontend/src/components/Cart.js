@@ -6,7 +6,7 @@ import { FETCH_URL, token } from "../utils/Constants";
 import { useDispatch, useSelector } from "react-redux";
 import { clearCart } from "./store/cartSlice";
 import { ToastContainer, toast } from "react-toastify";
-import 'react-toastify/dist/ReactToastify.css';
+import "react-toastify/dist/ReactToastify.css";
 import logo from "../images/logo.png";
 
 export default function Cart() {
@@ -18,17 +18,20 @@ export default function Cart() {
   const dispatch = useDispatch();
   const location = useSelector((state) => state.location);
 
+  // console.log(cart)
   const calculateGrandTotal = () => {
     let total = 0;
     cart.forEach((item) => {
-      total += item.price;
+      total += item.price * item.quantity;
     });
     setGrandTotal(total);
   };
+  useEffect(() => {
+    calculateGrandTotal(); // This will update the grand total based on cart items
+  }, [cart]);
 
   useEffect(() => {
     setCartItem(cart);
-    calculateGrandTotal();
   }, [cart]);
 
   const handleCheckout = async () => {
@@ -41,7 +44,6 @@ export default function Cart() {
       toast.error("Please select a payment method", { position: "top-center" });
       return;
     }
-
     const orderData = {
       cart,
       location,
@@ -60,7 +62,7 @@ export default function Cart() {
       });
 
       const responseData = await response.json();
-      console.log(responseData);
+      // console.log(responseData);
 
       if (response.ok) {
         if (paymentMethod === "UPI") {
@@ -74,7 +76,7 @@ export default function Cart() {
             order_id: responseData.razorpay_order_id,
             handler: async function (response) {
               try {
-                console.log(response);
+                // console.log(response);
                 const verifyResponse = await fetch(
                   `${FETCH_URL}/verify-payment`,
                   {
@@ -92,10 +94,10 @@ export default function Cart() {
                 );
 
                 const verifyData = await verifyResponse.json();
-                console.log(verifyData);
+                // console.log(verifyData);
 
                 if (verifyData.success) {
-                  await toast.success("Payment successful", {
+                  toast.success("Payment successful", {
                     position: "top-right",
                   });
                   setTimeout(() => {
@@ -172,20 +174,22 @@ export default function Cart() {
 
   if (cart.length <= 0)
     return (
-      <div className="relative top-8 flex flex-col justify-center p-10  m-auto items-center">
-        <div className="flex flex-col w-[38%]">
-          <img src={EmptyCartPng} alt="empty cart" />
-          <Link to="/">
-            <button className="bg-blue-600 w-full text-white p-5 rounded-lg font-semibold">
-              Go to Home Page
-            </button>
-          </Link>
+      <>
+        <div className="relative top-8 flex flex-col justify-center p-10  m-auto items-center">
+          <div className="flex flex-col w-[38%]">
+            <img src={EmptyCartPng} alt="empty cart" />
+            <Link to="/">
+              {EmptyCartPng && <button className="bg-blue-600 w-full text-white p-5 rounded-lg font-semibold">
+                Go to Home Page
+              </button>}
+            </Link>
+          </div>
         </div>
-      </div>
+      </>
     );
 
   return (
-    <div className="flex justify-center mt-24">
+    <div className="flex justify-center my-24">
       <div className="flex flex-col justify-center items-center">
         <div className="flex w-full justify-center items-center">
           <h1 className="text-xl font-bold border-b-2 w-full pb-3">
@@ -227,7 +231,7 @@ export default function Cart() {
                   checked={paymentMethod === "UPI"}
                   onChange={(e) => setPaymentMethod(e.target.value)}
                 />
-                <span className="ml-2">UPI</span>
+                <span className="ml-2">Online Payment</span>
               </label>
               <label>
                 <input

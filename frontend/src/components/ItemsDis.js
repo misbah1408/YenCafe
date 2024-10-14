@@ -74,7 +74,7 @@ export default function ItemsDis() {
     });
 
     socket.on("updateData", (updatedData) => {
-      console.log("Updated data:", updatedData);
+      // console.log("Updated data:", updatedData);
       setItems((prevItems) =>
         prevItems.map(
           (item) =>

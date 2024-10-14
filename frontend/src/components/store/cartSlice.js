@@ -7,15 +7,20 @@ const cartSlice = createSlice({
   initialState,
   reducers: {
     addItem: (state, action) => {
-      state.push({
-        id: action.payload.id,
-        category: action.payload.category,
-        img: action.payload.img,
-        price: action.payload.price,
-        title: action.payload.title,
-        veg: action.payload.veg,
-        quantity: action.payload.quantity,
-      });
+      const existingItem = state.find((item) => item.id === action.payload.id);
+      if (existingItem) {
+        existingItem.quantity += action.payload.quantity;
+      } else {
+        state.push({
+          id: action.payload.id,
+          category: action.payload.category,
+          img: action.payload.img,
+          price: action.payload.price,
+          title: action.payload.title,
+          veg: action.payload.veg,
+          quantity: action.payload.quantity,
+        });
+      }
     },
     removeItem: (state, action) => {
       return state.filter((item) => item.id !== action.payload.id);

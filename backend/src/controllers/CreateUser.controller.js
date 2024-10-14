@@ -22,7 +22,7 @@ export const registerUser = [
     }
 
     const { campusId, email, password } = req.body;
-    console.log(campusId)
+    // console.log(campusId)
     try {
       const salt = await bcrypt.genSalt(10);
       const hashedPassword = await bcrypt.hash(password, salt);
@@ -40,7 +40,7 @@ export const registerUser = [
         password: hashedPassword,
         email,
       });
-      console.log(user)
+      // console.log(user)
 
       res.status(200).json({ message: "success" });
     } catch (err) {

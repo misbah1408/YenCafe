@@ -6,117 +6,120 @@ import Beverage from "./Beverage";
 import Desserts from "./Desserts";
 import { useDispatch, useSelector } from "react-redux";
 import { addItem, removeItem } from "./store/cartSlice";
+import QuantitySelector from "./QuantitySelector";
 
 export default function DisItems({ data }) {
-  const [add, setAdd] = useState("Add");
-  const [qua, setQua] = useState(1);
-  // const dispatch = useDispatchCart();
+  const [quantity, setQuantity] = useState(1);
+  const [isAdded, setIsAdded] = useState(false);
   const cart = useSelector((state) => state.cart);
   const dispatch = useDispatch();
 
   const { category, img, price, title, veg, in_stock, _id } = data;
 
   useEffect(() => {
-    const isInCart = cart.some((item) => item.id === _id);
-    setAdd(isInCart ? "Remove" : "Add");
+    // Check if the item is already in the cart and set its quantity
+    const itemInCart = cart.find((item) => item.id === _id);
+    if (itemInCart) {
+      setQuantity(itemInCart.quantity);
+      setIsAdded(true);
+    } else {
+      setIsAdded(false);
+      setQuantity(1); // Reset quantity when the item is removed from the cart
+    }
   }, [cart, _id]);
 
-  const handleClick = async () => {
+  const handleAdd = () => {
     if (!in_stock) return;
-
-    setAdd((prevAdd) => {
-      const isAdding = prevAdd === "Add";
-      if (isAdding) {
-        dispatch(
-          addItem({
-            id: _id,
-            category,
-            img,
-            price: finalPrice,
-            title,
-            veg,
-            quantity: qua,
-          })
-        );
-      } else {
-        dispatch(removeItem({ id: _id }));
-      }
-      return isAdding ? "Remove" : "Add";
-    });
+    dispatch(
+      addItem({
+        id: _id,
+        category,
+        img,
+        price,
+        title,
+        veg,
+        quantity: 1, // Start with 1 when adding for the first time
+      })
+    );
+    setIsAdded(true);
   };
 
-  const finalPrice = qua * price;
+  const handleRemove = () => {
+    dispatch(removeItem({ id: _id }));
+    setIsAdded(false);
+  };
 
-  const QuantitySelector = () => (
-    <div className="flex gap-3 items-center mt-3">
-      <div>
-        <select
-          className="px-3 outline-none border-2 border-gray-200 rounded-md"
-          value={qua}
-          onChange={(e) => setQua(Number(e.target.value))}
-        >
-          {Array.from({ length: 5 }, (_, i) => (
-            <option key={i + 1} value={i + 1}>
-              {i + 1}
-            </option>
-          ))}
-        </select>
-      </div>
-      <div className="w-max">
-        <span
-          className={`h-10 w-24 p-2 rounded-md text-center text-white ${
-            in_stock
-              ? "bg-blue-600 cursor-pointer"
-              : "bg-gray-500 cursor-not-allowed"
-          }`}
-          onClick={handleClick}
-          style={{ cursor: in_stock ? "pointer" : "not-allowed" }}
-        >
-          {in_stock ? add : "Out of Stock"}
-        </span>
-      </div>
-    </div>
-  );
+  const handleIncrement = () => {
+    const newQuantity = quantity-quantity + 1;
+    setQuantity(newQuantity);
+    dispatch(
+      addItem({
+        id: _id,
+        category,
+        img,
+        price,
+        title,
+        veg,
+        quantity: newQuantity,
+      })
+    );
+  };
 
-  const renderContent = () => {
-    switch (category.toLowerCase()) {
-      case "main course":
-        return (
-          <div className="w-[100%] p-5 bg-white rounded-lg shadow-md">
-            <MainDishes data={data} price={finalPrice} />
-            <QuantitySelector />
-          </div>
-        );
-      case "break fast":
-        return (
-          <div className="p-5 bg-white rounded-lg shadow-md">
-            <BreakFast data={data} price={finalPrice} />
-            <QuantitySelector />
-          </div>
-        );
-      case "beverage":
-        return (
-          <div className="p-5 bg-white rounded-lg shadow-md">
-            <Beverage data={data} price={finalPrice} />
-            <QuantitySelector />
-          </div>
-        );
-      case "desserts":
-        return (
-          <div className="p-5 bg-white rounded-lg shadow-md">
-            <Desserts data={data} price={finalPrice} />
-            <QuantitySelector />
-          </div>
-        );
-      default:
-        return (
-          <div className="p-5 bg-white rounded-lg shadow-md">
-            Unknown Category
-          </div>
-        );
+  const handleDecrement = () => {
+    if (quantity > 1) {
+      const newQuantity = quantity-1-quantity;
+      setQuantity(newQuantity);
+      dispatch(
+        addItem({
+          id: _id,
+          category,
+          img,
+          price,
+          title,
+          veg,
+          quantity: newQuantity,
+        })
+      );
+    } else {
+      handleRemove();
     }
   };
 
+  
+
+  const renderContent = () => (
+    <div className="p-5 bg-white rounded-lg shadow-md">
+      {category.toLowerCase() === "main course" && (
+        <MainDishes data={data} price={price * quantity} />
+      )}
+      {category.toLowerCase() === "break fast" && (
+        <BreakFast data={data} price={price * quantity} />
+      )}
+      {category.toLowerCase() === "beverage" && (
+        <Beverage data={data} price={price * quantity} />
+      )}
+      {category.toLowerCase() === "desserts" && (
+        <Desserts data={data} price={price * quantity} />
+      )}
+      {isAdded ? (
+        <QuantitySelector
+        quantity={quantity}
+        onIncrement={handleIncrement}
+        onDecrement={handleDecrement}
+      />
+      ) : (
+        <button
+          className={`w-[112px] h-10 mt-3 px-4 py-2 text-white ${
+            in_stock ? "bg-blue-600" : "bg-gray-500 cursor-not-allowed"
+          } rounded-md`}
+          onClick={handleAdd}
+          disabled={!in_stock}
+        >
+          {in_stock ? "Add" : "Out of Stock"}
+        </button>
+      )}
+    </div>
+  );
   if (!data || data.length === 0) {
     return (
       <>
