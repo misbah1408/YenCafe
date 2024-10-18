@@ -110,7 +110,7 @@ export default function DisItems({ data }) {
       ) : (
         <button
           className={`w-[112px] h-10 mt-3 px-4 py-2 text-white ${
-            in_stock ? "bg-blue-600" : "bg-gray-500 cursor-not-allowed"
+            in_stock ? "bg-blue-600" : "bg-gray-500 cursor-not-allowed w-max"
           } rounded-md`}
           onClick={handleAdd}
           disabled={!in_stock}

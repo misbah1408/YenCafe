@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { FETCH_URL, token } from "../../utils/Constants";
 import Modal from './Modal';  // Import the Modal component
+import { useSelector } from "react-redux";
 
 export default function Desserts() {
   const [data, setData] = useState([]);
@@ -14,19 +15,39 @@ export default function Desserts() {
     img: null,
   });
   const [showModal, setShowModal] = useState(false);
-
+  const {email} = useSelector((state) => state.user)
+  const floor = email.split("").splice(5, 2).join("");
   const fetchData = async () => {
-    const response = await fetch(`${FETCH_URL}/admin/maindishes`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    const data = await response.json();
-    const filteredData = data?.filter((item) => item.category === "Desserts");
+    try {
+      const response = await fetch(`${FETCH_URL}/admin/maindishes`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
-    setData(filteredData);
+      // Check for a successful response
+      if (!response.ok) {
+        throw new Error(`Error fetching data: ${response.statusText}`);
+      }
+
+      const data = await response.json();
+
+      // Filter for Main Course items first
+      const filteredData = data?.filter(
+        (item) =>
+          item.category === "Desserts" &&
+          (floor === "f6"
+            ? item.floor === "sixth floor"
+            : item.floor === "fourth floor") || ""
+      );
+
+      // console.log(filteredData);
+      setData(filteredData);
+    } catch (error) {
+      console.error("There was an error fetching the data:", error);
+    }
   };
 
   const handleEditClick = (item) => {

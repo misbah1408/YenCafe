@@ -10,6 +10,7 @@ const CreateFoodItem = () => {
     description: "",
     in_stock: false,
     img: null,
+    floor: "",
   });
 
   const handleChange = (e) => {
@@ -25,7 +26,7 @@ const CreateFoodItem = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
     // Validate required fields
     for (const key in formData) {
       if (!formData[key] && key !== "veg" && key !== "in_stock") {
@@ -33,18 +34,18 @@ const CreateFoodItem = () => {
         return;
       }
     }
-  
+
     // Client-side validation for file size (10MB limit)
     if (formData.img && formData.img.size > 10 * 1024 * 1024) {
       alert("File size exceeds the 10MB limit");
       return;
     }
-  
+
     const data = new FormData();
     for (const key in formData) {
       data.append(key, formData[key]);
     }
-    // console.log(formData)
+
     try {
       const response = await fetch(`${FETCH_URL}/create/item`, {
         method: "POST",
@@ -53,14 +54,13 @@ const CreateFoodItem = () => {
         },
         body: data
       });
-  
+
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
-  
+
       const result = await response.json();
-      // console.log(result);
-  
+
       // Alert success message and reset form data
       alert("Item created successfully");
       setFormData({
@@ -71,12 +71,12 @@ const CreateFoodItem = () => {
         description: "",
         in_stock: false,
         img: null,
+        floor: "",
       });
     } catch (error) {
       console.error("There was an error creating the food item!", error);
     }
   };
-  
 
   return (
     <div className="w-[100%] ml-[290px] flex justify-center p-3 items-start">
@@ -89,10 +89,7 @@ const CreateFoodItem = () => {
           Create Food Item
         </h2>
         <div className="mb-4">
-          <label
-            className="block text-gray-700 text-sm font-bold mb-2"
-            htmlFor="category"
-          >
+          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="category">
             Category:
           </label>
           <select
@@ -111,10 +108,25 @@ const CreateFoodItem = () => {
           </select>
         </div>
         <div className="mb-4">
-          <label
-            className="block text-gray-700 text-sm font-bold mb-2"
-            htmlFor="title"
+          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="floor">
+            Floor:
+          </label>
+          <select
+            name="floor"
+            id="floor"
+            value={formData.floor}
+            onChange={handleChange}
+            required
+            className="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           >
+            <option value="">Select Floor</option>
+            <option value="fourth floor">Fourth Floor</option>
+            <option value="sixth floor">Sixth Floor</option>
+          </select>
+        </div>
+        {/* Other input fields remain unchanged */}
+        <div className="mb-4">
+          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="title">
             Title:
           </label>
           <input

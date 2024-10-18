@@ -21,7 +21,7 @@ import ForgotPassword from "./components/ForgotPassword";
 import { useSelector } from "react-redux";
 
 function App() {
-  const {isAdmin} = useSelector((state) => state.user);
+  const {isAdmin} = useSelector((state) => state?.user) || false;
   return (
       <Router>
         <Routes>
@@ -37,7 +37,7 @@ function App() {
           <Route path="/forgotpassword" element={<ForgotPassword/>} />
           <Route
             path="/admin"
-            element={ isAdmin ? <Admin /> : <Navigate to="/" />}
+            element={ isAdmin  ? <Admin /> : <Navigate to="/" />}
           >
             <Route path="users" index element={<Users />} />
             <Route path="orders" element={<Orders />} />

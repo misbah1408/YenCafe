@@ -1,6 +1,4 @@
-import mongoose from 'mongoose';
-
-const { Schema } = mongoose;
+import mongoose,{ Schema } from 'mongoose';
 
 const mainDishesSchema = new Schema({
   category: {
@@ -26,12 +24,18 @@ const mainDishesSchema = new Schema({
   in_stock: {
     type: Boolean,
     required: true,
+    default:true
   },
   img: {
     type: String,
     required: true,
     unique: true
-  }
+  },
+  floor: {
+    type: String,
+    required: true,
+    enum: ['fourth floor', 'sixth floor']
+  }  
 }, {
   timestamps: true
 });

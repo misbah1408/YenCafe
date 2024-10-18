@@ -175,8 +175,8 @@ export default function Cart() {
   if (cart.length <= 0)
     return (
       <>
-        <div className="relative top-8 flex flex-col justify-center p-10  m-auto items-center">
-          <div className="flex flex-col w-[38%]">
+        <div className="relative md:top-8 flex flex-col justify-center p-10 items-center">
+          <div className="flex flex-col md:w-[38%]">
             <img src={EmptyCartPng} alt="empty cart" />
             <Link to="/">
               {EmptyCartPng && <button className="bg-blue-600 w-full text-white p-5 rounded-lg font-semibold">

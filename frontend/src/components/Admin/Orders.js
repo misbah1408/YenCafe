@@ -1,10 +1,21 @@
-import React, { useEffect, useState } from "react";
-import { FETCH_URL, token } from "../../utils/Constants";
-import socketIo, { createSocketInstance } from "../../utils/socket";
+import React, { useEffect, useRef, useState } from "react";
+import { FETCH_URL, options, token } from "../../utils/Constants";
+import { useSelector } from "react-redux";
+import { createSocketInstance } from "../../utils/socket";
 
-export default function Orders() {
+function Orders() {
   const [orData, setOrData] = useState([]);
-
+  const [date, setDate] = useState();
+  const { email } = useSelector((state) => state.user);
+  const floor = email.split("").splice(5, 2).join("");
+  const floorRef = useRef(floor);
+  useEffect(() => {
+    floorRef.current = floor; // Keep the ref updated
+  }, [floor]);
+  const formattedDate = (date) => {
+    const d = new Date(date);
+    return d.toLocaleString("en-US", options)
+  } 
   const getData = async () => {
     try {
       const response = await fetch(`${FETCH_URL}/orderdata`, {
@@ -20,7 +31,16 @@ export default function Orders() {
       }
 
       const data = await response.json();
-      setOrData(data.reverse());
+      console.log(data);
+
+      let filteredData = data.filter((item) =>
+        floor === "f6"
+          ? item.location === "6th Floor Balmatta"
+          : item.location === "4th Floor Balmatta"
+      );
+      console.log(filteredData);
+
+      setOrData(filteredData.reverse());
     } catch (error) {
       console.error(error);
     }
@@ -49,20 +69,40 @@ export default function Orders() {
   useEffect(() => {
     getData();
     const socket = createSocketInstance();
-    socket.on("orderUpdate", (orders) => {
-      // console.log("Orders updated:", orders);
-      setOrData(orders.reverse());
+    socket.on("connect", () => {
+      console.log("Connected to socket server");
     });
 
-    socket.on("disconnect", () => {
-      console.log("Disconnected from socket server");
+    socket.on("orderUpdate", (orders) => {
+      // console.log("Orders data:", orders);
+
+      if (!orders || !Array.isArray(orders)) {
+        console.error("Received invalid orders data:", orders);
+        return;
+      }
+
+      const filteredData = orders.filter((item) => {
+        const isMatch =
+          floorRef.current === "f6"
+            ? item.location === "6th Floor Balmatta"
+            : item.location === "4th Floor Balmatta";
+        return isMatch;
+      });
+
+      console.log("Filtered Data:", filteredData);
+      setOrData(filteredData.reverse());
+    });
+
+    socket.on("disconnect", (reason) => {
+      console.log("Disconnected from socket server", reason);
     });
 
     return () => {
-      socket.disconnect();
+      socket.disconnect(); 
     };
   }, []);
-  if(orData.length <= 0) return null;
+
+  if (orData.length <= 0) return null;
   return (
     <div className="container mx-auto py-6 ml-[250px] p-4">
       <h2 className="text-3xl font-semibold text-gray-800 mb-6">Orders</h2>
@@ -74,7 +114,7 @@ export default function Orders() {
                 Campus Id
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider border border-gray-200">
-                Floor
+                Status
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider border border-gray-200">
                 Order Date
@@ -97,11 +137,17 @@ export default function Orders() {
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 border border-gray-200">
                     {order.campusId}
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 border border-gray-200">
-                    {order.location}
+                  <td
+                    className={`px-6 py-4 whitespace-nowrap text-sm ${
+                      order.paymentStatus === "COD"
+                        ? "text-red-600"
+                        : "text-green-400"
+                    } font-semibold border border-gray-200`}
+                  >
+                    {order.paymentStatus}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 border border-gray-200">
-                    {new Date(order.createdAt).toLocaleString()}
+                    {formattedDate(order?.updatedAt)}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 border border-gray-200">
                     {!order.delivered ? (
@@ -169,3 +215,5 @@ export default function Orders() {
     </div>
   );
 }
+
+export default Orders;

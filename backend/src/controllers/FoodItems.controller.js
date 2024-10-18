@@ -2,7 +2,7 @@ import { MainDishe } from "../models/Dishes.model.js";
 import { uploadOnCloudinary } from "../utils/Cloudinary.js";
 
 export const createFoodItem = async (req, res) => {
-  const { category, title, price, veg, description, in_stock } = req.body;
+  const { category, title, price, veg, description, in_stock, floor } = req.body;
 
   if (
     !category ||
@@ -10,7 +10,8 @@ export const createFoodItem = async (req, res) => {
     !price ||
     veg === undefined ||
     !description ||
-    in_stock === undefined
+    in_stock === undefined ||
+    !floor
   ) {
     return res.status(400).json({ message: "All fields are required" });
   }
@@ -35,6 +36,7 @@ export const createFoodItem = async (req, res) => {
       description,
       in_stock,
       img,
+      floor
     });
 
     await newMainDish.save();

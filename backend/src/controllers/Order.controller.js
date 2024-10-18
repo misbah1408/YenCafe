@@ -22,14 +22,23 @@ const checkoutController = async (req, res) => {
     const campusId = user?.campusId;
     const cartItems = req.body;
 
-    if (!cartItems || !Array.isArray(cartItems.cart) || cartItems.cart.length === 0) {
+    if (
+      !cartItems ||
+      !Array.isArray(cartItems.cart) ||
+      cartItems.cart.length === 0
+    ) {
       return res.status(400).json({ error: "Cart items are required" });
     }
 
-    let total = 0;
-    cartItems.cart.forEach((item) => {
-      total += item.price * item.quantity;
-    });
+    const calculateTotalPrice = (cart) => {
+      let total = 0;
+      cart.forEach((item) => {
+        total += item.price * item.quantity;
+      });
+      return total;
+    };
+
+    let total = calculateTotalPrice(cartItems.cart);
 
     // Create a new order instance
     const newOrder = new Order({
@@ -37,10 +46,10 @@ const checkoutController = async (req, res) => {
       userId,
       campusId,
       location: cartItems.location,
-      status: "Pending", // Initial status
+      status: "Pending",
       total,
       paymentMethod: cartItems.paymentMethod,
-      paymentStatus: "NOT PAID"
+      paymentStatus: "COD",
     });
 
     // Save the order temporarily without payment
@@ -50,7 +59,7 @@ const checkoutController = async (req, res) => {
       const amountInPaise = total * 100;
       const orderOptions = {
         amount: amountInPaise,
-        currency: "INR",
+        currency: process.env.CURRENCY,
         receipt: `receipt_order_${savedOrder._id}`,
       };
 
@@ -58,9 +67,13 @@ const checkoutController = async (req, res) => {
       savedOrder.razorpayOrderId = razorpayOrder.id;
       await savedOrder.save();
 
-      // Notify clients about the order update
-      const orders = await Order.find({});
-      req.io.emit('orderUpdate', orders);
+      // Notify clients about the order update web socket
+      const allOrders = await Order.find({});
+      try {
+        req.io.emit("orderUpdate", allOrders);
+      } catch (error) {
+        console.error("Error emitting WebSocket event:", error);
+      }
 
       return res.status(201).json({
         success: true,
@@ -71,7 +84,12 @@ const checkoutController = async (req, res) => {
         currency: orderOptions.currency,
       });
     }
-
+    const allOrders = await Order.find({});
+      try {
+        req.io.emit("orderUpdate", allOrders);
+      } catch (error) {
+        console.error("Error emitting WebSocket event:", error);
+      }
     // If payment method is not UPI, complete the order creation
     res.status(201).json({
       success: true,
@@ -94,39 +112,50 @@ const verifyPaymentController = async (req, res) => {
       .update(`${razorpay_order_id}|${razorpay_payment_id}`)
       .digest("hex");
 
+    // Find the order in the database
+    const order = await Order.findOne({ razorpayOrderId: razorpay_order_id });
+    if (!order) {
+      return res.status(404).json({
+        success: false,
+        message: "Order not found",
+      });
+    }
+
     if (generatedSignature === razorpay_signature) {
-      // Find the order in the database
-      const order = await Order.findOne({ razorpayOrderId: razorpay_order_id });
-      if (!order) {
-        return res.status(404).json({
-          success: false,
-          message: "Order not found",
-        });
-      }
-      
       // Update order payment status
       order.paymentStatus = "Paid";
       order.razorpayPaymentId = razorpay_payment_id;
       await order.save();
 
-      res.status(200).json({
+      // Emit an event to notify about order update
+      req.io.emit("orderUpdate", await Order.find({}));
+
+      return res.status(200).json({
         success: true,
         message: "Payment verified successfully",
         orderId: order._id,
       });
     } else {
-      await Order.deleteOne({ razorpayOrderId: razorpay_order_id });
-      res.status(400).json({
+      // If payment verification fails, delete the order
+      await Order.findByIdAndDelete(order._id);
+
+      return res.status(400).json({
         success: false,
-        message: "Payment verification failed",
+        message: "Payment verification failed, order has been deleted",
       });
     }
   } catch (error) {
-    await Order.deleteOne({ razorpayOrderId: razorpay_order_id });
     console.error("Error during payment verification:", error);
+    
+    // In case of any errors during verification, attempt to delete the order
+    if (req.body.razorpay_order_id) {
+      await Order.findOneAndDelete({ razorpayOrderId: req.body.razorpay_order_id });
+    }
+
     res.status(500).json({ error: "Internal server error" });
   }
 };
+
 
 // Controller to fetch user orders
 const orderController = async (req, res) => {

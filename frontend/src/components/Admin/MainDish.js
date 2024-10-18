@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { FETCH_URL, token } from "../../utils/Constants";
 import Modal from "./Modal"; // Import the Modal component
+import { useSelector } from "react-redux";
 
 export default function MainDish() {
   const [data, setData] = useState([]);
@@ -14,21 +15,40 @@ export default function MainDish() {
     img: null,
   });
   const [showModal, setShowModal] = useState(false);
+  const { email } = useSelector((state) => state.user);
+  const floor = email.split("").splice(5, 2).join("");
 
   const fetchData = async () => {
-    const response = await fetch(`${FETCH_URL}/admin/maindishes`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    const data = await response.json();
-    const filteredData = data?.filter(
-      (item) => item.category === "Main Course"
-    );
+    try {
+      const response = await fetch(`${FETCH_URL}/admin/maindishes`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
-    setData(filteredData);
+      // Check for a successful response
+      if (!response.ok) {
+        throw new Error(`Error fetching data: ${response.statusText}`);
+      }
+
+      const data = await response.json();
+
+      // Filter for Main Course items first
+      const filteredData = data?.filter(
+        (item) =>
+          item.category === "Main Course" &&
+          (floor === "f6"
+            ? item.floor === "sixth floor"
+            : item.floor === "fourth floor")
+      );
+
+      // console.log(filteredData);
+      setData(filteredData);
+    } catch (error) {
+      console.error("There was an error fetching the data:", error);
+    }
   };
 
   const handleEditClick = (item) => {
@@ -139,7 +159,7 @@ export default function MainDish() {
                 </button>
               </td>
               <td className="py-2 px-4 border">
-              <button
+                <button
                   onClick={() => handleDeleteClick(item._id)}
                   className="text-red-600 hover:text-red-900 py-1 px-3 rounded"
                 >
