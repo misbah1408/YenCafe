@@ -12,7 +12,7 @@ export default function Categories() {
         <span className="font-bold text-lg md:text-2xl">Categories</span>
       </div>
       <div className="flex flex-wrap justify-center gap-10 md:gap-10">
-        <Link to={`/menu/maindish`}>
+        <Link to={`/maindish`}>
           <div className="h-[190px] w-[150px] md:h-[200px] md:w-[170px] text-[14px] md:text-12 shadow-equal rounded-2xl flex items-center justify-center cursor-pointer hover:translate-y-2 transition-all">
             <div className="flex flex-col items-center">
               <div className="h-20 w-20 md:h-24 md:w-24 bg-blue-300 -mt-3 flex items-center justify-center rounded-full shadow-equal">
@@ -27,7 +27,7 @@ export default function Categories() {
             </div>
           </div>
         </Link>
-        <Link to={`/menu/breakfast`}>
+        <Link to={`/breakfast`}>
           <div className="h-[190px] w-[150px] md:h-[200px] md:w-[170px] text-[14px] md:text-12 shadow-equal rounded-2xl flex items-center justify-center cursor-pointer hover:translate-y-2 transition-all">
             <div className="flex flex-col items-center gap-4 md:gap-2">
               <div className="h-20 w-20 md:h-24 md:w-24 bg-blue-300 -mt-3 flex items-center justify-center rounded-full shadow-equal">
@@ -44,7 +44,7 @@ export default function Categories() {
             </div>
           </div>
         </Link>
-        <Link to={`/menu/desserts`}>
+        <Link to={`/desserts`}>
           <div className="h-[190px] w-[150px] md:h-[200px] md:w-[170px] text-[14px] md:text-12 shadow-equal rounded-2xl flex items-center justify-center cursor-pointer hover:translate-y-2 transition-all">
             <div className="flex flex-col items-center">
               <div className="h-20 w-20 md:h-24 md:w-24 bg-blue-300 -mt-3 flex items-center justify-center rounded-full shadow-equal">
@@ -59,7 +59,7 @@ export default function Categories() {
             </div>
           </div>
         </Link>
-        <Link to={`/menu/beverage`}>
+        <Link to={`/beverage`}>
           <div className="h-[190px] w-[150px] md:h-[200px] md:w-[170px] text-[14px] md:text-12 shadow-equal rounded-2xl flex items-center justify-center cursor-pointer hover:translate-y-2 transition-all">
             <div className="flex flex-col items-center">
               <div className="h-20 w-20 md:h-24 md:w-24 bg-blue-300 -mt-3 flex items-center justify-center rounded-full shadow-equal">

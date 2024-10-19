@@ -5,7 +5,6 @@ import OrderedItems from "./OrderedItems";
 export default function OrderDetail({ data }) {
   const [orderedDate, setOrderedDate] = useState("");
   const [orderData, setOrderData] = useState([]);
-  const [price, setPrice] = useState(0);
 
   useEffect(() => {
     if (data) {

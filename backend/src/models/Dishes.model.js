@@ -29,7 +29,6 @@ const mainDishesSchema = new Schema({
   img: {
     type: String,
     required: true,
-    unique: true
   },
   floor: {
     type: String,

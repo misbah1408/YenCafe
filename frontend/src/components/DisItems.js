@@ -1,9 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Shimmer from "./Shimmer";
 import MainDishes from "./MainDishes";
-import BreakFast from "./BreakFast";
-import Beverage from "./Beverage";
-import Desserts from "./Desserts";
 import { useDispatch, useSelector } from "react-redux";
 import { addItem, removeItem } from "./store/cartSlice";
 import QuantitySelector from "./QuantitySelector";
@@ -14,8 +11,7 @@ export default function DisItems({ data }) {
   const cart = useSelector((state) => state.cart);
   const dispatch = useDispatch();
 
-  const { category, img, price, title, veg, in_stock, _id } = data;
-
+  const { category, img, price, title, veg, in_stock, _id, floor } = data;
   useEffect(() => {
     // Check if the item is already in the cart and set its quantity
     const itemInCart = cart.find((item) => item.id === _id);
@@ -38,7 +34,8 @@ export default function DisItems({ data }) {
         price,
         title,
         veg,
-        quantity: 1, // Start with 1 when adding for the first time
+        quantity: 1,
+        floor
       })
     );
     setIsAdded(true);
@@ -61,6 +58,7 @@ export default function DisItems({ data }) {
         title,
         veg,
         quantity: newQuantity,
+        floor
       })
     );
   };
@@ -78,6 +76,7 @@ export default function DisItems({ data }) {
           title,
           veg,
           quantity: newQuantity,
+          floor
         })
       );
     } else {
@@ -89,29 +88,22 @@ export default function DisItems({ data }) {
 
   const renderContent = () => (
     <div className="p-5 bg-white rounded-lg shadow-md">
-      {category.toLowerCase() === "main course" && (
+      {/* Render MainDishes for specific categories */}
+      {["main course", "break fast", "beverage", "desserts"].includes(category.toLowerCase()) && (
         <MainDishes data={data} price={price * quantity} />
       )}
-      {category.toLowerCase() === "break fast" && (
-        <BreakFast data={data} price={price * quantity} />
-      )}
-      {category.toLowerCase() === "beverage" && (
-        <Beverage data={data} price={price * quantity} />
-      )}
-      {category.toLowerCase() === "desserts" && (
-        <Desserts data={data} price={price * quantity} />
-      )}
+      
       {isAdded ? (
         <QuantitySelector
-        quantity={quantity}
-        onIncrement={handleIncrement}
-        onDecrement={handleDecrement}
-      />
+          quantity={quantity}
+          onIncrement={handleIncrement}
+          onDecrement={handleDecrement}
+        />
       ) : (
         <button
-          className={`w-[112px] h-10 mt-3 px-4 py-2 text-white ${
-            in_stock ? "bg-blue-600" : "bg-gray-500 cursor-not-allowed w-max"
-          } rounded-md`}
+          className={`w-[112px] h-10 mt-3 px-4 py-2 text-white rounded-md transition-all duration-200 ${
+            in_stock ? "bg-blue-600 hover:bg-blue-700" : "bg-gray-500 cursor-not-allowed w-fit"
+          }`}
           onClick={handleAdd}
           disabled={!in_stock}
         >
@@ -120,6 +112,7 @@ export default function DisItems({ data }) {
       )}
     </div>
   );
+  
   if (!data || data.length === 0) {
     return (
       <>
@@ -135,7 +128,7 @@ export default function DisItems({ data }) {
   } else {
     return (
       data && (
-        <div className="md:max-w-3xl md:mx-auto md:my-1">{renderContent()}</div>
+        <div className="lg:max-w-3xl md:w-full md:mx-auto md:my-1">{renderContent()}</div>
       )
     );
   }

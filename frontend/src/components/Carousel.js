@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { img1, img2, img3 } from '../utils/Constants';
+import { useSelector } from 'react-redux';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const images = [img1, img2, img3];
 const captions = [
@@ -10,7 +13,8 @@ const captions = [
 
 function CarouselPage() {
   const [current, setCurrent] = useState(0);
-
+  const location = useSelector((state) => state.location)
+  
   const nextSlide = () => {
     setCurrent((current) => (current === images.length - 1 ? 0 : current + 1));
   };
@@ -20,6 +24,18 @@ function CarouselPage() {
   };
 
   useEffect(() => {
+    if (!location) {
+      toast.warning("Location is required!", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
+    }
     const interval = setInterval(nextSlide, 10000);
     return () => clearInterval(interval);
   }, []);
@@ -46,6 +62,7 @@ function CarouselPage() {
       <button onClick={nextSlide} className="absolute top-1/2 right-0 transform -translate-y-1/2 bg-black bg-opacity-50 text-white p-2 rounded-l-md">
         <i className="fa-solid fa-chevron-right"></i>
       </button>
+      <ToastContainer />
     </div>
   );
 }

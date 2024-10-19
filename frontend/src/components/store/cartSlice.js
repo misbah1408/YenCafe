@@ -19,6 +19,7 @@ const cartSlice = createSlice({
           title: action.payload.title,
           veg: action.payload.veg,
           quantity: action.payload.quantity,
+          floor: action.payload.floor
         });
       }
     },

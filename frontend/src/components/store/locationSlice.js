@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const locationSlice = createSlice({
   name: 'location',
-  initialState: '',
+  initialState: '6th Floor Balmatta',
   reducers: {
     setLocation: (state, action) => action.payload,
   },
