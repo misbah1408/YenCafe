@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon --env-file .env src/index.js"
+    "dev": "nodemon --env-file .env src/index.js",
+    "start": "node --env-file .env src/index.js"
   },
   "type": "module",
   "author": "misbah",

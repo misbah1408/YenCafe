@@ -47,9 +47,10 @@ app.use((req, res, next) => {
   req.io = io;
   next();
 });
-app.use("/", (req,res) => {
-  res.send("<h1>Hello world</h1>")
-})
+
+// app.use("/", (req,res) => {
+//   res.send("<h1>Hello world</h1>")
+// })
 // API routes
 app.use("/api/v1", userRoutes);
 app.use("/api/v1", foodDataRoutes);
