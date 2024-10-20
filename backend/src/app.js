@@ -47,7 +47,7 @@ app.use((req, res, next) => {
   req.io = io;
   next();
 });
-app.get("/", (req,res) => {
+app.use("/", (req,res) => {
   res.send("<h1>Hello world</h1>")
 })
 // API routes
