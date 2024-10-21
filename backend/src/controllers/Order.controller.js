@@ -31,7 +31,10 @@ const checkoutController = async (req, res) => {
     }
 
     const calculateTotalPrice = (cart) => {
-      return cart.reduce((total, item) => total + item.price * item.quantity, 0);
+      return cart.reduce(
+        (total, item) => total + item.price * item.quantity,
+        0
+      );
     };
 
     const total = calculateTotalPrice(cartItems.cart);
@@ -61,8 +64,6 @@ const checkoutController = async (req, res) => {
       savedOrder.razorpayOrderId = razorpayOrder.id;
       await savedOrder.save();
 
-      emitOrderUpdate(req);
-
       return res.status(201).json({
         success: true,
         message: "Order created successfully. Please proceed with the payment.",
@@ -72,8 +73,10 @@ const checkoutController = async (req, res) => {
         currency: orderOptions.currency,
       });
     }
-
-    emitOrderUpdate(req);
+    if (cartItems.paymentMethod !== "UPI") {
+      const allOrders = await Order.find({});
+      req.io.emit("updatedOrder", allOrders);
+    }
 
     res.status(201).json({
       success: true,
@@ -86,21 +89,11 @@ const checkoutController = async (req, res) => {
   }
 };
 
-// Helper function for emitting WebSocket events
-const emitOrderUpdate = async (req) => {
-  try {
-    const allOrders = await Order.find({});
-    req.io.emit("orderUpdate", allOrders);
-  } catch (error) {
-    console.error("Error emitting WebSocket event:", error);
-  }
-};
-
-
 // Controller to verify payment (called after frontend sends payment details)
 const verifyPaymentController = async (req, res) => {
   try {
-    const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = req.body;
+    const { razorpay_order_id, razorpay_payment_id, razorpay_signature } =
+      req.body;
 
     const generatedSignature = crypto
       .createHmac("sha256", process.env.RAZORPAY_KEY_SECRET)
@@ -122,8 +115,8 @@ const verifyPaymentController = async (req, res) => {
       order.razorpayPaymentId = razorpay_payment_id;
       await order.save();
 
-      // Emit an event to notify about order update
-      emitOrderUpdate(req);
+      const allOrders = await Order.find({});
+      req.io.emit("updatedOrder", allOrders);
 
       return res.status(200).json({
         success: true,
@@ -141,16 +134,17 @@ const verifyPaymentController = async (req, res) => {
     }
   } catch (error) {
     console.error("Error during payment verification:", error);
-    
+
     // In case of any errors during verification, attempt to delete the order
     if (req.body.razorpay_order_id) {
-      await Order.findOneAndDelete({ razorpayOrderId: req.body.razorpay_order_id });
+      await Order.findOneAndDelete({
+        razorpayOrderId: req.body.razorpay_order_id,
+      });
     }
 
     res.status(500).json({ error: "Internal server error" });
   }
 };
-
 
 // Controller to fetch user orders
 const orderController = async (req, res) => {

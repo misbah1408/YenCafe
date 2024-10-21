@@ -31,14 +31,14 @@ function Orders() {
       }
 
       const data = await response.json();
-      console.log(data);
+      // console.log(data);
 
       let filteredData = data.filter((item) =>
         floor === "f6"
           ? item.location === "6th Floor Balmatta"
           : item.location === "4th Floor Balmatta"
       );
-      console.log(filteredData);
+      // console.log(filteredData);
 
       setOrData(filteredData.reverse());
     } catch (error) {
@@ -73,8 +73,8 @@ function Orders() {
       console.log("Connected to socket server");
     });
 
-    socket.on("orderUpdate", (orders) => {
-      // console.log("Orders data:", orders);
+    socket.on("updatedOrder", (orders) => {
+      console.log("Orders data:", orders);
 
       if (!orders || !Array.isArray(orders)) {
         console.error("Received invalid orders data:", orders);

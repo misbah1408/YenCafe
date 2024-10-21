@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon --env-file .env src/index.js",
-    "start": "node --env-file .env src/index.js"
+    "start": "node src/index.js",
+    "build": "node src/index.js",
+    "serve": "echo 'No serve step required'"
   },
   "type": "module",
   "author": "misbah",
