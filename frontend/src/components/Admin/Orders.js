@@ -139,9 +139,9 @@ function Orders() {
                   </td>
                   <td
                     className={`px-6 py-4 whitespace-nowrap text-sm ${
-                      order.paymentStatus === "COD"
-                        ? "text-red-600"
-                        : "text-green-400"
+                      order.paymentStatus === "UPI"
+                        ? "text-green-400"
+                        : "text-red-600"
                     } font-semibold border border-gray-200`}
                   >
                     {order.paymentStatus}

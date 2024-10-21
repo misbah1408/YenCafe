@@ -12,7 +12,7 @@ const razorpayInstance = new razorpay({
 // Controller for handling checkout and payment order creation
 const checkoutController = async (req, res) => {
   try {
-    const userId = req.user?.id; // Get user ID from the request (assumes authentication middleware)
+    const userId = req.user?.id;
     const user = await User.findOne({ _id: userId });
 
     if (!user) {
@@ -31,16 +31,11 @@ const checkoutController = async (req, res) => {
     }
 
     const calculateTotalPrice = (cart) => {
-      let total = 0;
-      cart.forEach((item) => {
-        total += item.price * item.quantity;
-      });
-      return total;
+      return cart.reduce((total, item) => total + item.price * item.quantity, 0);
     };
 
-    let total = calculateTotalPrice(cartItems.cart);
+    const total = calculateTotalPrice(cartItems.cart);
 
-    // Create a new order instance
     const newOrder = new Order({
       orderData: cartItems.cart,
       userId,
@@ -49,17 +44,16 @@ const checkoutController = async (req, res) => {
       status: "Pending",
       total,
       paymentMethod: cartItems.paymentMethod,
-      paymentStatus: "COD",
+      paymentStatus: cartItems.paymentMethod === "UPI" ? "Pending" : "COD",
     });
 
-    // Save the order temporarily without payment
     const savedOrder = await newOrder.save();
 
     if (cartItems.paymentMethod === "UPI") {
       const amountInPaise = total * 100;
       const orderOptions = {
         amount: amountInPaise,
-        currency: process.env.CURRENCY,
+        currency: process.env.CURRENCY || "INR",
         receipt: `receipt_order_${savedOrder._id}`,
       };
 
@@ -67,13 +61,7 @@ const checkoutController = async (req, res) => {
       savedOrder.razorpayOrderId = razorpayOrder.id;
       await savedOrder.save();
 
-      // Notify clients about the order update web socket
-      const allOrders = await Order.find({});
-      try {
-        req.io.emit("orderUpdate", allOrders);
-      } catch (error) {
-        console.error("Error emitting WebSocket event:", error);
-      }
+      emitOrderUpdate(req);
 
       return res.status(201).json({
         success: true,
@@ -84,13 +72,9 @@ const checkoutController = async (req, res) => {
         currency: orderOptions.currency,
       });
     }
-    const allOrders = await Order.find({});
-      try {
-        req.io.emit("orderUpdate", allOrders);
-      } catch (error) {
-        console.error("Error emitting WebSocket event:", error);
-      }
-    // If payment method is not UPI, complete the order creation
+
+    emitOrderUpdate(req);
+
     res.status(201).json({
       success: true,
       message: "Order created successfully without payment gateway",
@@ -101,6 +85,17 @@ const checkoutController = async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 };
+
+// Helper function for emitting WebSocket events
+const emitOrderUpdate = async (req) => {
+  try {
+    const allOrders = await Order.find({});
+    req.io.emit("orderUpdate", allOrders);
+  } catch (error) {
+    console.error("Error emitting WebSocket event:", error);
+  }
+};
+
 
 // Controller to verify payment (called after frontend sends payment details)
 const verifyPaymentController = async (req, res) => {
@@ -128,7 +123,7 @@ const verifyPaymentController = async (req, res) => {
       await order.save();
 
       // Emit an event to notify about order update
-      req.io.emit("orderUpdate", await Order.find({}));
+      emitOrderUpdate(req);
 
       return res.status(200).json({
         success: true,
