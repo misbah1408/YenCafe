@@ -71,6 +71,7 @@ export default function Login() {
                 name="email"
                 value={credentials.email}
                 onChange={handleOnChange}
+                required
               />
               {error === "Email does not exists" ? (
                 <span className="text-[12px] text-red-700 text-start">
@@ -85,6 +86,7 @@ export default function Login() {
                   name="password"
                   value={credentials.password}
                   onChange={handleOnChange}
+                  required
                 />
                 <div className="w-15% h-[40px] md:w-[15%] outline-none  bg-gray-100 rounded-r-md" onClick={()=> setPasVis((pre) => !pre)}>
                 {pasVis ? (

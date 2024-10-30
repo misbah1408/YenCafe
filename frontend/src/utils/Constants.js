@@ -1,6 +1,6 @@
 export const colLogo = "https://upload.wikimedia.org/wikipedia/en/7/7a/Yenepoya_University_logo.png"
 export const token = localStorage.getItem("authToken")
-export const isAdmin = localStorage.getItem("isAdmin")
+export const isAdmin = localStorage.getItem("isAdmin") || "false"
 export const FETCH_URL = process.env.REACT_APP_FETCH_URL
 
 export const options = {

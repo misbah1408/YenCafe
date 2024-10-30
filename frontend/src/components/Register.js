@@ -66,6 +66,7 @@ export default function Register() {
                 name="campusId"
                 value={credentials.campusId}
                 onChange={handleOnChange}
+                required
               />
               {error === "Campus Id already used" && <span className="text-[12px] text-red-700 text-start">Campus Id already used</span>}
               <input
@@ -75,6 +76,7 @@ export default function Register() {
                 name="email"
                 value={credentials.email}
                 onChange={handleOnChange}
+                required
               />
               {error === "Existed Email" && <span className="text-[12px] text-red-700 text-start">Existed Email</span>}
 
@@ -86,6 +88,7 @@ export default function Register() {
                   name="password"
                   value={credentials.password}
                   onChange={handleOnChange}
+                  required
                 />
                 <div className="w-15% h-[40px] md:w-[15%] outline-none  bg-gray-100 rounded-r-md" onClick={() => setPasVis((pre) => !pre)}>
                   {pasVis ? (

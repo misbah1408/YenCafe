@@ -13,6 +13,7 @@ export default function Cart() {
   const [cartItem, setCartItem] = useState([]);
   const [grandTotal, setGrandTotal] = useState(0);
   const [paymentMethod, setPaymentMethod] = useState("");
+  const [btn, setBtn] = useState(true)
   const cart = useSelector((state) => state.cart);
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
@@ -52,6 +53,7 @@ export default function Cart() {
     };
 
     try {
+      setBtn(false)
       const response = await fetch(`${FETCH_URL}/checkout`, {
         method: "POST",
         headers: {
@@ -100,6 +102,7 @@ export default function Cart() {
                   toast.success("Payment successful", {
                     position: "top-right",
                   });
+                  setBtn(false)
                   setTimeout(() => {
                     dispatch(clearCart());
                   }, 3000);
@@ -128,6 +131,7 @@ export default function Cart() {
           const razorpay = new window.Razorpay(options);
           razorpay.open();
         } else {
+          setBtn(false)
           toast.success("Order placed successfully", {
             position: "top-right",
           });
@@ -249,6 +253,7 @@ export default function Cart() {
         <button
           onClick={handleCheckout}
           className="bg-green-600 w-[80%] md:w-full text-white p-5 rounded-lg font-semibold mt-5"
+          disabled={btn}
         >
           Checkout
         </button>

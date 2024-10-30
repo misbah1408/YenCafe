@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import logo from "../images/logo.png";
-import { isAdmin } from "../utils/Constants";
+// import { isAdmin } from "../utils/Constants";
 import { useDispatch, useSelector } from "react-redux";
 import { setLocation } from "./store/locationSlice";
 import { removeUser } from "./store/userSlice";
@@ -10,11 +10,12 @@ export default function NavBar() {
   const [cartValue, setCartValue] = useState(0);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const navigate = useNavigate();
-  const cart = useSelector((state) => state.cart)
+  const cart = useSelector((state) => state.cart);
   const location = useSelector((state) => state.location); // Access location state from Redux
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
-
+  const { isAdmin } = useSelector((state) => state?.user) || false;
+  console.log(isAdmin)
   useEffect(() => {
     setCartValue(cart.length);
   }, [cart]);
@@ -24,7 +25,7 @@ export default function NavBar() {
   };
 
   const handleLogout = () => {
-    dispatch(removeUser())
+    dispatch(removeUser());
     localStorage.removeItem("authToken");
     localStorage.removeItem("isAdmin");
     navigate("/login");
@@ -44,7 +45,9 @@ export default function NavBar() {
       <Link to="/">
         <div className="flex items-center gap-3 ml-3">
           <img className="h-16" src={logo} alt="YenCafe Logo" />
-          <span className="hidden md:flex text-xl font-bold text-gray-800">YenCafe</span>
+          <span className="hidden md:flex text-xl font-bold text-gray-800">
+            YenCafe
+          </span>
         </div>
       </Link>
       <div className="md:flex items-center gap-1">
@@ -82,7 +85,7 @@ export default function NavBar() {
             Your Order
           </span>
         </NavLink>
-        {isAdmin === "true" && (
+        {isAdmin && (
           <NavLink
             to="/admin"
             className={({ isActive }) =>
@@ -129,11 +132,30 @@ export default function NavBar() {
           </button>
         )}
       </div>
-      <div className="md:hidden flex items-center">
-        <button onClick={toggleMenu} className="text-gray-700 focus:outline-none">
-          {!isMenuOpen ? <i className="fa-solid fa-bars text-2xl"></i> : <i className="fa-solid fa-xmark text-[28px]"></i>}
+      {user ? (
+        <div className="md:hidden flex items-center">
+          <button
+            onClick={toggleMenu}
+            className="text-gray-700 focus:outline-none"
+          >
+            {!isMenuOpen ? (
+              <i className="fa-solid fa-bars text-2xl"></i>
+            ) : (
+              <i className="fa-solid fa-xmark text-[28px]"></i>
+            )}
+          </button>
+        </div>
+      ) : (
+        <button
+          className="bg-blue-600 text-white h-10 w-10 rounded-full md:hidden"
+          onClick={() => {
+            handleLogin();
+            toggleMenu();
+          }}
+        >
+          <i className="fa-solid fa-right-to-bracket"></i>
         </button>
-      </div>
+      )}
       {isMenuOpen && (
         <div className="absolute top-20 left-0 w-full bg-white shadow-md md:hidden z-50">
           <div className="flex flex-col items-start p-4">
@@ -151,7 +173,7 @@ export default function NavBar() {
             >
               Your Order
             </NavLink>
-            {user.isAdmin && (
+            {isAdmin && (
               <NavLink
                 to="/admin"
                 className="text-lg text-gray-700 w-full py-2"
