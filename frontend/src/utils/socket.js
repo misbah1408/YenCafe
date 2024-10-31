@@ -1,7 +1,7 @@
 import { io } from "socket.io-client";
 import { token } from "./Constants";
 
-export const createSocketInstance = (url = process.env.RECAT_APP_SCOKETIO_URL) => {
+export const createSocketInstance = (url = "https://yencafebackend.onrender.com") => {
   // console.log(url)
   return io(url, {
     extraHeaders: {
