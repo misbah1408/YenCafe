@@ -15,7 +15,7 @@ export default function NavBar() {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
   const { isAdmin } = useSelector((state) => state?.user) || false;
-  console.log(isAdmin)
+  // console.log(isAdmin)
   useEffect(() => {
     setCartValue(cart.length);
   }, [cart]);
@@ -33,7 +33,7 @@ export default function NavBar() {
 
   const handleChange = (event) => {
     const selectedLocation = event.target.value;
-    dispatch(setLocation(selectedLocation)); // Dispatch the location change
+    dispatch(setLocation(selectedLocation));
   };
 
   const toggleMenu = () => {

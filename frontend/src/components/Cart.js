@@ -253,7 +253,7 @@ export default function Cart() {
         <button
           onClick={handleCheckout}
           className="bg-green-600 w-[80%] md:w-full text-white p-5 rounded-lg font-semibold mt-5"
-          disabled={btn}
+          disabled={!btn}
         >
           Checkout
         </button>
