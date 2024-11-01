@@ -122,7 +122,7 @@ export default function CartItems({ data }) {
 
   return (
     <>
-      <div className="flex flex-row-reverse items-start bg-gray-50 border border-gray-200 rounded-lg shadow-md p-4 md:p-6 mb-6 transition-transform transform hover:scale-105 w-full md:w-[650px]">
+      <div className="flex flex-row-reverse items-start bg-gray-50 border border-gray-200 rounded-lg shadow-md p-4 md:p-6 mb-6 transition-transform transform hover:scale-105 w-full">
         <div className="flex-shrink-0 w-32 h-24 rounded-lg overflow-hidden">
           <img src={img} alt={title} className="w-full h-full object-cover" />
         </div>

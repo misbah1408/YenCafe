@@ -202,8 +202,8 @@ export default function Cart() {
     );
 
   return (
-    <div className="flex justify-center my-24">
-      <div className="flex flex-col justify-center items-center">
+    <div className="flex justify-center my-24 w-full">
+      <div className="flex flex-col justify-center items-center md:w-[50%] w-[90%]">
         <div className="flex w-full justify-center items-center">
           <h1 className="text-xl font-bold border-b-2 w-full pb-3">
             CART & CHECKOUT
@@ -215,7 +215,7 @@ export default function Cart() {
             Clear <i className="fa-regular fa-circle-xmark text-red-600"></i>
           </span>
         </div>
-        <div className="mt-5">
+        <div className="mt-5 w-full">
           {cartItem?.map((item) => (
             <div key={item.id}>
               <CartItems data={item} />
@@ -223,7 +223,7 @@ export default function Cart() {
           ))}
         </div>
         <hr />
-        <div className="w-[80%] md:w-full mt-5">
+        <div className="w-full mt-5">
           <h1 className="w-full text-xl font-bold border-b-2 text-start pb-3">
             Billing
           </h1>
@@ -237,7 +237,7 @@ export default function Cart() {
             <h2 className="text-lg font-semibold">Select Payment Method:</h2>
             <div className="flex flex-col mt-3 items-center gap-5">
               <div
-                className={`h-14 w-[90%] rounded-lg flex items-center px-4 space-x-4 shadow-lg transition duration-200 ease-in-out cursor-pointer justify-between ${
+                className={`h-14 md:w-[90%] w-full rounded-lg flex items-center px-4 space-x-4 shadow-lg transition duration-200 ease-in-out cursor-pointer justify-between ${
                   paymentMethod === "UPI"
                     ? "bg-green-100 hover:bg-green-200"
                     : "bg-gray-100 hover:bg-gray-200"
@@ -253,20 +253,15 @@ export default function Cart() {
                 </span>
                 <div className="flex gap-4">
                   <img
-                    className="h-8 transition-transform transform hover:scale-110"
-                    src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f2/Google_Pay_Logo.svg/1920px-Google_Pay_Logo.svg.png"
-                    alt="Google Pay"
-                  />
-                  <img
-                    className="h-8 transition-transform transform hover:scale-110"
-                    src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/71/PhonePe_Logo.svg/1920px-PhonePe_Logo.svg.png"
-                    alt="PhonePe"
+                    className="h-10 transition-transform transform hover:scale-110"
+                    src="https://ecards.hypupad.com/wp-content/uploads/2021/01/payment-logo-icons-1024x272.png"
+                    alt=""
                   />
                 </div>
               </div>
 
               <div
-                className={`h-14 w-[90%] bg-gray-100 rounded-lg hover:bg-gray-200 flex items-center px-4 space-x-4 shadow-md transition duration-200 ease-in-out justify-between ${
+                className={`h-14 md:w-[90%] w-full  bg-gray-100 rounded-lg hover:bg-gray-200 flex items-center px-4 space-x-4 shadow-md transition duration-200 ease-in-out justify-between ${
                   paymentMethod === "Cash on Delivery"
                     ? "bg-green-100 hover:bg-green-200"
                     : "bg-gray-100 hover:bg-gray-200"
@@ -275,7 +270,7 @@ export default function Cart() {
               >
                 <span
                   className={`text-gray-800 font-bold transition-transform transform ${
-                    paymentMethod === "UPI" ? "scale-105" : ""
+                    paymentMethod === "Cash on Delivery" ? "scale-105" : ""
                   }`}
                 >
                   Pay on Delivery (Cash/UPI)
