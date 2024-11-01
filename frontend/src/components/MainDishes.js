@@ -46,7 +46,7 @@ export default function MainDishes({ data, price }) {
           {title}
         </span>
         <span className="md:text-lg text-xs font-semibold ">RS. {price} ₹</span>
-        <span className="text-gray-500 text-sm md:text-lg">{description}</span>
+        <span className="text-gray-500 text-sm md:text-lg hidden md:flex">{description}</span>
       </div>
       <div className="h-28 w-28 md:h-28 md:w-36">
         <p

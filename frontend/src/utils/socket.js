@@ -1,7 +1,7 @@
 import { io } from "socket.io-client";
 import { token } from "./Constants";
 
-export const createSocketInstance = (url = "https://yencafebackend.onrender.com") => {
+export const createSocketInstance = (url = "http://localhost:5000" ) => {
   // console.log(url)
   return io(url, {
     extraHeaders: {
@@ -9,3 +9,6 @@ export const createSocketInstance = (url = "https://yencafebackend.onrender.com"
     },
   });
 };
+
+
+// "https://yencafebackend.onrender.com"

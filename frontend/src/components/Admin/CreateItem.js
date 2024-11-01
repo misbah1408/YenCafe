@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { FETCH_URL, token } from "../../utils/Constants";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const CreateFoodItem = () => {
   const [formData, setFormData] = useState({
@@ -12,6 +14,7 @@ const CreateFoodItem = () => {
     img: null,
     floor: "",
   });
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
     const { name, value, type, checked, files } = e.target;
@@ -26,18 +29,21 @@ const CreateFoodItem = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
 
     // Validate required fields
     for (const key in formData) {
       if (!formData[key] && key !== "veg" && key !== "in_stock") {
-        alert("All fields are required");
+        toast.error("All fields are required");
+        setLoading(false);
         return;
       }
     }
 
     // Client-side validation for file size (10MB limit)
     if (formData.img && formData.img.size > 10 * 1024 * 1024) {
-      alert("File size exceeds the 10MB limit");
+      toast.error("File size exceeds the 10MB limit");
+      setLoading(false);
       return;
     }
 
@@ -52,7 +58,7 @@ const CreateFoodItem = () => {
         headers: {
           Authorization: `Bearer ${token}`,
         },
-        body: data
+        body: data,
       });
 
       if (!response.ok) {
@@ -60,9 +66,8 @@ const CreateFoodItem = () => {
       }
 
       const result = await response.json();
+      toast.success("Item created successfully");
 
-      // Alert success message and reset form data
-      alert("Item created successfully");
       setFormData({
         category: "",
         title: "",
@@ -74,7 +79,10 @@ const CreateFoodItem = () => {
         floor: "",
       });
     } catch (error) {
+      toast.error("There was an error creating the food item!");
       console.error("There was an error creating the food item!", error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -88,6 +96,8 @@ const CreateFoodItem = () => {
         <h2 className="text-2xl font-bold mb-6 text-center">
           Create Food Item
         </h2>
+        <ToastContainer position="top-right" autoClose={3000} hideProgressBar />
+        
         <div className="mb-4">
           <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="category">
             Category:
@@ -223,11 +233,13 @@ const CreateFoodItem = () => {
             className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none"
           />
         </div>
+
         <button
           type="submit"
           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded focus:outline-none focus:shadow-outline"
+          disabled={loading}
         >
-          Create Food Item
+          {loading ? "Creating..." : "Create Food Item"}
         </button>
       </form>
     </div>

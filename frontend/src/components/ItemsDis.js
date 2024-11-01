@@ -91,7 +91,7 @@ export default function ItemsDis() {
 
     const socket = createSocketInstance();
     socket.on("connect", () => {
-      console.log("Connected to socket server");
+      // console.log("Connected to socket server");
     });
 
     socket.on("updateData", (updatedData) => {
@@ -106,7 +106,7 @@ export default function ItemsDis() {
     });
 
     socket.on("disconnect", () => {
-      console.log("Disconnected from socket server");
+      // console.log("Disconnected from socket server");
     });
 
     return () => {

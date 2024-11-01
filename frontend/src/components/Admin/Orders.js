@@ -70,11 +70,11 @@ function Orders() {
     getData();
     const socket = createSocketInstance();
     socket.on("connect", () => {
-      console.log("Connected to socket server");
+      // console.log("Connected to socket server");
     });
 
     socket.on("updatedOrder", (orders) => {
-      console.log("Orders data:", orders);
+      // console.log("Orders data:", orders);
 
       if (!orders || !Array.isArray(orders)) {
         console.error("Received invalid orders data:", orders);
@@ -89,7 +89,7 @@ function Orders() {
         return isMatch;
       });
 
-      console.log("Filtered Data:", filteredData);
+      // console.log("Filtered Data:", filteredData);
       setOrData(filteredData.reverse());
     });
 
@@ -139,7 +139,7 @@ function Orders() {
                   </td>
                   <td
                     className={`px-6 py-4 whitespace-nowrap text-sm ${
-                      order.paymentStatus === "UPI"
+                      order.paymentStatus === "Paid"
                         ? "text-green-400"
                         : "text-red-600"
                     } font-semibold border border-gray-200`}

@@ -13,7 +13,7 @@ export default function Cart() {
   const [cartItem, setCartItem] = useState([]);
   const [grandTotal, setGrandTotal] = useState(0);
   const [paymentMethod, setPaymentMethod] = useState("");
-  const [btn, setBtn] = useState(true)
+  const [btn, setBtn] = useState(true);
   const cart = useSelector((state) => state.cart);
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
@@ -45,6 +45,13 @@ export default function Cart() {
       toast.error("Please select a payment method", { position: "top-center" });
       return;
     }
+
+    toast.info("Processing checkout...", {
+      position: "top-center",
+      autoClose: false,
+      toastId: "loadingToast",
+    });
+
     const orderData = {
       cart,
       location,
@@ -53,7 +60,7 @@ export default function Cart() {
     };
 
     try {
-      setBtn(false)
+      setBtn(false);
       const response = await fetch(`${FETCH_URL}/checkout`, {
         method: "POST",
         headers: {
@@ -102,7 +109,7 @@ export default function Cart() {
                   toast.success("Payment successful", {
                     position: "top-right",
                   });
-                  setBtn(false)
+                  setBtn(false);
                   setTimeout(() => {
                     dispatch(clearCart());
                   }, 3000);
@@ -131,7 +138,7 @@ export default function Cart() {
           const razorpay = new window.Razorpay(options);
           razorpay.open();
         } else {
-          setBtn(false)
+          setBtn(false);
           toast.success("Order placed successfully", {
             position: "top-right",
           });
@@ -183,9 +190,11 @@ export default function Cart() {
           <div className="flex flex-col md:w-[38%]">
             <img src={EmptyCartPng} alt="empty cart" />
             <Link to="/">
-              {EmptyCartPng && <button className="bg-blue-600 w-full text-white p-5 rounded-lg font-semibold">
-                Go to Home Page
-              </button>}
+              {EmptyCartPng && (
+                <button className="bg-blue-600 w-full text-white p-5 rounded-lg font-semibold">
+                  Go to Home Page
+                </button>
+              )}
             </Link>
           </div>
         </div>
@@ -226,27 +235,52 @@ export default function Cart() {
           </div>
           <div className="mt-5">
             <h2 className="text-lg font-semibold">Select Payment Method:</h2>
-            <div className="flex flex-col mt-3">
-              <label>
-                <input
-                  type="radio"
-                  name="payment"
-                  value="UPI"
-                  checked={paymentMethod === "UPI"}
-                  onChange={(e) => setPaymentMethod(e.target.value)}
-                />
-                <span className="ml-2">Online Payment</span>
-              </label>
-              <label>
-                <input
-                  type="radio"
-                  name="payment"
-                  value="Cash on Delivery"
-                  checked={paymentMethod === "Cash on Delivery"}
-                  onChange={(e) => setPaymentMethod(e.target.value)}
-                />
-                <span className="ml-2">Cash on Delivery</span>
-              </label>
+            <div className="flex flex-col mt-3 items-center gap-5">
+              <div
+                className={`h-14 w-[90%] rounded-lg flex items-center px-4 space-x-4 shadow-lg transition duration-200 ease-in-out cursor-pointer justify-between ${
+                  paymentMethod === "UPI"
+                    ? "bg-green-100 hover:bg-green-200"
+                    : "bg-gray-100 hover:bg-gray-200"
+                }`}
+                onClick={() => setPaymentMethod("UPI")}
+              >
+                <span
+                  className={`text-gray-800 font-bold transition-transform transform ${
+                    paymentMethod === "UPI" ? "scale-105" : ""
+                  }`}
+                >
+                  Online
+                </span>
+                <div className="flex gap-4">
+                  <img
+                    className="h-8 transition-transform transform hover:scale-110"
+                    src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f2/Google_Pay_Logo.svg/1920px-Google_Pay_Logo.svg.png"
+                    alt="Google Pay"
+                  />
+                  <img
+                    className="h-8 transition-transform transform hover:scale-110"
+                    src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/71/PhonePe_Logo.svg/1920px-PhonePe_Logo.svg.png"
+                    alt="PhonePe"
+                  />
+                </div>
+              </div>
+
+              <div
+                className={`h-14 w-[90%] bg-gray-100 rounded-lg hover:bg-gray-200 flex items-center px-4 space-x-4 shadow-md transition duration-200 ease-in-out justify-between ${
+                  paymentMethod === "Cash on Delivery"
+                    ? "bg-green-100 hover:bg-green-200"
+                    : "bg-gray-100 hover:bg-gray-200"
+                }`}
+                onClick={() => setPaymentMethod("Cash on Delivery")}
+              >
+                <span
+                  className={`text-gray-800 font-bold transition-transform transform ${
+                    paymentMethod === "UPI" ? "scale-105" : ""
+                  }`}
+                >
+                  Pay on Delivery (Cash/UPI)
+                </span>
+              </div>
             </div>
           </div>
         </div>
