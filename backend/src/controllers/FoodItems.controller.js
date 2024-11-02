@@ -13,21 +13,28 @@ export const createFoodItem = async (req, res) => {
     in_stock === undefined ||
     !floor
   ) {
+    console.log("Validation failed: Missing fields in request body");
     return res.status(400).json({ message: "All fields are required" });
   }
 
   try {
     let img;
     if (req.file) {
+      console.log("File received:", req.file);
+
+      // Attempt Cloudinary upload
       const cloudinaryResponse = await uploadOnCloudinary(req.file.path);
       if (!cloudinaryResponse) {
+        console.error("Cloudinary upload failed");
         return res.status(500).json({ message: "Failed to upload image to Cloudinary" });
       }
       img = cloudinaryResponse.secure_url;
     } else {
+      console.log("No file provided in request");
       return res.status(400).json({ message: "Image is required" });
     }
 
+    // Attempt to save to database
     const newMainDish = new MainDishe({
       category,
       title,
@@ -38,13 +45,16 @@ export const createFoodItem = async (req, res) => {
       img,
       floor
     });
-
     await newMainDish.save();
+    // console.log("Food item saved successfully:", newMainDish);
+
     res.status(201).json(newMainDish);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    console.error("Server error during createFoodItem:", error);
+    res.status(500).json({ message: "Internal Server Error" });
   }
 };
+
 
 // Get all food items
 export const getAllFoodItems = async (req, res) => {

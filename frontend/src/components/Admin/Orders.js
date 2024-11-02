@@ -14,8 +14,8 @@ function Orders() {
   }, [floor]);
   const formattedDate = (date) => {
     const d = new Date(date);
-    return d.toLocaleString("en-US", options)
-  } 
+    return d.toLocaleString("en-US", options);
+  };
   const getData = async () => {
     try {
       const response = await fetch(`${FETCH_URL}/orderdata`, {
@@ -98,7 +98,7 @@ function Orders() {
     });
 
     return () => {
-      socket.disconnect(); 
+      socket.disconnect();
     };
   }, []);
 
@@ -110,105 +110,108 @@ function Orders() {
         <table className="min-w-full bg-white shadow-lg rounded-lg border border-gray-200">
           <thead className="bg-gray-100">
             <tr>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider border border-gray-200">
-                Campus Id
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider border border-gray-200">
-                Status
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider border border-gray-200">
-                Order Date
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider border border-gray-200">
-                Order Status
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider border border-gray-200">
-                Ordered Items
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider border border-gray-200">
-                Total
-              </th>
+              {[
+                "Campus ID",
+                "Payment Status",
+                "Order Date",
+                "Order Status",
+                "Ordered Items",
+                "Total",
+              ].map((header) => (
+                <th
+                  key={header}
+                  className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider border border-gray-200"
+                >
+                  {header}
+                </th>
+              ))}
             </tr>
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
-            {orData.map((order) => {
-              return (
-                <tr key={order._id} className="hover:bg-gray-50">
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 border border-gray-200">
-                    {order.campusId}
-                  </td>
-                  <td
-                    className={`px-6 py-4 whitespace-nowrap text-sm ${
-                      order.paymentStatus === "Paid"
-                        ? "text-green-400"
-                        : "text-red-600"
-                    } font-semibold border border-gray-200`}
+            {orData.map((order) => (
+              <tr key={order._id} className="hover:bg-gray-50">
+                {/* Campus ID */}
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 border border-gray-200">
+                  {order.campusId}
+                </td>
+
+                {/* Payment Status */}
+                <td
+                  className={`px-6 py-4 whitespace-nowrap text-sm font-semibold ${
+                    order.paymentStatus === "Paid"
+                      ? "text-green-400"
+                      : "text-red-600"
+                  } border border-gray-200`}
+                >
+                  {order.paymentStatus}
+                </td>
+
+                {/* Order Date */}
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 border border-gray-200">
+                  {formattedDate(order.updatedAt)}
+                </td>
+
+                {/* Order Status */}
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 border border-gray-200">
+                  <button
+                    onClick={() => updateDeliveryStatus(order._id)}
+                    className={`font-bold py-2 px-4 rounded ${
+                      order.delivered
+                        ? "bg-green-500 hover:bg-green-700"
+                        : "bg-blue-500 hover:bg-blue-700"
+                    } text-white`}
+                    disabled={order.delivered}
                   >
-                    {order.paymentStatus}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 border border-gray-200">
-                    {formattedDate(order?.updatedAt)}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 border border-gray-200">
-                    {!order.delivered ? (
-                      <button
-                        onClick={() => updateDeliveryStatus(order._id)}
-                        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                      >
-                        Mark as Delivered
-                      </button>
-                    ) : (
-                      <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
-                        Delivered
-                      </button>
-                    )}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 border border-gray-200">
-                    <div className="overflow-x-auto">
-                      <table className="min-w-full bg-white">
-                        <thead className="bg-gray-50">
-                          <tr>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider border border-gray-200">
-                              Item Name
-                            </th>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider border border-gray-200">
-                              Price
-                            </th>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider border border-gray-200">
-                              Quantity
-                            </th>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider border border-gray-200">
-                              Total
-                            </th>
+                    {order.delivered ? "Delivered" : "Mark as Delivered"}
+                  </button>
+                </td>
+
+                {/* Ordered Items */}
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 border border-gray-200">
+                  <div className="overflow-x-auto">
+                    <table className="min-w-full bg-white">
+                      <thead className="bg-gray-50">
+                        <tr>
+                          {["Item Name", "Price", "Quantity", "Total"].map(
+                            (itemHeader) => (
+                              <th
+                                key={itemHeader}
+                                className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider border border-gray-200"
+                              >
+                                {itemHeader}
+                              </th>
+                            )
+                          )}
+                        </tr>
+                      </thead>
+                      <tbody className="bg-white divide-y divide-gray-200">
+                        {order.orderData.map((item) => (
+                          <tr key={item.id} className="hover:bg-gray-50">
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 border border-gray-200">
+                              {item.title}
+                            </td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 border border-gray-200">
+                              {(item.price / item.quantity).toFixed(2)}
+                            </td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 border border-gray-200">
+                              {item.quantity}
+                            </td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 border border-gray-200">
+                              {item.price}
+                            </td>
                           </tr>
-                        </thead>
-                        <tbody className="bg-white divide-y divide-gray-200">
-                          {order?.orderData?.map((item) => (
-                            <tr key={item.id} className="hover:bg-gray-50">
-                              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 border border-gray-200">
-                                {item.title}
-                              </td>
-                              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 border border-gray-200">
-                                {(item.price / item.quantity).toFixed(2)}
-                              </td>
-                              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 border border-gray-200">
-                                {item.quantity}
-                              </td>
-                              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 border border-gray-200">
-                                {item.price}
-                              </td>
-                            </tr>
-                          ))}
-                        </tbody>
-                      </table>
-                    </div>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 border border-gray-200">
-                    {order.total.toFixed(2)}
-                  </td>
-                </tr>
-              );
-            })}
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </td>
+
+                {/* Total */}
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 border border-gray-200">
+                  {order.total.toFixed(2)}
+                </td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>

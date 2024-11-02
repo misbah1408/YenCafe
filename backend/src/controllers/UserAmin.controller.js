@@ -80,7 +80,7 @@ const deliveredUpdate = async(req, res) => {
 
     const upadtedData = await Order.updateOne(
       { _id: id },
-      { $set: {delivered:true, status: "delivered"} }
+      { $set: {delivered:true, status: "delivered", paymentStatus: "Paid"} }
     );
     if (!upadtedData) {
       return res.status(404).json({ message: "User not found" });
