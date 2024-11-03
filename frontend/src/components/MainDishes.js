@@ -48,11 +48,12 @@ export default function MainDishes({ data, price }) {
         <span className="md:text-lg text-xs font-semibold ">RS. {price} ₹</span>
         <span className="text-gray-500 text-sm md:text-lg hidden md:flex">{description}</span>
       </div>
-      <div className="h-28 w-28 md:h-28 md:w-36">
-        <p
+      <div className="h-20 w-48 md:h-28 md:w-36">
+        {/* <p
           className="h-20 w-28 md:h-28 md:w-36 bg-cover bg-center rounded-xl"
           style={{ backgroundImage: `url(${img})` }}
-        ></p>
+        ></p> */}
+        <img className="h-full w-full rounded-xl object-cover object-center" src={img} alt={title} />
       </div>
     </div>
   );
