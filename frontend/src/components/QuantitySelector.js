@@ -1,6 +1,6 @@
 const QuantitySelector = ({ quantity, onIncrement, onDecrement }) => {
     return(
-    <div className=" w-[112px] h-10 h flex items-center justify-center mt-3 text-white bg-blue-600 rounded-md"  >
+    <div className=" w-[112px] h-10 h flex items-center justify-center text-white bg-blue-600 rounded-md"  >
       <button
         className="px-2 py-1"
         onClick={onDecrement}

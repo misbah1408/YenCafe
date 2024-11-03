@@ -24,25 +24,29 @@ export default function CartItems({ data }) {
   useEffect(() => {
     if (location === "6th Floor Balmatta" && floor !== "sixth floor") {
       toast.info(
-        "Some items were removed because they are not available on this floor.",{
-          position: 'top-right',
+        "Some items were removed because they are not available on this floor.",
+        {
+          position: "top-right",
           autoClose: 2000,
           hideProgressBar: false,
           closeOnClick: true,
           pauseOnHover: true,
-          progress: undefined
-      });
+          progress: undefined,
+        }
+      );
       handleRemove();
     } else if (location === "4th Floor Balmatta" && floor !== "fourth floor") {
       toast.info(
-        "Some items were removed because they are not available on this floor.",{
-          position: 'top-right',
+        "Some items were removed because they are not available on this floor.",
+        {
+          position: "top-right",
           autoClose: 2000,
           hideProgressBar: false,
           closeOnClick: true,
           pauseOnHover: true,
-          progress: undefined
-      });
+          progress: undefined,
+        }
+      );
       handleRemove();
     }
   }, [location, floor, id, dispatch]);
@@ -98,56 +102,56 @@ export default function CartItems({ data }) {
     if (category === "Main Course" || category === "Break fast") {
       return {
         text: veg ? "Veg" : "Non-Veg",
-        bgClass: veg
-          ? "bg-green-100 text-green-600"
-          : "bg-red-100 text-red-600",
+        bgClass: veg ? "text-green-600" : "text-red-600",
+        iconClass: "fa-regular fa-circle-stop",
       };
     } else if (category === "Desserts") {
       return {
         text: veg ? "Chocolate" : "Cake",
-        bgClass: veg
-          ? "bg-yellow-100 text-yellow-600"
-          : "bg-red-100 text-red-600",
+        bgClass: veg ? "text-yellow-600" : "text-red-600",
+        iconClass: veg ? "fa-solid fa-cookie-bite" : "fa-solid fa-cake-candles",
       };
     } else if (category === "Beverage") {
       return {
         text: veg ? "Hot" : "Cold",
-        bgClass: veg ? "bg-red-100 text-red-600" : "bg-blue-100 text-blue-600",
+        bgClass: veg ? "text-red-600" : "text-blue-600",
+        iconClass: veg ? "fa-solid fa-mug-hot" : "fa-solid fa-snowflake",
       };
     }
     return { text: "Unknown", bgClass: "bg-gray-100 text-gray-600" };
   };
 
-  const { text, bgClass } = getVegStatus();
+  const { iconClass, bgClass } = getVegStatus();
 
   return (
     <>
-      <div className="flex flex-row-reverse items-start bg-gray-50 border border-gray-200 rounded-lg shadow-md p-4 md:p-6 mb-6 transition-transform transform hover:scale-105 w-full">
-        <div className="flex-shrink-0 w-32 h-24 rounded-lg overflow-hidden">
-          <img src={img} alt={title} className="w-full h-full object-cover" />
-        </div>
-        <div className="flex-grow pl-4">
-          <h2 className="text-lg md:text-xl text-gray-800 font-bold truncate">
-            {title}
-          </h2>
-          <p className="text-base font-semibold text-gray-700 mt-1">
-            ₹{price.toFixed(2)} each
-          </p>
-          <p className="text-sm text-gray-600 mt-1">
-            Quantity: x{quantity}{" "}
-            {quantity > 1 && `| Total: ₹${(price * quantity).toFixed(2)}`}
-          </p>
-          <span
-            className={`mt-2 inline-block text-sm font-semibold py-1 px-2 rounded-full ${bgClass}`}
-          >
-            {text}
-          </span>
-          <div className="mt-4">
+      <div className="flex items-start bg-gray-50 border border-gray-200 rounded-lg shadow-md p-4 md:py-2 md:px-4 mb-2 transition-transform transform w-full">
+        <div className="flex justify-between items-center w-full">
+          <div className="flex gap-3 items-center">
+            {veg === true ? (
+              <span
+                className={`${bgClass} text-md md:text-2xl text-md font-semibold w-max rounded-xl`}
+              >
+                <i className={iconClass}></i>
+              </span>
+            ) : (
+              <span
+                className={`${bgClass} md:text-2xl text-md font-semibold w-max rounded-xl text-nowrap text-ellipsis`}
+              >
+                <i className={iconClass}></i>
+              </span>
+            )}
+            <h2 className="text-sm md:text-lg text-gray-800 font-semibold truncate">
+              {title}
+            </h2>
+          </div>
+          <div className="flex gap-3 items-center">
             <QuantitySelector
               quantity={quantity}
               onIncrement={handleIncrement}
               onDecrement={handleDecrement}
             />
+            <span className="text-sm md:text-lg font-semibold">₹ {price * quantity}</span>
           </div>
         </div>
       </div>

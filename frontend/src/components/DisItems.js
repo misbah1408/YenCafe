@@ -94,11 +94,13 @@ export default function DisItems({ data }) {
       )}
       
       {isAdded ? (
-        <QuantitySelector
-          quantity={quantity}
-          onIncrement={handleIncrement}
-          onDecrement={handleDecrement}
-        />
+        <div className="mt-3">
+          <QuantitySelector
+            quantity={quantity}
+            onIncrement={handleIncrement}
+            onDecrement={handleDecrement}
+            />
+        </div>
       ) : (
         <button
           className={`w-[112px] h-10 mt-3 px-4 py-2 text-white rounded-md transition-all duration-200 ${
