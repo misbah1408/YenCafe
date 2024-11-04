@@ -28,13 +28,14 @@ export default function Login() {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        email: credentials.email,
+        email: credentials.email.toLowerCase(),
         password: credentials.password,
       }),
     });
     const json = await response.json();
     // console.log(json)
-    if (json.message === "Email does not exists" || "Invalid password") {
+    if (json.message === "Email does not exist" || "Invalid password") {
+      console.log(json.message)
       setError(json.message);
     }
     if (json.message === "success") {
@@ -73,7 +74,7 @@ export default function Login() {
                 onChange={handleOnChange}
                 required
               />
-              {error === "Email does not exists" ? (
+              {error === "Email does not exist" ? (
                 <span className="text-[12px] text-red-700 text-start">
                   Invalid Email
                 </span>

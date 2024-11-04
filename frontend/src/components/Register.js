@@ -25,7 +25,11 @@ export default function Register() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(credentials),
+        body: JSON.stringify({
+          campusId: credentials.campusId,
+          email: credentials.email.toLowerCase(),
+          password: credentials.password
+        }),
       });
       const json = await response.json();
       if (json.message === "Existed Email" || json.message === "Campus Id already used") {
@@ -41,6 +45,7 @@ export default function Register() {
 
   const handleOnChange = (e) => {
     setCredentials({ ...credentials, [e.target.name]: e.target.value });
+
   };
 
   return (
