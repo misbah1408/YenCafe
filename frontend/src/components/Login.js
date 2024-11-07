@@ -79,9 +79,9 @@ export default function Login() {
                   Invalid Email
                 </span>
               ) : null}
-              <div className="md:h-12 md:w-1/2 flex items-center justify-center">
+              <div className="relative md:h-12 md:w-1/2">
                 <input
-                  className="w-[70%] h-[40px] md:w-[85%] outline-none px-6 py-2 bg-gray-100 rounded-l-md"
+                  className="w-full @layer base outline-none px-6 py-2 bg-gray-100 rounded-md"
                   type={pasVis ? "text" : "password"}
                   placeholder="Password"
                   name="password"
@@ -89,12 +89,12 @@ export default function Login() {
                   onChange={handleOnChange}
                   required
                 />
-                <div className="w-15% h-[40px] md:w-[15%] outline-none  bg-gray-100 rounded-r-md" onClick={()=> setPasVis((pre) => !pre)}>
-                {pasVis ? (
-                  <i className="fa-solid fa-eye-slash text-gray-500 pr-5 pt-3"></i>
-                ) : (
-                  <i className="fa-solid fa-eye text-gray-500 pr-[22px] pt-3"></i>
-                )}
+                <div className="absolute inset-y-2 right-3" onClick={() => setPasVis((pre) => !pre)}>
+                  {pasVis ? (
+                    <i className="fa-solid fa-eye-slash text-gray-500 "></i>
+                  ) : (
+                    <i className="fa-solid fa-eye text-gray-500"></i>
+                  )}
                 </div>
               </div>
               {error === "Invalid password" ? (
